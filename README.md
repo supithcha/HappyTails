@@ -1,4 +1,3 @@
-![image](https://github.com/supithcha/HappyTails/assets/143267481/ae35d165-77d0-4da4-9073-7ffef6bccb83)![image](https://github.com/supithcha/HappyTails/assets/143267481/a318829d-6e76-4162-a1cf-eee194679b53)
 Files: **start_pet_profile.dart** and **option_pet_select.dart** by 6488021
 
 <img width="428" alt="Screenshot 2567-02-07 at 19 11 06" src="https://github.com/rsrfay/HappyTails-Flutter/assets/128398519/3b1f026a-28eb-4a7c-90e1-876b55da4686">
