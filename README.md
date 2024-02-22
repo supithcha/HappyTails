@@ -15,4 +15,4 @@ Files: **Appointment.dart** and **details_page** by 6488226 <br>
 <img width="428" alt="Appointment result" src="https://github.com/supithcha/HappyTails/assets/143267481/350e65e6-5e7d-47f1-a03f-235b3b7d45f2">
 
 Files: **Trick_and_tips.dart**by 6488049 <br>
-![S__15466511](https://github.com/supithcha/HappyTails/assets/134057433/55385e42-ed30-43a2-99c9-fac42e15f834)
+<img width="428" alt="Trick and Tips result"  src= ![S__15466514](https://github.com/supithcha/HappyTails/assets/134057433/a1f492e5-b56b-4c84-82a6-f47a41e44bb2)>
