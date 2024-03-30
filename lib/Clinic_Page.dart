@@ -75,11 +75,11 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
                 mapController = controller;
               },
               initialCameraPosition: CameraPosition(
-                // target: LatLng(
-                //   currentLocation!.latitude!,
-                //   currentLocation!.longitude!,
-                // ),
-                target: _center,
+                target: LatLng(
+                  currentLocation!.latitude!,
+                  currentLocation!.longitude!,
+                ),
+                // target: _center,
                 zoom: 14,
               ),
               markers: Set<Marker>.of(_markers.values),
