@@ -7,13 +7,20 @@ import 'option_pet_select.dart';
 import 'login.dart';
 import 'petprofile.dart';
 import 'welcome.dart';
+import 'loginGG.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 // void main() {
 //   runApp(const MyApp());
 // }
 
 void main () async {
-  WidgetsFlutterBinding . ensureInitialized () ;
-  await Firebase . initializeApp (
+  WidgetsFlutterBinding.ensureInitialized () ;
+  // await Firebase.initializeApp().catchError((error) {
+  //   print('Error initializing Firebase: $error');
+  //   return null;
+  // });
+  await Firebase.initializeApp (
     options : DefaultFirebaseOptions . currentPlatform ,
   );
   runApp ( const MyApp () );
@@ -72,12 +79,11 @@ class HomepageLoading extends StatelessWidget {
       future: Future.delayed(Duration(seconds: 3)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          // Once the delay is done, navigate to Petprofile
-          WidgetsBinding.instance!.addPostFrameCallback((_) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) { // Once the delay is done, navigate to Petprofile
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Petprofile(),
+                builder: (context) => LoginGG(),
               ),
             );
           });
