@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "577250430112",
+    "project_id": "happy-tails-5b4c1",
+    "storage_bucket": "happy-tails-5b4c1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577250430112:android:75b4ddbe340d7b02288dc5",
+        "android_client_info": {
+          "package_name": "com.example.happytails"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj3tfKQznINAkAK12d64IoToQR7QZYJOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:577250430112:android:3dc20b0a2285914b288dc5",
+        "android_client_info": {
+          "package_name": "com.example.w7database"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj3tfKQznINAkAK12d64IoToQR7QZYJOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
