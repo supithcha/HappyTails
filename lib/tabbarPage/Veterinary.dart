@@ -28,7 +28,7 @@ class Veterinary extends StatelessWidget {
             Date: "12 January 2024 11:00 AM",
             description: "The Pet Center",
             Petname: "Chanel",
-            image: "hospital.png",
+            image: "assets/Appointment/hospital.png",
             Phone: " Tel: 1119",
             onTap: () {
               // Navigate to details page
@@ -51,7 +51,7 @@ class Veterinary extends StatelessWidget {
             Date: "8 January 2023 02:00 PM",
             description: "The Pet Center",
             Petname: "Chanel",
-            image: "hospital.png",
+            image: "assets/Appointment/hospital.png",
             Phone: " Tel: 1119",
             onTap: () {
               // Navigate to details page
@@ -62,7 +62,7 @@ class Veterinary extends StatelessWidget {
                     date: "8 January 2023 02:00 PM",
                     description: "The Pet Center",
                     petName: "Chanel",
-                    //image: "hospital.png",
+                    //image: "assets/Appointment/hospital.png",
                     phone: " Tel: 1119",
                   ),
                 ),
