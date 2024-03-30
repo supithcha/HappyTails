@@ -1,13 +1,12 @@
 //import 'dart:ffi';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:happytails/utils.dart';
 import 'option_pet_select.dart';
 import 'createpetfilled.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+
 
 class PetInformation {
   final String name;
@@ -70,7 +69,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
       });
     }
   }
-
+  
   void _pickAndNavigateToNextPage() async {
     if (_img == null) {
       _img = await pickImage(ImageSource.gallery);
