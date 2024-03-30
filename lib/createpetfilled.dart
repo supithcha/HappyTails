@@ -12,13 +12,12 @@ class petprofilefilled extends StatefulWidget {
   const petprofilefilled({Key? key, required this.petInfo, this.image})
       : super(key: key);
 
-
   @override
-   _petprofilefilledState createState() => _petprofilefilledState();
+  _petprofilefilledState createState() => _petprofilefilledState();
 }
 
 class _petprofilefilledState extends State<petprofilefilled> {
-   int _selectedIndex = 0;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -35,93 +34,48 @@ class _petprofilefilledState extends State<petprofilefilled> {
                 // Photo Section
                 SizedBox(height: 30),
                 Container(
-  height: 170,
-  width: double.infinity,
-  decoration: BoxDecoration(
-    border: Border.all(),
-    borderRadius: BorderRadius.circular(10),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.grey.shade400,
-        offset: const Offset(
-          3.0,
-          3.0,
-        ),
-        blurRadius: 5.0,
-        spreadRadius: 1.0,
-      ),
-      BoxShadow(
-        color: Colors.white,
-        offset: const Offset(0.0, 0.0),
-        blurRadius: 0.0,
-        spreadRadius: 0.0,
-      ),
-    ],
-  ),
-  child: Stack(
-    alignment: Alignment.bottomRight,
-    children: [
-      if (widget.image != null)
-              Image.memory(
-                widget.image!,
-                width: double.infinity,
-                height: double.infinity,
-                fit: BoxFit.cover,
-              ),
-      IconButton(
-        icon: Icon(Icons.camera_alt),
-        onPressed: () {
-          // Handle camera icon click
-        },
-      ),
-    ],
-  ),
-),
-
-                // Container(
-                //   height: 170,
-                //   width: 550,
-                //   // width: double.infinity,
-                //   decoration: BoxDecoration(
-                //     border: Border.all(),
-                //     borderRadius: BorderRadius.circular(10),
-                //     boxShadow: [
-                //       // BoxShadow(color: Colors.white, spreadRadius: 0),
-                //       BoxShadow(
-                //         color: Colors.grey.shade400,
-                //         offset: const Offset(
-                //           3.0,
-                //           3.0,
-                //         ),
-                //         blurRadius: 5.0,
-                //         spreadRadius: 1.0,
-                //       ), //BoxShadow
-                //       BoxShadow(
-                //         color: Colors.white,
-                //         offset: const Offset(0.0, 0.0),
-                //         blurRadius: 0.0,
-                //         spreadRadius: 0.0,
-                //       ), //BoxShadow
-                //     ],
-                //   ),
-                //   child: Stack(
-                //     alignment: Alignment.bottomRight,
-                //     children: [
-                //       Center(
-                //         child: Image.asset(
-                //           'assets/chanel.png', 
-                //           fit: BoxFit.fill,
-                //         ),
-                //       ),
-                //       IconButton(
-                //         icon: Icon(Icons.camera_alt),
-                //         onPressed: () {
-                //           // Handle camera icon click
-                //         },
-                //       ),
-                //     ],
-                //   ),
-                // ),
+                  height: 170,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade400,
+                        offset: const Offset(
+                          3.0,
+                          3.0,
+                        ),
+                        blurRadius: 5.0,
+                        spreadRadius: 1.0,
+                      ),
+                      BoxShadow(
+                        color: Colors.white,
+                        offset: const Offset(0.0, 0.0),
+                        blurRadius: 0.0,
+                        spreadRadius: 0.0,
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      if (widget.image != null)
+                        Image.memory(
+                          widget.image!,
+                          width: double.infinity,
+                          height: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      IconButton(
+                        icon: Icon(Icons.camera_alt),
+                        onPressed: () {
+                          // Handle camera icon click
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(height: 30),
                 // Name and Gender Section
                 Row(
@@ -613,7 +567,9 @@ class _petprofilefilledState extends State<petprofilefilled> {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.black, backgroundColor: const Color.fromARGB(255, 0, 74, 173), // Text color
+                        foregroundColor: Colors.black,
+                        backgroundColor:
+                            const Color.fromARGB(255, 0, 74, 173), // Text color
                         shape: RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.circular(25), // Border radius
