@@ -54,7 +54,7 @@ class _Logo extends StatelessWidget {
               Center(
                 child: Image.asset(
                   'assets/logo/full_logo_blue.png',
-                  height: 200,
+                  height: 250,
                 ),
               ),
         ],
