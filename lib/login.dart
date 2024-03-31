@@ -269,56 +269,6 @@ class __FormContentState extends State<_FormContent> {
                   ),
                 ),
               ),
-
-              // SizedBox(
-              //   width: double.infinity,
-              //   child: ElevatedButton(
-              //     style: ElevatedButton.styleFrom(
-              //       shape: RoundedRectangleBorder(
-              //           borderRadius: BorderRadius.circular(4)),
-              //     ),
-                  
-              //     child: const Padding(
-              //       padding: EdgeInsets.all(10.0),
-              //       child: Text(
-              //         'Log in',
-              //         style:
-              //             TextStyle(fontWeight: FontWeight.bold),
-                          
-              //       ),
-              //     ),
-                  
-              //     onPressed: () async {
-              //       if (_formKey.currentState?.validate() ?? false) {
-              //         _formKey.currentState?.save();
-
-              //         // Check if email and password are not null
-              //         if (email != null && password != null) {
-              //           // Call loginUser function
-              //           bool success = await loginUser(email!, password!);
-
-              //           if (success) {
-              //             Navigator.pushReplacement(
-              //               context,
-              //               MaterialPageRoute(builder: (context) => Welcome()),
-              //             );
-              //           } else {
-              //             // Handle authentication failure
-              //             ScaffoldMessenger.of(context).showSnackBar(
-              //               SnackBar(
-              //                   content: Text('Invalid email or password')),
-              //             );
-              //           }
-              //         } else {
-              //           // Handle case where email or password is null
-              //           ScaffoldMessenger.of(context).showSnackBar(
-              //             SnackBar(content: Text('Email or password is null')),
-              //           );
-              //         }
-              //       }
-              //     },
-              //   ),
-              // ),
               _gap(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
