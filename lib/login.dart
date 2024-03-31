@@ -1,63 +1,114 @@
 import 'package:flutter/material.dart';
-import 'option_pet_select.dart';
-import 'package:happytails/authentication/profile.dart';
+import 'signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'welcome.dart';
 
-class Profile {
-  final String email;
-  final String password;
-
-  Profile({
-    required this.email, 
-    required this.password,
-    });
-}
-
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
-
-  @override
-  State<Login> createState() => _LoginState();
-}
-
-class _LoginState extends State<Login> {
-  bool _agreedToTerms = false;
-  // variable to keep track of the selected index
-  int _confirmButton = -1;
-  bool _obscureText = true;
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  
-  final _formKey = GlobalKey<FormState>();
-  String? _email;
-  String? _password;
+class SignInPage extends StatelessWidget {
+  const SignInPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
+    
     return Scaffold(
-      appBar: null,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(40.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 30),
+        child: Center(
+          child: isSmallScreen
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    _Logo(),
+                    _FormContent(),
+                  ],
+                )
+              : Container(
+                  padding: const EdgeInsets.all(10.0),
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: Row(
+                    children: const [
+                      Expanded(
+                        child: Center(child: _FormContent()),
+                      ),
+                    ],
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Logo extends StatelessWidget {
+  const _Logo({Key? key}) : super(key: key);
+  
+  @override
+  Widget build(BuildContext context) {
+    final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
+
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 30),
               Center(
                 child: Image.asset(
                   'assets/logo/full_logo_blue.png',
-                  height: 270,
+                  height: 200,
                 ),
               ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FormContent extends StatefulWidget {
+  const _FormContent({Key? key}) : super(key: key);
+
+  @override
+  State<_FormContent> createState() => __FormContentState();
+}
+
+class __FormContentState extends State<_FormContent> {
+  bool _isPasswordVisible = false;
+  String? email;
+  String? password;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _agreedToTerms = false;
+  int _confirmButton = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: 350),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(
-                'Email',
+                'Username',
                 style: TextStyle(fontWeight: FontWeight.normal),
               ),
               SizedBox(height: 5),
               TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                controller: _emailController,
+                validator: (value) {
+                  // add email validation
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your username';
+                  }
+                  email = value;
+
+                  return null;
+                },
                 decoration: InputDecoration(
+                  // labelText: 'Email',
+                  hintText: 'Enter your username',
+                  // border: OutlineInputBorder(),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(30),
                     borderSide: BorderSide(
@@ -73,29 +124,42 @@ class _LoginState extends State<Login> {
                   contentPadding:
                       EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your Email';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _email = value;
-                },
               ),
-              SizedBox(height: 20),
+              _gap(),
               Text(
                 'Password',
                 style: TextStyle(fontWeight: FontWeight.normal),
               ),
               SizedBox(height: 5),
-              Stack(
-                alignment: Alignment.centerRight,
-                children: [
-                  TextFormField(
-                    controller: _passwordController,
-                    obscureText: _obscureText,
-                    decoration: InputDecoration(
+              TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  setState(() {
+                    password = value;
+                  });
+                  return null;
+                },
+                obscureText: !_isPasswordVisible,
+                decoration: InputDecoration(
+                  // labelText: 'Password',
+                  hintText: 'Enter your password',
+                  suffixIcon: IconButton(
+                      icon: Icon(_isPasswordVisible
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                          color: Color.fromARGB(255, 222, 156, 120),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
                         borderSide: BorderSide(
@@ -111,31 +175,8 @@ class _LoginState extends State<Login> {
                       contentPadding:
                           EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                     ),
-
-                    onSaved: (value) {
-                    _password = value;
-                },
-
-                  ),
-                  Positioned(
-                    top: 0, // Adjust the position of the icon as needed
-                    right: 0,
-                    child: IconButton(
-                      icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color: Color.fromARGB(255, 222, 156, 120),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    ),
-                  ),
-                ],
               ),
-
-              SizedBox(height: 10),
+              SizedBox(height: 5),
               Text(
                 'Forget password?',
                 style: TextStyle(
@@ -144,6 +185,7 @@ class _LoginState extends State<Login> {
                   color: const Color.fromARGB(255, 222, 156, 120),
                 ),
               ),
+              _gap(),
               Row(
                 children: [
                   Checkbox(
@@ -183,23 +225,33 @@ class _LoginState extends State<Login> {
               Container(
                 margin: EdgeInsets.only(top: 30.0),
                 child: FilledButton(
-                  onPressed: () {
-                    setState(() {
-                      if (_emailController.text.isNotEmpty &&
-                          _passwordController.text.isNotEmpty) {
-                        _confirmButton = 0;
+                  onPressed: () async {
+                    if (_formKey.currentState?.validate() ?? false) {
+                      _formKey.currentState?.save();
+
+                      // Check if email and password are not null
+                      if (email != null && password != null) {
+                        // Call loginUser function
+                        bool success = await loginUser(email!, password!);
+
+                        if (success) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => Welcome()),
+                          );
+                        } else {
+                          // Handle authentication failure
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Invalid email or password')),
+                          );
+                        }
                       } else {
-                        _confirmButton = -1;
+                        // Handle case where email or password is null
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Email or password is null')),
+                        );
                       }
-                    });
-                    if (_emailController.text.isNotEmpty &&
-                        _passwordController.text.isNotEmpty) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => OptionPetPage(),
-                        ),
-                      );
                     }
                   },
                   style: ButtonStyle(
@@ -217,14 +269,67 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+
+              // SizedBox(
+              //   width: double.infinity,
+              //   child: ElevatedButton(
+              //     style: ElevatedButton.styleFrom(
+              //       shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(4)),
+              //     ),
+                  
+              //     child: const Padding(
+              //       padding: EdgeInsets.all(10.0),
+              //       child: Text(
+              //         'Log in',
+              //         style:
+              //             TextStyle(fontWeight: FontWeight.bold),
+                          
+              //       ),
+              //     ),
+                  
+              //     onPressed: () async {
+              //       if (_formKey.currentState?.validate() ?? false) {
+              //         _formKey.currentState?.save();
+
+              //         // Check if email and password are not null
+              //         if (email != null && password != null) {
+              //           // Call loginUser function
+              //           bool success = await loginUser(email!, password!);
+
+              //           if (success) {
+              //             Navigator.pushReplacement(
+              //               context,
+              //               MaterialPageRoute(builder: (context) => Welcome()),
+              //             );
+              //           } else {
+              //             // Handle authentication failure
+              //             ScaffoldMessenger.of(context).showSnackBar(
+              //               SnackBar(
+              //                   content: Text('Invalid email or password')),
+              //             );
+              //           }
+              //         } else {
+              //           // Handle case where email or password is null
+              //           ScaffoldMessenger.of(context).showSnackBar(
+              //             SnackBar(content: Text('Email or password is null')),
+              //           );
+              //         }
+              //       }
+              //     },
+              //   ),
+              // ),
+              _gap(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text("Don't have an account? "),
                   InkWell(
                     onTap: () {
-                      // Navigate to Register page
+                      Navigator.push(
+                      context,
+                        MaterialPageRoute(builder: (context) => SignUpPage()),
+                      );
                     },
                     child: Text(
                       'Register',
@@ -233,10 +338,21 @@ class _LoginState extends State<Login> {
                         fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.italic,
                       ),
+                      
                     ),
                   ),
                 ],
               ),
+              // TextButton(
+              //   onPressed: () {
+              //     // Navigate to the SignUp page
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => SignUpPage()),
+              //     );
+              //   },
+              //   child: Text("Don't have an account? Register"),
+              // ),
             ],
           ),
         ),
@@ -244,7 +360,60 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void _showTermsOfUseDialog(BuildContext context) {
+  Widget _gap() => const SizedBox(height: 16);
+}
+
+
+// from database
+Future<bool> loginUser(String email, String password) async {
+  try {
+    // Retrieve the user document from the "User" collection based on the provided email
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('User')
+        .where('User_username', isEqualTo: email)
+        .get();
+
+    // Check if any user with the provided email exists
+    if (querySnapshot.docs.isNotEmpty) {
+      // Get the first document (assuming email is unique)
+      DocumentSnapshot userDoc = querySnapshot.docs.first;
+
+      // Get the password stored in the user document
+      String storedPassword = userDoc['User_password'];
+
+      // Check if the password matches the stored password
+      if (password == storedPassword) {
+        return true; // Return true if the email and password match
+      } else {
+        return false; // Return false if the password doesn't match
+      }
+    } else {
+      return false; // Return false if no user with the provided email exists
+    }
+  } catch (e) {
+    print('Login error: $e');
+    return false; // Return false if an error occurs
+  }
+}
+
+
+// from auth
+// Future<bool> loginUser(String email, String password) async {
+//   try {
+//     // Authenticate the user using Firebase Authentication
+//     await FirebaseAuth.instance.signInWithEmailAndPassword(
+//       email: email,
+//       password: password,
+//     );
+
+//     return true; // Return true if authentication is successful
+//   } catch (e) {
+//     print('Login error: $e');
+//     return false; // Return false if an error occurs or authentication fails
+//   }
+// }
+
+void _showTermsOfUseDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -287,6 +456,3 @@ class _LoginState extends State<Login> {
       },
     );
   }
-}
-
-

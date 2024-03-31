@@ -16,10 +16,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 void main () async {
   WidgetsFlutterBinding.ensureInitialized () ;
-  // await Firebase.initializeApp().catchError((error) {
-  //   print('Error initializing Firebase: $error');
-  //   return null;
-  // });
   await Firebase.initializeApp (
     options : DefaultFirebaseOptions . currentPlatform ,
   );
@@ -76,14 +72,14 @@ class HomepageLoading extends StatelessWidget {
   Widget build(BuildContext context) {
     // Use a FutureBuilder to wait for the delay
     return FutureBuilder(
-      future: Future.delayed(Duration(seconds: 3)),
+      future: Future.delayed(Duration(seconds: 1)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           WidgetsBinding.instance!.addPostFrameCallback((_) { // Once the delay is done, navigate to Petprofile
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => LoginGG(),
+                builder: (context) => SignInPage(),
               ),
             );
           });

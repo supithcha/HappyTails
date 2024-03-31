@@ -311,9 +311,10 @@ class _LoginGGState extends State<LoginGG> {
 
   try {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    
     if (googleUser == null) {
       // User cancelled the sign-in process
-      return;
+      return null;
     }
 
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;

@@ -66,6 +66,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '577250430112',
     projectId: 'happy-tails-5b4c1',
     storageBucket: 'happy-tails-5b4c1.appspot.com',
+    androidClientId: '577250430112-l9je3md0lbqht80chh3q742813f995tp.apps.googleusercontent.com',
+    iosClientId: '577250430112-7s2a9vu96jj97q03gpueaarrfmhjbr0u.apps.googleusercontent.com',
     iosBundleId: 'com.example.happytails',
   );
 
@@ -75,6 +77,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '577250430112',
     projectId: 'happy-tails-5b4c1',
     storageBucket: 'happy-tails-5b4c1.appspot.com',
+    androidClientId: '577250430112-l9je3md0lbqht80chh3q742813f995tp.apps.googleusercontent.com',
+    iosClientId: '577250430112-u6noq1rmvagp2lafo7kvrck4ou3n9lnh.apps.googleusercontent.com',
     iosBundleId: 'com.example.happytails.RunnerTests',
   );
 }

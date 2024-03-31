@@ -12,7 +12,20 @@
           "package_name": "com.example.happytails"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "577250430112-l9je3md0lbqht80chh3q742813f995tp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.happytails",
+            "certificate_hash": "3f1b2a6c72d3ef905be8392f5c4fe34d9feb63b7"
+          }
+        },
+        {
+          "client_id": "577250430112-teqc5e1kqb835dfn9aasnaol522ga7lh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAj3tfKQznINAkAK12d64IoToQR7QZYJOU"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577250430112-teqc5e1kqb835dfn9aasnaol522ga7lh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "577250430112-7p119ukbni58vn15i530emh3h274vlos.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.w7database.RunnerTests"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +56,12 @@
           "package_name": "com.example.w7database"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "577250430112-teqc5e1kqb835dfn9aasnaol522ga7lh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAj3tfKQznINAkAK12d64IoToQR7QZYJOU"
@@ -39,7 +69,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "577250430112-teqc5e1kqb835dfn9aasnaol522ga7lh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "577250430112-7p119ukbni58vn15i530emh3h274vlos.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.w7database.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }
