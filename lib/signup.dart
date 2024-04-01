@@ -315,13 +315,13 @@ class __FormContentState extends State<_FormContent> {
                       } else {
                         // Handle authentication failure
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Invalid username or password')),
+                          SnackBar(content: Text('User already exists.')),
                         );
                       }
                     } else {
                       // Handle case where email or password is null
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Username or password is null')),
+                        SnackBar(content: Text('Incomplete information.')),
                       );
                     }
                   }
@@ -361,13 +361,42 @@ class __FormContentState extends State<_FormContent> {
   Widget _gap() => const SizedBox(height: 16);
 }
 
-// from database
-Future<bool> signupUser(String fullName, String username, String password) async {
+// Create new user when pressing register
+Future<bool> signupUser(
+    String fullName, String username, String password) async {
   try {
+    // Check if user already exists
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('User')
+        .where('User_username', isEqualTo: username)
+        .get();
+
+    // If a document with the provided username exists, return false
+    if (querySnapshot.docs.isNotEmpty) {
+      print('User already exists');
+      return false;
+    }
+
+    // Initialize the new User_ID
+    int newUserId = 1;
+
+    // Get the highest User_ID from existing documents
+    QuerySnapshot userSnapshot = await FirebaseFirestore.instance
+        .collection('User')
+        .orderBy('User_ID', descending: true)
+        .limit(1)
+        .get();
+
+    // If there are existing users, increment the new User_ID
+    if (userSnapshot.docs.isNotEmpty) {
+      newUserId = userSnapshot.docs.first['User_ID'] + 1;
+    }
+
     // Create a new user with username and password using FirebaseAuth
     UserCredential userCredential =
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: username,
+      email:
+          '$username@HappyTails.com', // Assuming you append a domain to the username
       password: password,
     );
 
@@ -376,11 +405,13 @@ Future<bool> signupUser(String fullName, String username, String password) async
 
     // Store additional user data in Firestore
     await FirebaseFirestore.instance.collection('User').doc(uid).set({
-      'User_ID': FieldValue.increment(1), // Increment the User_ID field
+      'User_ID': newUserId, // Use the calculated User_ID
       'User_Fullname': fullName,
       'User_username': username,
-      'User_password': password
+      'User_password': password,
+      'User_Img': ""
     });
+    print("Register Successfully");
     return true; // Return true if signup is successful
   } catch (e) {
     print('Signup error: $e');
