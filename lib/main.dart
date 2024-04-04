@@ -12,7 +12,6 @@ import 'option_pet_select.dart';
 import 'login.dart';
 import 'petprofile.dart';
 import 'welcome.dart';
-import 'loginGG.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 // void main() {

@@ -80,7 +80,7 @@ flutter:
     - assets/pet/bird.png
     - assets/pet/cat.png
     - assets/pet/dog.png
-    - assets/pet/empty_icon.png
+    - assets/logo/empty_icon.png
     - assets/pet/fish.png
     - assets/pet/hamster.png
     - assets/pet/other.png
