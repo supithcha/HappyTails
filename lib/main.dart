@@ -1,8 +1,13 @@
 // Start Page
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:happytails/Appointment.dart';
+import 'package:happytails/clinic_page.dart';
+import 'package:happytails/createpetprofile.dart';
 import 'package:happytails/firebase_options.dart';
-import 'welcome.dart';
+import 'package:happytails/route_paths.dart';
+import 'package:happytails/signup.dart';
+import 'package:happytails/start_pet_profile.dart';
 import 'option_pet_select.dart';
 import 'login.dart';
 import 'petprofile.dart';
@@ -29,7 +34,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomepageLoading(),
+      // home: const HomepageLoading(),
+      routes: {
+        // MUST replace when ทำของจริง ตอนนี้แปะไปก่อนเฉยๆ
+        RoutePaths.record: (context) => Appointment(),
+        RoutePaths.clinic: (context) => SignInPage(),
+        RoutePaths.home: (context) => SignUpPage(),
+        RoutePaths.guide: (context) => Petprofile(),
+        RoutePaths.profile: (context) => StartPetProfilePage(),
+      },
+      home: const OptionPetPage(),
     );
   }
 }
