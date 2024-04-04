@@ -342,15 +342,17 @@ class __FormContentState extends State<_FormContent> {
               ),
             ),
             _gap(),
-            TextButton(
-              onPressed: () {
-                // Navigate to the SignUp page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignInPage()),
-                );
-              },
-              child: const Text("Already have an account? Sign In"),
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  // Navigate to the SignUp page
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignInPage()),
+                  );
+                },
+                child: const Text("Already have an account? Sign In"),
+              ),
             ),
           ],
         ),
