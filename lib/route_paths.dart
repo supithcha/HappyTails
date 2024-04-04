@@ -6,3 +6,4 @@ class RoutePaths {
   static const String guide = '/guide';
   static const String profile = '/profile';
 }
+
