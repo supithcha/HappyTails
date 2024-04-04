@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:happytails/Vaccination.dart';
 import 'package:happytails/Veterinary.dart';
+import 'package:happytails/Vaccination.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,20 +18,20 @@ class MyApp extends StatelessWidget {
       ),
       home: DefaultTabController(
         length: 2,
-        child: Appointment(),
+        child: Home(),
       ),
     );
   }
 }
 
-class Appointment extends StatefulWidget {
-  const Appointment({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  _AppointmentState createState() => _AppointmentState();
+  _HomeState createState() => _HomeState();
 }
 
-class _AppointmentState extends State<Appointment> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late TabController tabController = TabController(length: 2, vsync: this);
 
   @override

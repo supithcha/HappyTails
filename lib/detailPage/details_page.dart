@@ -4,7 +4,7 @@ class DetailsPage extends StatelessWidget {
   final String date;
   final String description;
   final String petName;
-  final String image2 = 'assets/PetCenter.jpg';
+  final String image2 = 'assets/Appointment/PetCenter.jpg';
   final String phone;
 
   final String Type = "Veterinary";
