@@ -7,6 +7,7 @@ import 'package:happytails/createpetprofile.dart';
 import 'package:happytails/firebase_options.dart';
 import 'package:happytails/route_paths.dart';
 import 'package:happytails/signup.dart';
+import 'package:happytails/start_pet_appt.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
 import 'option_pet_select.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       // home: const HomepageLoading(),
       routes: {
         // MUST replace when ทำของจริง ตอนนี้แปะไปก่อนเฉยๆ
-        RoutePaths.record: (context) => Appointment(),
+        RoutePaths.record: (context) => StartPetApptPage(),
         RoutePaths.clinic: (context) => SignInPage(),
         RoutePaths.home: (context) => SignUpPage(),
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
