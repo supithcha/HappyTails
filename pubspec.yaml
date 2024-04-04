@@ -48,7 +48,6 @@ dependencies:
   path_provider: ^2.1.2
   osm_flutter_hooks: ^1.4.0
   flutter_map: ^6.1.0
-  latlng: ^2.0.7
   latlong2: ^0.9.1
 
 dev_dependencies:

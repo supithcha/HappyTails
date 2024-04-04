@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       routes: {
         // MUST replace when ทำของจริง ตอนนี้แปะไปก่อนเฉยๆ
         RoutePaths.record: (context) => StartPetApptPage(),
-        RoutePaths.clinic: (context) => SignInPage(),
+        RoutePaths.clinic: (context) => MapClinicPage(),
         RoutePaths.home: (context) => SignUpPage(),
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
         RoutePaths.profile: (context) => StartPetProfilePage(),
