@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:happytails/detailPage/details_page.dart';
 
-
 class Veterinary extends StatelessWidget {
   const Veterinary({Key? key}) : super(key: key);
 
