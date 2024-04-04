@@ -49,8 +49,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-
 // class HomepageLoading extends StatelessWidget {
 //   const HomepageLoading({Key? key}) : super(key: key);
 
