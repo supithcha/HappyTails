@@ -26,44 +26,56 @@ class Vaccination extends StatelessWidget {
           // Add other widgets as needed
           _ProductBox(
             Date: "12 January 2024 11:00 AM",
-            description: "Charoen Nakhon Veterinary",
+            description: "UVET Animal Hospital",
             Petname: "Chanel",
             image: "Appointment/vaccine.png",
             Phone: " Tel: 1119",
             onTap: () {
               // Navigate to details page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsPage(
-                    date: "12 January 2024 11:00 AM",
-                    description: "Charoen Nakhon Veterinary",
-                    petName: "Chanel",
-                    phone: " Tel: 1119",
-                  ),
+             Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailsPage(
+                date: "12 January 2024 11:00 AM",
+                description: "UVET Animal Hospital",
+                petName: "Chanel",
+                phone: " Tel: 062-491-9494",
+                appointmentType: "Vaccination", // Specify the appointment type
+                address: "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
+                time: "Open: 10.00-22.00",
+                services: ["Individualized Consultation and counseling vaccination services", "Vaccination and Certification", "Vaccination service prior to Pre-Post travelling abroad"],
+                image: "Appointment/UVET.jpg",
                 ),
-              );
+              ),
+            );
+
             },
           ),
           _ProductBox(
             Date: "8 January 2023 02:00 PM",
-            description: "The Pet Center",
+            description: "UVET Animal Hospital",
             Petname: "Chanel",
             image: "Appointment/vaccine.png",
-            Phone: " Tel: 1119",
+            Phone: " Tel: 062-491-9494",
             onTap: () {
               // Navigate to details page
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailsPage(
-                    date: "8 January 2023 02:00 PM",
-                    description: "The Pet Center",
-                    petName: "Chanel",
-                    phone: " Tel: 1119",
-                  ),
+                  date: "12 January 2024 11:00 AM",
+                  description: "UVET Animal Hospital",
+                  petName: "Chanel",
+                  phone: " Tel: 062-491-9494",
+                  appointmentType: "Vaccination", // Specify the appointment type
+                  address: "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
+                  time: "Open: 10.00-22.00",
+                  services: ["Individualized Consultation and counseling vaccination services", "Vaccination and Certification", "Vaccination service prior to Pre-Post travelling abroad"],
+                  image: "Appointment/UVET.jpg",
                 ),
+              ),
               );
+
             },
           ),
         ],

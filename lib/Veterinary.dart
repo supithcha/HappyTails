@@ -38,15 +38,19 @@ class Veterinary extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailsPage(
-                    date: "12 January 2024 11:00 AM",
-                    description: "The Pet Center",
-                    petName: "Chanel",
-                    //image: "hospoital.png",
-                    //image: "hospital.png",
-                    phone: " Tel: 1119",
-                  ),
+                  date: "12 January 2024 11:00 AM",
+                  description: "The Pet Center",
+                  petName: "Chanel",
+                  phone: " Tel: 1119",
+                  appointmentType: "Veterinary", // Specify the appointment type
+                  address: "Address for Veterinary",
+                  time: "Open: 10.00-22.00",
+                  services: ["Regular check-ups", "Diagnostic", "Dental Care"],
+                  image: "Appointment/PetCenter.jpg",
                 ),
-              );
+              ),
+            );
+
             },
           ),
           _ProductBox(
@@ -61,14 +65,19 @@ class Veterinary extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailsPage(
-                    date: "8 January 2023 02:00 PM",
-                    description: "The Pet Center",
-                    petName: "Chanel",
-                    //image: "assets/Appointment/hospital.png",
-                    phone: " Tel: 1119",
-                  ),
+                  date: "8 January 2023 02:00 PM",
+                  description: "The Pet Center",
+                  petName: "Chanel",
+                  phone: " Tel: 1119",
+                  appointmentType: "Veterinary", // Specify the appointment type
+                  address: "Address for Veterinary",
+                  time: "Open: 10.00-22.00",
+                  services: ["Regular check-ups", "Diagnostic", "Dental Care"],
+                  image: "Appointment/PetCenter.jpg",
                 ),
-              );
+              ),
+            );
+
             },
           ),
         ],

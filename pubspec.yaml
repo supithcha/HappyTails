@@ -91,6 +91,7 @@ flutter:
     - assets/Appointment/hospital.png
     - assets/Appointment/PetCenter.jpg
     - assets/Appointment/vaccine.png
+    - assets/Appointment/UVET
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
