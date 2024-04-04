@@ -18,20 +18,20 @@ class MyApp extends StatelessWidget {
       ),
       home: DefaultTabController(
         length: 2,
-        child: Home(),
+        child: Appointment(),
       ),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class Appointment extends StatefulWidget {
+  const Appointment({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _AppointmentState createState() => _AppointmentState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+class _AppointmentState extends State<Appointment> with SingleTickerProviderStateMixin {
   late TabController tabController = TabController(length: 2, vsync: this);
 
   @override
