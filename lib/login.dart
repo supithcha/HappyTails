@@ -237,7 +237,7 @@ class __FormContentState extends State<_FormContent> {
                         if (success) {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => Welcome()),
+                            MaterialPageRoute(builder: (context) => Welcome(username: email,)),
                           );
                         } else {
                           // Handle authentication failure
