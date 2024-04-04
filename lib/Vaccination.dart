@@ -63,7 +63,7 @@ class Vaccination extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => DetailsPage(
-                  date: "12 January 2024 11:00 AM",
+                  date: "8 January 2023 02:00 PM",
                   description: "UVET Animal Hospital",
                   petName: "Chanel",
                   phone: " Tel: 062-491-9494",
