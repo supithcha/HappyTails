@@ -10,7 +10,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-    
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
@@ -41,7 +41,7 @@ class SignInPage extends StatelessWidget {
 
 class _Logo extends StatelessWidget {
   const _Logo({Key? key}) : super(key: key);
-  
+
   @override
   Widget build(BuildContext context) {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
@@ -51,12 +51,12 @@ class _Logo extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(height: 30),
-              Center(
-                child: Image.asset(
-                  'assets/logo/full_logo_blue.png',
-                  height: 250,
-                ),
-              ),
+          Center(
+            child: Image.asset(
+              'assets/logo/full_logo_blue.png',
+              height: 250,
+            ),
+          ),
         ],
       ),
     );
@@ -136,10 +136,9 @@ class __FormContentState extends State<_FormContent> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
                   }
-
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
+                  // if (value.length < 6) {
+                  //   return 'Password must be at least 6 characters';
+                  // }
                   setState(() {
                     password = value;
                   });
@@ -150,31 +149,31 @@ class __FormContentState extends State<_FormContent> {
                   // labelText: 'Password',
                   hintText: 'Enter your password',
                   suffixIcon: IconButton(
-                      icon: Icon(_isPasswordVisible
-                          ? Icons.visibility_off
-                          : Icons.visibility),
-                          color: Color.fromARGB(255, 222, 156, 120),
-                      onPressed: () {
-                        setState(() {
-                          _isPasswordVisible = !_isPasswordVisible;
-                        });
-                      },
-                    ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 222, 156,
-                                120)), // Border color when focused
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(
-                            color: Color.fromARGB(255, 222, 156,
-                                120)), // Border color when enabled but not focused
-                      ),
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                    ),
+                    icon: Icon(_isPasswordVisible
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                    color: Color.fromARGB(255, 222, 156, 120),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(
+                            255, 222, 156, 120)), // Border color when focused
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(30),
+                    borderSide: BorderSide(
+                        color: Color.fromARGB(255, 222, 156,
+                            120)), // Border color when enabled but not focused
+                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                ),
               ),
               SizedBox(height: 5),
               Text(
@@ -192,7 +191,7 @@ class __FormContentState extends State<_FormContent> {
                     value: _agreedToTerms,
                     onChanged: (value) {
                       setState(() {
-                        _agreedToTerms = value!;
+                        _agreedToTerms = true;
                       });
                     },
                     shape: CircleBorder(),
@@ -226,34 +225,78 @@ class __FormContentState extends State<_FormContent> {
                 margin: EdgeInsets.only(top: 30.0),
                 child: FilledButton(
                   onPressed: () async {
-                    if (_formKey.currentState?.validate() ?? false) {
-                      _formKey.currentState?.save();
+      if ((_formKey.currentState?.validate() ?? false) && _agreedToTerms) {
+        _formKey.currentState?.save();
 
-                      // Check if email and password are not null
-                      if (email != null && password != null) {
-                        // Call loginUser function
-                        bool success = await loginUser(email!, password!);
+        // Check if email and password are not null
+        if (email != null && password != null) {
+          // Call loginUser function
+          bool success = await loginUser(email!, password!);
 
-                        if (success) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => Welcome()),
-                          );
-                        } else {
-                          // Handle authentication failure
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Invalid email or password')),
-                          );
-                        }
-                      } else {
-                        // Handle case where email or password is null
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Email or password is null')),
-                        );
-                      }
-                    }
-                  },
+          if (success) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Welcome(username: email),
+              ),
+            );
+          } else {
+            // Handle authentication failure
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Invalid email or password')),
+            );
+          }
+        } else {
+          // Handle case where email or password is null
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Email or password is null')),
+          );
+        }
+      } else {
+        // Handle if the terms are not agreed upon
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please agree to the terms')),
+        );
+      }
+    },
+                  // onPressed: () async {
+                  //   if (_formKey.currentState?.validate() ??
+                  //       false && _agreedToTerms ?? false ) {
+                  //     _formKey.currentState?.save();
+
+                  //     // Check if email and password are not null
+                  //     if (email != null && password != null) {
+                  //       // Call loginUser function
+                  //       bool success = await loginUser(email!, password!);
+
+                  //       if (success) {
+                  //         Navigator.pushReplacement(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) => Welcome(
+                  //                     username: email,
+                  //                   )),
+                  //         );
+                  //       } else {
+                  //         // Handle authentication failure
+                  //         ScaffoldMessenger.of(context).showSnackBar(
+                  //           SnackBar(
+                  //               content: Text('Invalid email or password')),
+                  //         );
+                  //       }
+                  //     } else {
+                  //       // Handle case where email or password is null
+                  //       ScaffoldMessenger.of(context).showSnackBar(
+                  //         SnackBar(content: Text('Email or password is null')),
+                  //       );
+                  //     }
+                  //   } else {
+                  //     // Handle if the terms are not agreed upon
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       SnackBar(content: Text('Please agree to the terms')),
+                  //     );
+                  //   }
+                  // },
                   style: ButtonStyle(
                     backgroundColor: _confirmButton != -1
                         ? MaterialStateProperty.all(
@@ -277,7 +320,7 @@ class __FormContentState extends State<_FormContent> {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                      context,
+                        context,
                         MaterialPageRoute(builder: (context) => SignUpPage()),
                       );
                     },
@@ -288,7 +331,6 @@ class __FormContentState extends State<_FormContent> {
                         fontWeight: FontWeight.normal,
                         fontStyle: FontStyle.italic,
                       ),
-                      
                     ),
                   ),
                 ],
@@ -302,7 +344,6 @@ class __FormContentState extends State<_FormContent> {
 
   Widget _gap() => const SizedBox(height: 16);
 }
-
 
 // from database
 Future<bool> loginUser(String email, String password) async {
@@ -336,7 +377,6 @@ Future<bool> loginUser(String email, String password) async {
   }
 }
 
-
 // from auth
 // Future<bool> loginUser(String email, String password) async {
 //   try {
@@ -354,15 +394,15 @@ Future<bool> loginUser(String email, String password) async {
 // }
 
 void _showTermsOfUseDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          title: Text('Terms of Use'),
-          content: Text('''
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        title: Text('Terms of Use'),
+        content: Text('''
           By accessing or using our services, you agree to comply with these Terms of Use. Please read them carefully before using our services.
 
           1. Acceptance of Terms: By using our services, you agree to be bound by these Terms of Use, which may be updated by us from time to time without notice to you. If you do not agree with these Terms of Use, please do not use our services.
@@ -381,18 +421,18 @@ void _showTermsOfUseDialog(BuildContext context) {
 
           By using our services, you agree to these Terms of Use. If you have any questions about these Terms of Use, please contact us.
           '''),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 0, 74, 173),
-                  )),
-            ),
-          ],
-        );
-      },
-    );
-  }
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 74, 173),
+                )),
+          ),
+        ],
+      );
+    },
+  );
+}

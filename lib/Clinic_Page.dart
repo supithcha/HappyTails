@@ -1,254 +1,523 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart'; //flutter pub add google_maps_flutter
-import 'package:location/location.dart'; //flutter pub add location
+import 'package:happytails/route_paths.dart';
+import 'package:happytails/bottom_nav_bar.dart';
+import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import 'package:osm_flutter_hooks/osm_flutter_hooks.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
-Future<bool> requestLocationPermission() async {
-  Location location = Location();
-  PermissionStatus permissionStatus = await location.hasPermission();
-  if (permissionStatus == PermissionStatus.denied) {
-    permissionStatus = await location.requestPermission();
-  }
-  return permissionStatus == PermissionStatus.granted;
-}
+// void main() {
+//   runApp(const MyApp());
+// }
 
-Future<LocationData?> getCurrentLocation() async {
-  Location location = Location();
-  bool hasPermission = await requestLocationPermission();
-  if (hasPermission) {
-    return await location.getLocation();
-  } else {
-    return null;
-  }
-}
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-class GoogleMapPage extends StatefulWidget {
-  const GoogleMapPage({Key? key}) : super(key: key);
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: const MapClinicPage(title: 'Clinic Nearby'),
+//     );
+//   }
+// }
+
+class MapClinicPage extends StatefulWidget {
+  const MapClinicPage({super.key, required this.title});
+
+  final String title;
 
   @override
-  _GoogleMapPageState createState() => _GoogleMapPageState();
+  State<MapClinicPage> createState() => _MapClinicPageState();
 }
 
-class _GoogleMapPageState extends State<GoogleMapPage> {
-  final Map<String, Marker> _markers = {};
+class _MapClinicPageState extends State<MapClinicPage> {
   int _selectedIndex = 0;
-
-  LocationData? currentLocation;
-  GoogleMapController? mapController;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCurrentLocation();
-  }
-
-  // Load current location
-  void _loadCurrentLocation() async {
-    currentLocation = await getCurrentLocation();
-
-    if (currentLocation != null) {
-      setState(() {
-        _markers.clear();
-        _markers["currentLocation"] = Marker(
-          markerId: MarkerId("currentLocation"),
-          position: LatLng(
-            currentLocation!.latitude!,
-            currentLocation!.longitude!,
-          ),
-          infoWindow: InfoWindow(
-            title: "Your Location",
-            snippet: "Current location",
-          ),
-        );
-      });
-    }
-  }
-  final LatLng _center = const LatLng(45.521563, -122.677433);
-
-
+  final List<String> pages = [
+    RoutePaths.record,
+    RoutePaths.clinic,
+    RoutePaths.home,
+    RoutePaths.guide,
+    RoutePaths.profile,
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: currentLocation == null
-          ? Center(child: CircularProgressIndicator())
-          : GoogleMap(
-              onMapCreated: (controller) {
-                mapController = controller;
-              },
-              initialCameraPosition: CameraPosition(
-                target: LatLng(
-                  currentLocation!.latitude!,
-                  currentLocation!.longitude!,
-                ),
-                // target: _center,
-                zoom: 14,
-              ),
-              markers: Set<Marker>.of(_markers.values),
-            ),
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: content(),
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+           // Use the navigator to navigate to the selected page
+          Navigator.pushNamed(context, pages[index]);
         },
+          pages: pages,
       ),
+    );
+  }
+
+  Widget content() {
+    return FlutterMap(
+      options: MapOptions(
+        initialCenter: new LatLng(13.801770, 100.321121),
+        initialZoom: 12.5,
+        interactionOptions:
+            const InteractionOptions(flags: ~InteractiveFlag.doubleTapDragZoom),
+      ),
+      children: [
+        openStreetMapTileLayer,
+        MarkerLayer(markers: [
+          // iVET Pet Hospital West Center Branch
+          Marker(
+              point: new LatLng(13.746950, 100.276620),
+              width: 60,
+              height: 60,
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  // Show the location name and address when the marker is tapped
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5.0,
+                          backgroundColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Location Information',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Location Name: iVET Pet Hospital West Center Branch',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Address: 40 31-32 Borommaratchachonnani Rd, Bang Krathuek, Sam Phran District, Nakhon Pathom 73210',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'Close',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.location_pin,
+                    size: 60,
+                    color: Colors.red,
+                  ))),
+          // Salaya Home Animal Hospital
+          Marker(
+              point: new LatLng(13.801770, 100.321120),
+              width: 60,
+              height: 60,
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  // Show the location name and address when the marker is tapped
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5.0,
+                          backgroundColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Location Information',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Location Name: Salaya Home Animal Hospital',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Address: 50 หมู่5 ถนนศาลายา - บางภาษี Salaya, Phutthamonthon District, Nakhon Pathom 73170',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'Close',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.location_pin,
+                    size: 60,
+                    color: Colors.red,
+                  ))),
+          // โรงพยาบาลสัตว์ศวารักษ์
+          Marker(
+              point: new LatLng(13.793500, 100.327960),
+              width: 60,
+              height: 60,
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  // Show the location name and address when the marker is tapped
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5.0,
+                          backgroundColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Location Information',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Location Name: โรงพยาบาลสัตว์ศวารักษ์',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Address: 87/11 Salaya, Phutthamonthon District, Nakhon Pathom 73170',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'Close',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.location_pin,
+                    size: 60,
+                    color: Colors.red,
+                  ))),
+          // Prasuarthon Small Animal Hospital
+          Marker(
+              point: new LatLng(13.798151, 100.3177939),
+              width: 60,
+              height: 60,
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  // Show the location name and address when the marker is tapped
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5.0,
+                          backgroundColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Location Information',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Location Name: Prasuarthon Small Animal Hospital',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Address: 999 Phutthamonthon Sai 4 Rd, Salaya, Phutthamonthon District, Nakhon Pathom 73170',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'Close',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.location_pin,
+                    size: 60,
+                    color: Colors.red,
+                  ))),
+          // พุทธมณฑลรักษาสัตว์
+          Marker(
+              point: new LatLng(13.7873157, 100.333596713),
+              width: 60,
+              height: 60,
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  // Show the location name and address when the marker is tapped
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5.0,
+                          backgroundColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Location Information',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Location Name: พุทธมณฑลรักษาสัตว์',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Address: 81, 85-86 Borommaratchachonnani Rd, Sala Thammasop, Thawi Watthana, Bangkok 10170',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'Close',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.location_pin,
+                    size: 60,
+                    color: Colors.red,
+                  ))),
+          // Halmeoni Pet Hospital
+          Marker(
+              point: new LatLng(13.7963186, 100.3289282),
+              width: 60,
+              height: 60,
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  // Show the location name and address when the marker is tapped
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          elevation: 5.0,
+                          backgroundColor: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Location Information',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Location Name: Halmeoni Pet Hospital',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Text(
+                                  'Address: 135, 560 Salaya Soi 1, Salaya, Phutthamonthon District, Nakhon Pathom 73170',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      'Close',
+                                      style: TextStyle(
+                                        color: Colors.blue,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Icon(
+                    Icons.location_pin,
+                    size: 60,
+                    color: Colors.red,
+                  ))),
+        ])
+      ],
     );
   }
 }
 
-class BottomNavBar extends StatelessWidget {
-  final int selectedIndex;
-  final Function(int) onItemTapped;
-
-  const BottomNavBar({
-    required this.selectedIndex,
-    required this.onItemTapped,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(30),
-          topLeft: Radius.circular(30),
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Color.fromARGB(40, 35, 0, 76),
-            blurRadius: 10,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(30),
-          topLeft: Radius.circular(30),
-        ),
-        child: BottomNavigationBar(
-          items: [
-            // Record
-            BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_month_outlined),
-              label: "Record",
-              activeIcon: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 160, 138),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(50, 0, 75, 173),
-                      blurRadius: 12.0,
-                      spreadRadius: 2.29,
-                    )
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(Icons.calendar_month_outlined),
-                ),
-              ),
-            ),
-            // Clinic
-            BottomNavigationBarItem(
-              icon: Icon(Icons.location_on_outlined),
-              label: "Clinic",
-              activeIcon: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 160, 138),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(50, 0, 75, 173),
-                      blurRadius: 12.0,
-                      spreadRadius: 2.29,
-                    )
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(Icons.location_on_outlined),
-                ),
-              ),
-            ),
-            // Home
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: "Home",
-              activeIcon: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 160, 138),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(50, 0, 75, 173),
-                      blurRadius: 12.0,
-                      spreadRadius: 2.29,
-                    )
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(Icons.home_outlined),
-                ),
-              ),
-            ),
-            // Guide
-            BottomNavigationBarItem(
-              icon: Icon(Icons.book_outlined),
-              label: "Guide",
-              activeIcon: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 160, 138),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(50, 0, 75, 173),
-                      blurRadius: 12.0,
-                      spreadRadius: 2.29,
-                    )
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(Icons.book_outlined),
-                ),
-              ),
-            ),
-            // Profile
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline_rounded),
-              label: "Profile",
-              activeIcon: Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 255, 160, 138),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromARGB(50, 0, 75, 173),
-                      blurRadius: 12.0,
-                      spreadRadius: 2.29,
-                    )
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Icon(Icons.person_outline_rounded),
-                ),
-              ),
-            ),
-          ],
-          currentIndex: selectedIndex,
-          unselectedItemColor: Color.fromARGB(255, 0, 74, 173),
-          showUnselectedLabels: true,
-          selectedItemColor: Color.fromARGB(255, 0, 74, 173),
-          showSelectedLabels: false,
-          onTap: onItemTapped,
-          type: BottomNavigationBarType.fixed,
-          unselectedFontSize: 14,
-        ),
-      ),
+TileLayer get openStreetMapTileLayer => TileLayer(
+      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+      userAgentPackageName: 'dev.fleaflet.flutter_map.example',
     );
-  }
-}

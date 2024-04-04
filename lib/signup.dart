@@ -87,7 +87,8 @@ class __FormContentState extends State<_FormContent> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   int _confirmButton = -1;
-  int _insertedButtonIndex = -1;
+  int _insertedButtonIndex = 0;
+  // bool _validate = false;
 
   @override
   Widget build(BuildContext context) {
@@ -111,9 +112,9 @@ class __FormContentState extends State<_FormContent> {
                   return 'Please enter your fullname';
                 }
                 fullName = value;
-                _insertedButtonIndex = 1;
+                // _insertedButtonIndex = 1;
+                _insertedButtonIndex = _insertedButtonIndex + 1;
                 // _confirmButton = 1;
-
                 return null;
               },
               decoration: InputDecoration(
@@ -143,6 +144,7 @@ class __FormContentState extends State<_FormContent> {
               validator: (value) {
                 // add validation
                 if (value == null || value.isEmpty) {
+                  // _validate = true;
                   return 'Please enter your username';
                 }
                 // bool emailValid = RegExp(
@@ -153,7 +155,8 @@ class __FormContentState extends State<_FormContent> {
                 // }
                 setState(() {
                   username = value;
-                  _insertedButtonIndex = 2;
+                  // _insertedButtonIndex = 2;
+                  _insertedButtonIndex = _insertedButtonIndex + 1;
                   // _confirmButton = 2;
                 });
                 return null;
@@ -173,6 +176,7 @@ class __FormContentState extends State<_FormContent> {
                       color: Color.fromARGB(255, 222, 156,
                           120)), // Border color when enabled but not focused
                 ),
+                // errorText: _validate ? 'Please enter a valid username' : null,
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 15, horizontal: 15),
               ),
@@ -194,7 +198,8 @@ class __FormContentState extends State<_FormContent> {
                 }
                 setState(() {
                   password = value;
-                  _insertedButtonIndex = 3;
+                  // _insertedButtonIndex = 3;
+                  _insertedButtonIndex = _insertedButtonIndex + 1;
                   // _confirmButton = 3;
                 });
                 return null;
@@ -228,14 +233,15 @@ class __FormContentState extends State<_FormContent> {
             TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Passwords do not match. Please re-enter your password.';
+                  return 'Passwords do not match.';
                 }
                 if (value != password) {
-                  return 'Passwords do not match. Please re-enter your password.';
+                  return 'Passwords do not match.';
                 }
                 setState(() {
                   confirmPassword = value;
-                  _insertedButtonIndex = 4;
+                  // _insertedButtonIndex = 4;
+                  _insertedButtonIndex = _insertedButtonIndex + 1;
                   //  _confirmButton = 4;
                 });
                 return null;
@@ -292,9 +298,11 @@ class __FormContentState extends State<_FormContent> {
                 onPressed: () async {
                   setState(() {
                     // If any option is selected (not -1), change the button color to blue, otherwise grey
-                    _insertedButtonIndex != -1
-                        ? _confirmButton = 0
-                        : _insertedButtonIndex = -1;
+                    // _insertedButtonIndex != -1
+                    //     ? _confirmButton = 0
+                    //     : _insertedButtonIndex = -1;
+                    _confirmButton =
+                        (_insertedButtonIndex == 4) ? 0 : -1;
                   });
                   if (_formKey.currentState?.validate() ?? false) {
                     _formKey.currentState?.save();
@@ -308,6 +316,9 @@ class __FormContentState extends State<_FormContent> {
                           await signupUser(fullName!, username!, password!);
 
                       if (success) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Register successfully')),
+                        );
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => SignInPage()),
