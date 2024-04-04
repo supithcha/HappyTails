@@ -195,7 +195,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your pet\'s name';
+                                    return "Please enter your pet's name";
                                   }
                                   return null;
                                 },
@@ -342,9 +342,6 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                             children: [
                               Text(
                                 'Date of Birth',
-                                // style: TextStyle(
-                                //   fontWeight: FontWeight.bold,
-                                // ),
                               ),
                               SizedBox(height: 10),
                               TextFormField(
@@ -375,7 +372,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                                 },
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter your pet\'s Date of Birth';
+                                    return "Please enter your pet's Date of Birth";
                                   }
                                   return null;
                                 },
