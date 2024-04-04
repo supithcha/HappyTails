@@ -37,7 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^1.0.7
   firebase_auth: ^4.19.0
-  google_maps_flutter: ^2.5.3
+  # google_maps_flutter: ^2.5.3
+  flutter_osm_plugin: ^1.0.0
   location: ^6.0.1
   http: ^1.2.0
   cloud_firestore: ^4.16.0
@@ -45,6 +46,10 @@ dependencies:
   google_sign_in: ^6.2.1
   firebase_storage: ^11.7.0
   path_provider: ^2.1.2
+  osm_flutter_hooks: ^1.4.0
+  flutter_map: ^6.1.0
+  latlng: ^2.0.7
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:
