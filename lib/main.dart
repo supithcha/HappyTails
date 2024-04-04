@@ -8,6 +8,7 @@ import 'package:happytails/firebase_options.dart';
 import 'package:happytails/route_paths.dart';
 import 'package:happytails/signup.dart';
 import 'package:happytails/start_pet_profile.dart';
+import 'package:happytails/tips_and_tricks.dart';
 import 'option_pet_select.dart';
 import 'login.dart';
 import 'petprofile.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         RoutePaths.record: (context) => Appointment(),
         RoutePaths.clinic: (context) => SignInPage(),
         RoutePaths.home: (context) => SignUpPage(),
-        RoutePaths.guide: (context) => Petprofile(),
+        RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
         RoutePaths.profile: (context) => StartPetProfilePage(),
       },
       home: const OptionPetPage(),
