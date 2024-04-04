@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:happytails/tabbarPage/Vaccination.dart';
-import 'package:happytails/tabbarPage/Veterinary.dart';
+import 'package:happytails/Vaccination.dart';
+import 'package:happytails/Veterinary.dart';
 
 void main() {
   runApp(MyApp());
