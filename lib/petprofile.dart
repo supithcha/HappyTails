@@ -4,14 +4,6 @@ import 'firebase_options.dart';
 
 import 'package:flutter/material.dart';
 
-// class Petprofile extends StatelessWidget {
-//   const Petprofile({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
-// }
 
 class Petprofile extends StatefulWidget {
   const Petprofile({super.key});

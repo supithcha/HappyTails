@@ -293,16 +293,6 @@ class __FormContentState extends State<_FormContent> {
                   ),
                 ],
               ),
-              // TextButton(
-              //   onPressed: () {
-              //     // Navigate to the SignUp page
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(builder: (context) => SignUpPage()),
-              //     );
-              //   },
-              //   child: Text("Don't have an account? Register"),
-              // ),
             ],
           ),
         ),
