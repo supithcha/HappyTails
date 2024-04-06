@@ -76,7 +76,7 @@ class _HomepageState extends State<Homepage> {
   }
 
   Widget _bigcoloredBox(Color color, String text) {
-    return Container( 
+    return Container(
       width: 165,
       height: 100,
       decoration: BoxDecoration(
@@ -169,217 +169,292 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 225,
-            child: Card(
-              margin: EdgeInsets.all(20),
-              child: Padding(
-                padding: EdgeInsets.all(15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          //petMedhis ?? 'Loading...', // Text content
-                          petNames.isNotEmpty
-                              ? "Your Pets: ${petNames[0]}"
-                              : 'Loading...',
-                          style: TextStyle(
-                            // TextStyle for the text
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            if (petNames.isNotEmpty) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      PetProfilePage(petid: petIDs.first),
-                                ),
-                              );
-                            }
-                          },
-                          style: ButtonStyle(
-                            side: MaterialStateProperty.all<BorderSide>(
-                              BorderSide(color: Colors.grey),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              height: 225,
+              child: Card(
+                margin: EdgeInsets.all(20),
+                child: Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            //petMedhis ?? 'Loading...', // Text content
+                            petNames.isNotEmpty
+                                ? "Your Pets: ${petNames[0]}"
+                                : 'Loading...',
+                            style: TextStyle(
+                              // TextStyle for the text
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
                             ),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              if (petNames.isNotEmpty) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        PetProfilePage(petid: petIDs.first),
+                                  ),
+                                );
+                              }
+                            },
+                            style: ButtonStyle(
+                              side: MaterialStateProperty.all<BorderSide>(
+                                BorderSide(color: Colors.grey),
+                              ),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
                               ),
                             ),
+                            child: Text(
+                              'See all',
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 12),
+                            ),
                           ),
-                          child: Text(
-                            'See all',
-                            style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ],
+                      ),
+                      SizedBox(
+                          height:
+                              5), // Add some space between the text and the row
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _coloredBox(const Color.fromARGB(255, 239, 93, 168),
+                              Icons.add, 'Add Pet'),
+                          _coloredBox(const Color.fromARGB(255, 160, 227, 226),
+                              Icons.pets, '${petNames[0]}'),
+                          _coloredBox(const Color.fromARGB(255, 240, 158, 84),
+                              Icons.pets, '${petNames[1]}'),
+                          _coloredBox(const Color.fromARGB(255, 175, 220, 147),
+                              Icons.pets, '${petNames[2]}'),
+                          // _coloredBox(const Color.fromARGB(255, 175, 220, 147),
+                          // Icons.pets, '${petNames[2]}'),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Add Pet',
+                            style: TextStyle(fontSize: 13),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                        height:
-                            5), // Add some space between the text and the row
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _coloredBox(const Color.fromARGB(255, 239, 93, 168),
-                            Icons.add, 'Add Pet'),
-                        _coloredBox(const Color.fromARGB(255, 160, 227, 226),
-                            Icons.pets, '${petNames[0]}'),
-                        _coloredBox(const Color.fromARGB(255, 240, 158, 84),
-                            Icons.pets, '${petNames[1]}'),
-                        _coloredBox(const Color.fromARGB(255, 175, 220, 147),
-                            Icons.pets, '${petNames[2]}'),
-                        // _coloredBox(const Color.fromARGB(255, 175, 220, 147),
-                        // Icons.pets, '${petNames[2]}'),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Add Pet',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        Text(
-                          petNames[0] != null ? petNames[0] : '...',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        Text(
-                          petNames[1] != null ? petNames[1] : '...',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        Text(
-                          petNames[1] != null ? petNames[2] : '...',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        // Text(
-                        //   petNames[1] != null ? petNames[3] : '...',
-                        //   style: TextStyle(fontSize: 13),
-                        // ),
-                      ],
-                    ),
-                  ],
+                          Text(
+                            petNames[0] != null ? petNames[0] : '...',
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          Text(
+                            petNames[1] != null ? petNames[1] : '...',
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          Text(
+                            petNames[1] != null ? petNames[2] : '...',
+                            style: TextStyle(fontSize: 13),
+                          ),
+                          // Text(
+                          //   petNames[1] != null ? petNames[3] : '...',
+                          //   style: TextStyle(fontSize: 13),
+                          // ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Plans',
-                      style: TextStyle(
-                        // TextStyle for the text
-                        color: Colors.black,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        if (petNames.isNotEmpty) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  PetProfilePage(petid: petIDs.first),
-                            ),
-                          );
-                        }
-                      },
-                      style: ButtonStyle(
-                        side: MaterialStateProperty.all<BorderSide>(
-                          BorderSide(color: Colors.grey),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, left: 25.0, right: 25.0, bottom: 25.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Plans',
+                        style: TextStyle(
+                          // TextStyle for the text
+                          color: Colors.black,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
                         ),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          if (petNames.isNotEmpty) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    PetProfilePage(petid: petIDs.first),
+                              ),
+                            );
+                          }
+                        },
+                        style: ButtonStyle(
+                          side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(color: Colors.grey),
+                          ),
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
                           ),
                         ),
+                        child: Text(
+                          'See all',
+                          style: TextStyle(color: Colors.grey, fontSize: 12),
+                        ),
                       ),
-                      child: Text(
-                        'See all',
-                        style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _bigcoloredBox(
+                          Color.fromARGB(255, 206, 243, 196), 'Vaccination'),
+                      _bigcoloredBox(Color.fromARGB(255, 206, 194, 242),
+                          'Medical examination'),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 8.0, left: 25.0, right: 25.0, bottom: 25.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Pet Details',
+                        style: TextStyle(
+                          // TextStyle for the text
+                          color: Colors.black,
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                         
+                        },
+                        style: ButtonStyle(
+                          side: MaterialStateProperty.all<BorderSide>(
+                            BorderSide(color: Colors.grey),
+                          ),
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                          ),
+                        ),
+                        child: Icon(Icons.edit, color: Colors.grey, size: 18),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 5),
+                  Row(
+                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+            
+                        child: Center(
+                          child: Text(
+                            'chanel',
+                            style: TextStyle(
+                                color: const Color.fromARGB(255, 0, 0, 0),
+                                fontSize: 14),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 45.0),
+                  child: Text(
+                    "Appointment",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                //SizedBox(width: 220), // Add space between the text and button
+                TextButton(
+                  onPressed: () {
+                    if (petNames.isNotEmpty) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              PetProfilePage(petid: petIDs.first),
+                        ),
+                      );
+                    }
+                  },
+                  style: ButtonStyle(
+                    side: MaterialStateProperty.all<BorderSide>(
+                      BorderSide(color: Colors.grey),
+                    ),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                     ),
-                  ],
+                  ),
+                  child: Text(
+                    'See all',
+                    style: TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
                 ),
-                SizedBox(
-                    height: 5), // Add some space between the text and the row
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _bigcoloredBox(Color.fromARGB(255, 206, 243, 196),
-                       'Vaccination'),
-                       _bigcoloredBox(Color.fromARGB(255, 206, 194, 242),
-                       'Medical examination'),
-                  ],
-                ),
-                SizedBox(height: 10),
               ],
             ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 45.0),
-                child: Text(
-                  "Appointment",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              //SizedBox(width: 220), // Add space between the text and button
-              TextButton(
-                onPressed: () {
-                  if (petNames.isNotEmpty) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            PetProfilePage(petid: petIDs.first),
-                      ),
-                    );
-                  }
-                },
-                style: ButtonStyle(
-                  side: MaterialStateProperty.all<BorderSide>(
-                    BorderSide(color: Colors.grey),
-                  ),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                    ),
-                  ),
-                ),
-                child: Text(
-                  'See all',
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-              ),
-            ],
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 2,
