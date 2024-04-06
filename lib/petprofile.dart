@@ -241,7 +241,6 @@ class _PetProfilePageState extends State<PetProfilePage> {
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: (index) {
-          // Use the navigator to navigate to the selected page
           Navigator.pushNamed(context, pages[index]);
         },
         pages: pages,

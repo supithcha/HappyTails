@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:happytails/route_paths.dart';
+// import 'package:happytails/route_paths.dart';
 // ยังให้สีส้มกลมๆเลื่อนตามindex of nav ไม่ได้
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
   final List<String> pages;
 
-  
   const BottomNavBar({
     required this.selectedIndex,
     required this.onItemTapped,
@@ -14,9 +13,12 @@ class BottomNavBar extends StatelessWidget {
     Key? key, 
   }) : super(key: key);
 
+  
 
   @override
   Widget build(BuildContext context) {
+    int selectedIndex = 0;
+    
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -152,13 +154,15 @@ class BottomNavBar extends StatelessWidget {
           unselectedItemColor: Color.fromARGB(255, 0, 74, 173),
           showUnselectedLabels: true,
           selectedItemColor: Color.fromARGB(255, 0, 74, 173),
-          showSelectedLabels: false,
+          showSelectedLabels: false, 
           onTap: onItemTapped,
+          
           type: BottomNavigationBarType.fixed,
           unselectedFontSize: 14,
         ),
       ),
     );
   }
+  
   
 }
