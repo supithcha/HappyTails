@@ -51,7 +51,7 @@ class _Logo extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 30),
+          SizedBox(height: 70),
           Center(
             child: Image.asset(
               'assets/logo/full_logo_blue.png',

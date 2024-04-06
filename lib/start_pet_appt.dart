@@ -38,7 +38,7 @@ class _StartPetApptPageState extends State<StartPetApptPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 35,
+                  fontSize: 25,
                 ),
               ),
             ),
@@ -52,7 +52,7 @@ class _StartPetApptPageState extends State<StartPetApptPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                fontSize: 15,
+                fontSize: 16,
               ),
             ),
             // Add button

@@ -136,8 +136,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Date of Appointment'),
-                  SizedBox(height: 10),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   TextFormField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -181,8 +180,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Time of Appointment'),
-                  SizedBox(height: 10),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   TextFormField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -226,7 +224,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                     Text(
                       'Type of Appointment',
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 15),
                     Stack(
                       children: [
                         DropdownButtonFormField<String>(
@@ -283,7 +281,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                     Text(
                       'Pet',
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 15),
                     Stack(
                       children: [
                         petNames.isNotEmpty
@@ -358,7 +356,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                     Text(
                       'Location',
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 15),
                     Stack(
                       children: [
                         TextFormField(
