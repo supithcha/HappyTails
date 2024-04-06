@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happytails/detailPage/details_page.dart';
-import 'package:happytails/route_paths.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 import 'package:happytails/start_pet_appt.dart';
 import 'global_variables.dart' as Globalvar;
@@ -12,96 +11,95 @@ class Veterinary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20, left: 10),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Veterinary list:',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: Colors.indigo.shade900,
-                  ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Veterinary list:',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Colors.indigo.shade900,
                 ),
               ),
             ),
-            // Use FutureBuilder to fetch data from Firestore
-            FutureBuilder<QuerySnapshot>(
-              future: FirebaseFirestore.instance
-                  .collection('Pet appointment')
-                  .where('User_ID', isEqualTo: Globalvar.current_userID)
-                  .where('Appt_Type', isEqualTo: 'Veterinary')
-                  .get(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  // If the data is still loading
-                  return CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  // If there's an error fetching the data
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  // If the data is successfully fetched
-                  final documents = snapshot.data!.docs;
-                  if (documents.isEmpty) {
-                    // If there are no appointments, navigate to StartPetApptPage
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => StartPetApptPage()),
-                    );
-                    return SizedBox(); // Return an empty SizedBox
-                  } else {
-                    // If the data is successfully fetched
-                    final documents = snapshot.data!.docs;
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: documents.length,
-                        itemBuilder: (context, index) {
-                          final document = documents[index];
-                          return _ProductBox(
-                            Date: document['Appt_Date'],
-                            description: document['Appt_Location'],
-                            Petname: document['Appt_Pet'],
-                            image: "assets/Appointment/hospital.png",
-                            Phone:
-                                " Tel: 1119", // You can change this to the actual phone number if it's available in the document
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailsPage(
-                                    date: document['Appt_Date'],
-                                    description: document['Appt_Location'],
-                                    petName: document['Appt_Pet'],
-                                    phone:
-                                        " Tel: 1119", // You can change this to the actual phone number if it's available in the document
-                                    appointmentType:
-                                        "Veterinary", // Specify the appointment type
-                                    address: "Address for Veterinary",
-                                    time: "Open: 10.00-22.00",
-                                    services: [
-                                      "Regular check-ups",
-                                      "Diagnostic",
-                                      "Dental Care"
-                                    ],
-                                    image: "Appointment/PetCenter.jpg",
-                                  ),
-                                ),
-                              );
-                            },
+          ),
+          // Use FutureBuilder to fetch data from Firestore
+          FutureBuilder<QuerySnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('Pet appointment')
+                .where('User_ID', isEqualTo: Globalvar.current_userID)
+                .where('Appt_Type', isEqualTo: 'Veterinary')
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // If the data is still loading
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                // If there's an error fetching the data
+                return Text('Error: ${snapshot.error}');
+              }
+              final documents = snapshot.data!.docs;
+              int itemCount = documents.length;
+              if (itemCount == 0) {
+                // If there are no vaccination appointments
+                WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => StartPetApptPage()),
+                  );
+                });
+                return Container(); // Return an empty container for now
+              } else {
+                // If the data is successfully fetched
+                final documents = snapshot.data!.docs;
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: documents.length,
+                    itemBuilder: (context, index) {
+                      final document = documents[index];
+                      return _ProductBox(
+                        Date: document['Appt_Date'],
+                        description: document['Appt_Location'],
+                        Petname: document['Appt_Pet'],
+                        image: "assets/Appointment/hospital.png",
+                        Phone:
+                            " Tel: 1119", // You can change this to the actual phone number if it's available in the document
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailsPage(
+                                date: document['Appt_Date'],
+                                description: document['Appt_Location'],
+                                petName: document['Appt_Pet'],
+                                phone:
+                                    " Tel: 1119", // You can change this to the actual phone number if it's available in the document
+                                appointmentType:
+                                    "Veterinary", // Specify the appointment type
+                                address: "Address for Veterinary",
+                                time: "Open: 10.00-22.00",
+                                services: [
+                                  "Regular check-ups",
+                                  "Diagnostic",
+                                  "Dental Care"
+                                ],
+                                image: "Appointment/PetCenter.jpg",
+                              ),
+                            ),
                           );
                         },
-                      ),
-                    );
-                  }
-                }
-              },
-            ),
-          ],
-        ),
+                      );
+                    },
+                  ),
+                );
+              }
+            },
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 0, // Initial selected index
