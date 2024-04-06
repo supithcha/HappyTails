@@ -123,13 +123,6 @@ class _HomepageState extends State<Homepage> {
       
       ),
        body: Container(), // Placeholder for the body
-        // bottomNavigationBar: BottomNavBar(
-        //   selectedIndex: _selectedIndex,
-        //   onItemTapped: (index) {
-        //     Navigator.pushNamed(context, pages[index]);
-        //   },
-        //   pages: pages,
-        // ),
         bottomNavigationBar: BottomNavBar(
           initialIndex: 2, // Initial selected index
           // pages: pages
