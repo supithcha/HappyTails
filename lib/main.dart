@@ -16,12 +16,12 @@ import 'login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main () async {
-  WidgetsFlutterBinding.ensureInitialized () ;
-  await Firebase.initializeApp (
-    options : DefaultFirebaseOptions . currentPlatform ,
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp ( const MyApp () );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -51,11 +52,12 @@ class AuthenticationWrapper extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Show loading indicator while checking authentication state
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          // return Scaffold(
+          //   body: Center(
+          //     child: CircularProgressIndicator(),
+          //   ),
+          // );
+          return HomepageLoading();
         } else {
           if (snapshot.hasData) {
             // User is signed in
@@ -101,38 +103,32 @@ class AuthenticationWrapper extends StatelessWidget {
 
 class HomepageLoading extends StatelessWidget {
   const HomepageLoading({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    // Use a FutureBuilder to wait for the delay
     return FutureBuilder(
       future: Future.delayed(Duration(seconds: 1)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          WidgetsBinding.instance!.addPostFrameCallback((_) { 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SignUpPage(),
-              ),
-            );
-          });
-        }
-        return Scaffold(
-          body: Container(
-            color: Color(0xff004aad),
-            child: Center(
-              child: Image.asset(
-                'assets/logo/full_logo_white.png',
-                height: 300,
+          return Scaffold(
+            body: Container(
+              color: Color(0xff004aad),
+              child: Center(
+                child: Image.asset(
+                  'assets/logo/full_logo_white.png',
+                  height: 300,
+                ),
               ),
             ),
-          ),
-        );
+          );
+        } else {
+          // Show loading indicator while waiting for the delay
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
       },
     );
   }
 }
-
-
-
