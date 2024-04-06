@@ -299,21 +299,26 @@ void _shownotitext(BuildContext context) {
     builder: (BuildContext context) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(25.0),
         ),
         title: Text('Notification'),
-        content: Text('''
-          Empty notification
-          '''),
+        content: Container(
+          child: Text(
+            'Empty notification',
+            style: TextStyle(fontSize: 16.0), // Adjust the font size here
+          ),
+        ),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('OK',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 0, 74, 173),
-                )),
+            child: Text(
+              'OK',
+              style: TextStyle(
+                color: Color.fromARGB(255, 0, 74, 173),
+              ),
+            ),
           ),
         ],
       );

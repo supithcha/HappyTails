@@ -30,7 +30,8 @@ class _HomepageState extends State<Homepage> {
   }
 
   Future<void> fetchUsername() async {
-    String? username = await Globalvar.getUsernameByID(Globalvar.current_userID);
+    String? username =
+        await Globalvar.getUsernameByID(Globalvar.current_userID);
     if (username != null && username.isNotEmpty) {
       setState(() {
         userFullname = username;
@@ -48,10 +49,12 @@ class _HomepageState extends State<Homepage> {
           .where('User_ID', isEqualTo: Globalvar.current_userID)
           .get();
       setState(() {
-        petNames = snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+        petNames =
+            snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
         print(petNames);
         petIDs = snapshot.docs.map((doc) => doc['Pet_ID'] as String).toList();
-        petWeights = snapshot.docs.map((doc) => doc['Pet_Weight'] as String).toList();
+        petWeights =
+            snapshot.docs.map((doc) => doc['Pet_Weight'] as String).toList();
       });
     } catch (e) {
       print('Failed to fetch pet data: $e');
@@ -94,7 +97,7 @@ class _HomepageState extends State<Homepage> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Image.asset(
-                  'logo/logo-white.png',
+                  'assets/logo/logo-white.png',
                   width: 60,
                   height: 100,
                 ),
@@ -105,14 +108,23 @@ class _HomepageState extends State<Homepage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      userFullname != null ? 'Hello, $userFullname' : 'Loading...',
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
+                      userFullname != null
+                          ? 'Hello, $userFullname'
+                          : 'Loading...',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 5.0),
                       child: Text(
                         'How is your pet\'s health today?',
-                        style: TextStyle(color: Colors.white, fontSize: 13, fontStyle: FontStyle.italic),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontStyle: FontStyle.italic),
                       ),
                     ),
                   ],
@@ -126,7 +138,7 @@ class _HomepageState extends State<Homepage> {
               child: IconButton(
                 icon: Icon(Icons.notifications),
                 onPressed: () {
-                  // Add notification logic here
+                  _shownotitext(context);
                 },
               ),
             ),
@@ -166,12 +178,14 @@ class _HomepageState extends State<Homepage> {
                       children: [
                         Text(
                           //petMedhis ?? 'Loading...', // Text content
-                          petNames.isNotEmpty ? "Your Pets: ${petNames[0]}" : 'Loading...',
-                          style: TextStyle( // TextStyle for the text
+                          petNames.isNotEmpty
+                              ? "Your Pets: ${petNames[0]}"
+                              : 'Loading...',
+                          style: TextStyle(
+                            // TextStyle for the text
                             color: Colors.black,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            
                           ),
                         ),
                         TextButton(
@@ -182,7 +196,8 @@ class _HomepageState extends State<Homepage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PetProfilePage(petid: petIDs.first),
+                                  builder: (context) =>
+                                      PetProfilePage(petid: petIDs.first),
                                 ),
                               );
                             }
@@ -204,7 +219,9 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5), // Add some space between the text and the row
+                    SizedBox(
+                        height:
+                            5), // Add some space between the text and the row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -218,14 +235,24 @@ class _HomepageState extends State<Homepage> {
                           ),
                           child: Center(
                             child: Text(
-                              petWeights.isNotEmpty ? petWeights.first : '', // Assuming petWeight is the first weight
-                              style: TextStyle(color: Colors.white, fontSize: 17),
+                              petWeights.isNotEmpty
+                                  ? petWeights.first
+                                  : '', // Assuming petWeight is the first weight
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 17),
                             ),
                           ),
                         ),
-                        _coloredBox('', const Color.fromARGB(255, 160, 227, 226), Icons.check),
-                        _coloredBox('', const Color.fromARGB(255, 240, 158, 84), Icons.favorite),
-                        _coloredBox('', const Color.fromARGB(255, 175, 220, 147), Icons.menu_book),
+                        _coloredBox(
+                            '',
+                            const Color.fromARGB(255, 160, 227, 226),
+                            Icons.check),
+                        _coloredBox('', const Color.fromARGB(255, 240, 158, 84),
+                            Icons.favorite),
+                        _coloredBox(
+                            '',
+                            const Color.fromARGB(255, 175, 220, 147),
+                            Icons.menu_book),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -259,52 +286,52 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
           ),
-         Row(
-  crossAxisAlignment: CrossAxisAlignment.start,
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
-    Padding(
-      padding: const EdgeInsets.only(left: 45.0),
-      child: Text(
-        "Appointment",
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-    //SizedBox(width: 220), // Add space between the text and button
-    TextButton(
-      onPressed: () {
-        // Navigate to the appointments
-        // Assuming petName is the first pet name
-        if (petNames.isNotEmpty) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PetProfilePage(petid: petIDs.first),
-            ),
-          );
-        }
-      },
-      style: ButtonStyle(
-        side: MaterialStateProperty.all<BorderSide>(
-          BorderSide(color: Colors.grey),
-        ),
-        shape: MaterialStateProperty.all<OutlinedBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 45.0),
+                child: Text(
+                  "Appointment",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              //SizedBox(width: 220), // Add space between the text and button
+              TextButton(
+                onPressed: () {
+                  // Navigate to the appointments
+                  // Assuming petName is the first pet name
+                  if (petNames.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PetProfilePage(petid: petIDs.first),
+                      ),
+                    );
+                  }
+                },
+                style: ButtonStyle(
+                  side: MaterialStateProperty.all<BorderSide>(
+                    BorderSide(color: Colors.grey),
+                  ),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  'Details',
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+              ),
+            ],
           ),
-        ),
-      ),
-      child: Text(
-        'Details',
-        style: TextStyle(color: Colors.grey, fontSize: 12),
-      ),
-    ),
-  ],
-),
-
         ],
       ),
       bottomNavigationBar: BottomNavBar(
@@ -312,4 +339,37 @@ class _HomepageState extends State<Homepage> {
       ),
     );
   }
+}
+
+void _shownotitext(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        title: Text('Notification'),
+        content: Container(
+          child: Text(
+            'Empty notification',
+            style: TextStyle(fontSize: 16.0), // Adjust the font size here
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'OK',
+              style: TextStyle(
+                color: Color.fromARGB(255, 0, 74, 173),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
