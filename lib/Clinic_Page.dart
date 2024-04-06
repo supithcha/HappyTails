@@ -28,11 +28,11 @@ class _MapClinicPageState extends State<MapClinicPage> {
             title: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10,left: 5.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Image.asset(
                   'assets/logo/logo-white.png',
                   width: 60,
-                  height: 60,
+                  height: 100,
                 ),
               ),
               Column(
