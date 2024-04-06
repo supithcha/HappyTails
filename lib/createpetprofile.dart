@@ -761,9 +761,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                     ],
                   ),
                 ),
-
                 SizedBox(height: 25),
-
                 // Confirm Button
                 Center(
                   child: SizedBox(

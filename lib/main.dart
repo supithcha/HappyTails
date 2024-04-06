@@ -5,6 +5,7 @@ import 'package:happytails/Appointment.dart';
 import 'package:happytails/clinic_page.dart';
 import 'package:happytails/createpetprofile.dart';
 import 'package:happytails/firebase_options.dart';
+import 'package:happytails/homepage.dart';
 import 'package:happytails/route_paths.dart';
 import 'package:happytails/signup.dart';
 import 'package:happytails/start_pet_appt.dart';
@@ -12,14 +13,8 @@ import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
 import 'option_pet_select.dart';
 import 'login.dart';
-import 'welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
-
-
-// void main() {
-//   runApp(const MyApp());
-// }
 
 void main () async {
   WidgetsFlutterBinding.ensureInitialized () ;
@@ -36,7 +31,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: const HomepageLoading(),
       routes: {
         // MUST replace when ทำของจริง ตอนนี้แปะไปก่อนเฉยๆ
         RoutePaths.record: (context) => StartPetApptPage(),
@@ -45,14 +39,39 @@ class MyApp extends StatelessWidget {
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
         RoutePaths.profile: (context) => StartPetProfilePage(),
       },
-      home: const SignInPage(),
+      home: AuthenticationWrapper(),
+    );
+  }
+}
+class AuthenticationWrapper extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Show loading indicator while checking authentication state
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        } else {
+          if (snapshot.hasData) {
+            // User is signed in
+            return const Homepage();
+          } else {
+            // User is not signed in, redirect to sign-in page
+            return const SignInPage();
+          }
+        }
+      },
     );
   }
 }
 
 // class HomepageLoading extends StatelessWidget {
 //   const HomepageLoading({Key? key}) : super(key: key);
-
 //   @override
 //   Widget build(BuildContext context) {
 //     Future.delayed(Duration(seconds: 3), () {
@@ -98,7 +117,6 @@ class HomepageLoading extends StatelessWidget {
             );
           });
         }
-
         return Scaffold(
           body: Container(
             color: Color(0xff004aad),
