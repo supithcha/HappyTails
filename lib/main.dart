@@ -11,6 +11,7 @@ import 'package:happytails/signup.dart';
 import 'package:happytails/start_pet_appt.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
+import 'package:happytails/userprofile.dart';
 import 'global_variables.dart';
 import 'option_pet_select.dart';
 import 'login.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         RoutePaths.clinic: (context) => MapClinicPage(title: 'Nearby Clinics'),
         RoutePaths.home: (context) => Homepage(),
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
-        RoutePaths.profile: (context) => StartPetProfilePage(),
+        RoutePaths.profile: (context) => UserProfilePage(),
       },
       home: AuthenticationWrapper(),
     );
