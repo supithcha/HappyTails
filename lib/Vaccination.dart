@@ -67,7 +67,7 @@ class Vaccination extends StatelessWidget {
                           Date: document['Appt_Date'],
                           description: document['Appt_Location'],
                           Petname: document['Appt_Pet'],
-                          image: "Appointment/vaccine.png",
+                          image: "assets/Appointment/vaccine.png",
                           Phone: " Tel: 1119",
                           onTap: () {
                             Navigator.push(
