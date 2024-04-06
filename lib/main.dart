@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
         RoutePaths.profile: (context) => StartPetProfilePage(),
       },
-      home: const OptionPetPage(),
+      home: const SignInPage(),
     );
   }
 }

@@ -50,7 +50,26 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
 
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
   List<String> appointmentStatuses = ['Pending', 'Complete'];
-
+  List<String> petNames = []; // To store fetched pet names
+  @override
+  void initState() {
+    super.initState();
+    fetchPetNames(); // Fetch pet names when the widget initializes
+  }
+  Future<void> fetchPetNames() async {
+  try {
+    // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
+    QuerySnapshot snapshot = await FirebaseFirestore.instance
+        .collection('Pet')
+        .where('User_ID', isEqualTo: current_userID)
+        .get();
+    setState(() {
+      petNames = snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+    });
+  } catch (e) {
+    print('Failed to fetch pet names: $e');
+  }
+}
   Future<void> _saveAppointment() async {
     if (_formKey.currentState!.validate()) {
       String date = _dateController.text.trim();
@@ -270,7 +289,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                               _selectedType = newValue;
                             });
                           },
-                          items: appointmentTypes.map((type) {
+                          items: petNames.map((type) {
                             return DropdownMenuItem(
                               value: type,
                               child: Text(type),
@@ -308,17 +327,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ],
                 ),
               ),
-              TextFormField(
-                controller: _petController,
-                decoration: InputDecoration(labelText: 'Pet'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the pet name';
-                  }
-                  return null;
-                },
-              ),
-
               SizedBox(height: 20.0),
               // Location
               SizedBox(
