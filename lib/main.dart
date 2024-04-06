@@ -103,34 +103,31 @@ class AuthenticationWrapper extends StatelessWidget {
 
 class HomepageLoading extends StatelessWidget {
   const HomepageLoading({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    // Use a FutureBuilder to wait for the delay
     return FutureBuilder(
       future: Future.delayed(Duration(seconds: 1)),
       builder: (context, snapshot) {
-        // if (snapshot.connectionState == ConnectionState.done) {
-        //   WidgetsBinding.instance!.addPostFrameCallback((_) {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (context) => SignUpPage(),
-        //       ),
-        //     );
-        //   });
-        // }
-        return Scaffold(
-          body: Container(
-            color: Color(0xff004aad),
-            child: Center(
-              child: Image.asset(
-                'assets/logo/full_logo_white.png',
-                height: 300,
+        if (snapshot.connectionState == ConnectionState.done) {
+          return Scaffold(
+            body: Container(
+              color: Color(0xff004aad),
+              child: Center(
+                child: Image.asset(
+                  'assets/logo/full_logo_white.png',
+                  height: 300,
+                ),
               ),
             ),
-          ),
-        );
+          );
+        } else {
+          // Show loading indicator while waiting for the delay
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
       },
     );
   }
