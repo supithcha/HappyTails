@@ -1,19 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happytails/detailPage/details_page.dart';
-import 'package:happytails/route_paths.dart';
 import 'package:happytails/bottom_nav_bar.dart';
-int _selectedIndex = 0;
-  // Use the defined route paths
-  final List<String> pages = [
-    RoutePaths.record,
-    RoutePaths.clinic,
-    RoutePaths.home,
-    RoutePaths.guide,
-    RoutePaths.profile,
-  ];
+import 'global_variables.dart' as Globalvar;
+
 class Vaccination extends StatelessWidget {
   const Vaccination({Key? key}) : super(key: key);
-  
 
   @override
   Widget build(BuildContext context) {
@@ -34,80 +26,78 @@ class Vaccination extends StatelessWidget {
               ),
             ),
           ),
-          // Add other widgets as needed
-          _ProductBox(
-            Date: "12 January 2024 11:00 AM",
-            description: "UVET Animal Hospital",
-            Petname: "Chanel",
-            image: "Appointment/vaccine.png",
-            Phone: " Tel: 1119",
-            onTap: () {
-              // Navigate to details page
-             Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailsPage(
-                date: "12 January 2024 11:00 AM",
-                description: "UVET Animal Hospital",
-                petName: "Chanel",
-                phone: " Tel: 062-491-9494",
-                appointmentType: "Vaccination", // Specify the appointment type
-                address: "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
-                time: "Open: 10.00-22.00",
-                services: ["Individualized Consultation and counseling vaccination services", "Vaccination and Certification", "Vaccination service prior to Pre-Post travelling abroad"],
-                image: "Appointment/UVET.jpg",
-                ),
-              ),
-            );
-
-            },
-          ),
-          _ProductBox(
-            Date: "8 January 2023 02:00 PM",
-            description: "UVET Animal Hospital",
-            Petname: "Chanel",
-            image: "Appointment/vaccine.png",
-            Phone: " Tel: 062-491-9494",
-            onTap: () {
-              // Navigate to details page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsPage(
-                  date: "8 January 2023 02:00 PM",
-                  description: "UVET Animal Hospital",
-                  petName: "Chanel",
-                  phone: " Tel: 062-491-9494",
-                  appointmentType: "Vaccination", // Specify the appointment type
-                  address: "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
-                  time: "Open: 10.00-22.00",
-                  services: ["Individualized Consultation and counseling vaccination services", "Vaccination and Certification", "Vaccination service prior to Pre-Post travelling abroad"],
-                  image: "Appointment/UVET.jpg",
-                ),
-              ),
-              );
-
+          // Use FutureBuilder to fetch data from Firestore
+          FutureBuilder<QuerySnapshot>(
+            future: FirebaseFirestore.instance
+                .collection('Pet appointment')
+                .where('Appt_Type', isEqualTo: 'Vaccination')
+                .where('User_ID', isEqualTo: Globalvar.current_userID)
+                .get(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                // If the data is still loading
+                return CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                // If there's an error fetching the data
+                return Text('Error: ${snapshot.error}');
+              } else {
+                // If the data is successfully fetched
+                final documents = snapshot.data!.docs;
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: documents.length,
+                    itemBuilder: (context, index) {
+                      final document = documents[index];
+                      return _EachVet(
+                        Date: document['Appt_Date'],
+                        description: document['Appt_Location'],
+                        Petname: document['Appt_Pet'],
+                        image: "Appointment/vaccine.png",
+                        Phone:
+                            " Tel: 1119",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailsPage(
+                                date: document['Appt_Date'],
+                                description: document['Appt_Location'],
+                                petName: document['Appt_Pet'],
+                                phone:
+                                    " Tel: 062-491-9494",
+                                appointmentType:
+                                    "Vaccination",
+                                address:
+                                    "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
+                                time: "Open: 10.00-22.00",
+                                services: [
+                                  "Individualized Consultation and counseling vaccination services",
+                                  "Vaccination and Certification",
+                                  "Vaccination service prior to Pre-Post travelling abroad"
+                                ],
+                                image: "Appointment/UVET.jpg",
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                );
+              }
             },
           ),
         ],
       ),
-      // bottomNavigationBar: BottomNavBar(
-      //   selectedIndex: _selectedIndex,
-      //   onItemTapped: (index) {
-      //     Navigator.pushNamed(context, pages[index]);
-      //   },
-      //   pages: pages,
-      // ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 0, // Initial selected index
-        // pages: pages
       ),
     );
   }
 }
 
-class _ProductBox extends StatelessWidget {
-  _ProductBox({
+class _EachVet extends StatelessWidget {
+  _EachVet({
     Key? key,
     this.Date,
     this.description,
@@ -136,7 +126,7 @@ class _ProductBox extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.fromLTRB(30, 10, 20, 15), 
+                padding: EdgeInsets.fromLTRB(30, 10, 20, 15),
                 child: Image.asset(image!),
               ),
               Expanded(
@@ -211,7 +201,6 @@ class _ProductBox extends StatelessWidget {
           ),
         ),
       ),
-      
     );
   }
 }

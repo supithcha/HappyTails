@@ -4,27 +4,27 @@ import 'package:happytails/Vaccination.dart';
 import 'package:happytails/route_paths.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 
-void main() {
-  runApp(MyApp());
-}
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+// void main() {
+//   runApp(MyApp());
+// }
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
   
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        fontFamily: 'Futura',
-        primaryColor: Colors.white,
-      ),
-      home: DefaultTabController(
-        length: 2,
-        child: AppointmentAll(),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       theme: ThemeData(
+//         fontFamily: 'Futura',
+//         primaryColor: Colors.white,
+//       ),
+//       home: DefaultTabController(
+//         length: 2,
+//         child: AppointmentAll(),
+//       ),
+//     );
+//   }
+// }
 
 class AppointmentAll extends StatefulWidget {
   const AppointmentAll({Key? key}) : super(key: key);
@@ -82,17 +82,10 @@ class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProvid
           ),
         ],
       ),
-      // bottomNavigationBar: BottomNavBar(
-      //   selectedIndex: _selectedIndex,
-      //   onItemTapped: (index) {
-      //     Navigator.pushNamed(context, pages[index]);
-      //   },
-      //   pages: pages,
+      //  bottomNavigationBar: BottomNavBar(
+      //   initialIndex: 0, // Initial selected index
+      //   // pages: pages
       // ),
-       bottomNavigationBar: BottomNavBar(
-        initialIndex: 0, // Initial selected index
-        // pages: pages
-      ),
     );
   }
 

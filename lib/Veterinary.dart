@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happytails/detailPage/details_page.dart';
 import 'package:happytails/route_paths.dart';
 import 'package:happytails/bottom_nav_bar.dart';
+import 'package:happytails/start_pet_appt.dart';
+import 'global_variables.dart' as Globalvar;
 
 class Veterinary extends StatelessWidget {
   const Veterinary({Key? key}) : super(key: key);
@@ -9,82 +12,99 @@ class Veterinary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 10),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Veterinary list:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Colors.indigo.shade900,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 10),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Veterinary list:',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Colors.indigo.shade900,
+                  ),
                 ),
               ),
             ),
-          ),
-          // Add other widgets as needed
-          _ProductBox(
-            Date: "12 January 2024 11:00 AM",
-            description: "The Pet Center",
-            Petname: "Chanel",
-            image: "assets/Appointment/hospital.png",
-            Phone: " Tel: 1119",
-            onTap: () {
-              // Navigate to details page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsPage(
-                  date: "12 January 2024 11:00 AM",
-                  description: "The Pet Center",
-                  petName: "Chanel",
-                  phone: " Tel: 1119",
-                  appointmentType: "Veterinary", // Specify the appointment type
-                  address: "Address for Veterinary",
-                  time: "Open: 10.00-22.00",
-                  services: ["Regular check-ups", "Diagnostic", "Dental Care"],
-                  image: "Appointment/PetCenter.jpg",
-                ),
-              ),
-            );
-
-            },
-          ),
-          _ProductBox(
-            Date: "8 January 2023 02:00 PM",
-            description: "The Pet Center",
-            Petname: "Chanel",
-            image: "assets/Appointment/hospital.png",
-            Phone: " Tel: 1119",
-            onTap: () {
-              // Navigate to details page
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsPage(
-                  date: "8 January 2023 02:00 PM",
-                  description: "The Pet Center",
-                  petName: "Chanel",
-                  phone: " Tel: 1119",
-                  appointmentType: "Veterinary", // Specify the appointment type
-                  address: "Address for Veterinary",
-                  time: "Open: 10.00-22.00",
-                  services: ["Regular check-ups", "Diagnostic", "Dental Care"],
-                  image: "Appointment/PetCenter.jpg",
-                ),
-              ),
-            );
-
-            },
-          ),
-        ],
+            // Use FutureBuilder to fetch data from Firestore
+            FutureBuilder<QuerySnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection('Pet appointment')
+                  .where('User_ID', isEqualTo: Globalvar.current_userID)
+                  .where('Appt_Type', isEqualTo: 'Veterinary')
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // If the data is still loading
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  // If there's an error fetching the data
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  // If the data is successfully fetched
+                  final documents = snapshot.data!.docs;
+                  if (documents.isEmpty) {
+                    // If there are no appointments, navigate to StartPetApptPage
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => StartPetApptPage()),
+                    );
+                    return SizedBox(); // Return an empty SizedBox
+                  } else {
+                    // If the data is successfully fetched
+                    final documents = snapshot.data!.docs;
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: documents.length,
+                        itemBuilder: (context, index) {
+                          final document = documents[index];
+                          return _ProductBox(
+                            Date: document['Appt_Date'],
+                            description: document['Appt_Location'],
+                            Petname: document['Appt_Pet'],
+                            image: "assets/Appointment/hospital.png",
+                            Phone:
+                                " Tel: 1119", // You can change this to the actual phone number if it's available in the document
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailsPage(
+                                    date: document['Appt_Date'],
+                                    description: document['Appt_Location'],
+                                    petName: document['Appt_Pet'],
+                                    phone:
+                                        " Tel: 1119", // You can change this to the actual phone number if it's available in the document
+                                    appointmentType:
+                                        "Veterinary", // Specify the appointment type
+                                    address: "Address for Veterinary",
+                                    time: "Open: 10.00-22.00",
+                                    services: [
+                                      "Regular check-ups",
+                                      "Diagnostic",
+                                      "Dental Care"
+                                    ],
+                                    image: "Appointment/PetCenter.jpg",
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    );
+                  }
+                }
+              },
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 0, // Initial selected index
-        // pages: pages
       ),
     );
   }
@@ -110,7 +130,6 @@ class _ProductBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Container(
       padding: EdgeInsets.fromLTRB(10, 7, 10, 1),
       height: 190,
@@ -173,14 +192,16 @@ class _ProductBox extends StatelessWidget {
                             child: ElevatedButton(
                               onPressed: onTap,
                               style: ElevatedButton.styleFrom(
-                                
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
                               child: Text(
                                 'Detail',
-                                style: TextStyle(color: Colors.blue.shade900, fontWeight: FontWeight.bold),
+                                style: TextStyle(
+                                  color: Colors.blue.shade900,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
@@ -197,160 +218,3 @@ class _ProductBox extends StatelessWidget {
     );
   }
 }
-
-// class BottomNavBar extends StatelessWidget {
-//   final int selectedIndex;
-//   final Function(int) onItemTapped;
-
-//   const BottomNavBar({
-//     required this.selectedIndex,
-//     required this.onItemTapped,
-//     super.key,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       decoration: const BoxDecoration(
-//         borderRadius: BorderRadius.only(
-//           topRight: Radius.circular(30),
-//           topLeft: Radius.circular(30),
-//         ),
-//         boxShadow: <BoxShadow>[
-//           BoxShadow(
-//             color: Color.fromARGB(40, 35, 0, 76),
-//             blurRadius: 10,
-//           ),
-//         ],
-//       ),
-//       child: ClipRRect(
-//         borderRadius: BorderRadius.only(
-//           topRight: Radius.circular(30),
-//           topLeft: Radius.circular(30),
-//         ),
-//         child: BottomNavigationBar(
-//           items: [
-//             // Record
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.calendar_month_outlined),
-//               label: "Record",
-//               activeIcon: Container(
-//                 decoration: const BoxDecoration(
-//                   color: Color.fromARGB(255, 255, 160, 138),
-//                   shape: BoxShape.circle,
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Color.fromARGB(50, 0, 75, 173),
-//                       blurRadius: 12.0,
-//                       spreadRadius: 2.29,
-//                     )
-//                   ],
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(10.0),
-//                   child: Icon(Icons.calendar_month_outlined),
-//                 ),
-//               ),
-//             ),
-//             // Clinic
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.location_on_outlined),
-//               label: "Clinic",
-//               activeIcon: Container(
-//                 decoration: const BoxDecoration(
-//                   color: Color.fromARGB(255, 255, 160, 138),
-//                   shape: BoxShape.circle,
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Color.fromARGB(50, 0, 75, 173),
-//                       blurRadius: 12.0,
-//                       spreadRadius: 2.29,
-//                     )
-//                   ],
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(10.0),
-//                   child: Icon(Icons.location_on_outlined),
-//                 ),
-//               ),
-//             ),
-//             // Home
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.home_outlined),
-//               label: "Home",
-//               activeIcon: Container(
-//                 decoration: const BoxDecoration(
-//                   color: Color.fromARGB(255, 255, 160, 138),
-//                   shape: BoxShape.circle,
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Color.fromARGB(50, 0, 75, 173),
-//                       blurRadius: 12.0,
-//                       spreadRadius: 2.29,
-//                     )
-//                   ],
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(10.0),
-//                   child: Icon(Icons.home_outlined),
-//                 ),
-//               ),
-//             ),
-//             // Guide
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.book_outlined),
-//               label: "Guide",
-//               activeIcon: Container(
-//                 decoration: const BoxDecoration(
-//                   color: Color.fromARGB(255, 255, 160, 138),
-//                   shape: BoxShape.circle,
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Color.fromARGB(50, 0, 75, 173),
-//                       blurRadius: 12.0,
-//                       spreadRadius: 2.29,
-//                     )
-//                   ],
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(10.0),
-//                   child: Icon(Icons.book_outlined),
-//                 ),
-//               ),
-//             ),
-//             // Profile
-//             BottomNavigationBarItem(
-//               icon: Icon(Icons.person_outline_rounded),
-//               label: "Profile",
-//               activeIcon: Container(
-//                 decoration: const BoxDecoration(
-//                   color: Color.fromARGB(255, 255, 160, 138),
-//                   shape: BoxShape.circle,
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: Color.fromARGB(50, 0, 75, 173),
-//                       blurRadius: 12.0,
-//                       spreadRadius: 2.29,
-//                     )
-//                   ],
-//                 ),
-//                 child: Padding(
-//                   padding: const EdgeInsets.all(10.0),
-//                   child: Icon(Icons.person_outline_rounded),
-//                 ),
-//               ),
-//             ),
-//           ],
-//           currentIndex: selectedIndex,
-//           unselectedItemColor: Color.fromARGB(255, 0, 74, 173),
-//           showUnselectedLabels: true,
-//           selectedItemColor: Color.fromARGB(255, 0, 74, 173),
-//           showSelectedLabels: false,
-//           onTap: onItemTapped,
-//           type: BottomNavigationBarType.fixed,
-//           unselectedFontSize: 14,
-//         ),
-//       ),
-//     );
-//   }
-// }
