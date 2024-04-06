@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:happytails/Appointment.dart';
 import 'global_variables.dart' as Globalvar;
+import 'package:uuid/uuid.dart';
 
 class PetAppointment {
   final String date;
@@ -67,9 +68,32 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
     }
   }
 
+// Function to fetch Pet_ID by Pet_Name
+  Future<String?> fetchPetIdByPetName(String petName) async {
+    try {
+      // Fetch pet id from Firestore collection 'Pet' filtered by current_userID and Pet_Name
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Pet')
+          .where('User_ID', isEqualTo: Globalvar.current_userID)
+          .where('Pet_Name', isEqualTo: petName)
+          .get();
+      // Check if snapshot has any documents
+      if (snapshot.docs.isNotEmpty) {
+        print('Document found');
+        // Return Pet_ID
+        return snapshot.docs.first['Pet_ID'] as String?;
+      } else {
+        print('Document not found');
+        return null;
+      }
+    } catch (e) {
+      print('Failed to fetch pet id by pet name: $e');
+      return null;
+    }
+  }
+
   Future<void> _saveAppointment() async {
     if (_formKey.currentState!.validate()) {
-      // Get values from text controllers
       String date = _date ?? '';
       String time = _time ?? '';
       String type = _selectedType ?? '';
@@ -77,7 +101,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       String location = _location ?? ''; // Use _location variable
       String note = _note ?? ''; // Use _note variable
 
-      // Print values for debugging
       print('Date: $date');
       print('Time: $time');
       print('Type: $type');
@@ -85,32 +108,48 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       print('Location: $location');
       print('Note: $note');
 
-      // Store data in Firebase
-      try {
-        await FirebaseFirestore.instance.collection('Pet appointment').add({
-          'Appt_Date': date,
-          'Appt_Time': time,
-          'Appt_Type': type,
-          'Appt_Pet': pet,
-          'Appt_Location': location,
-          'Appt_Note': note,
-          'User_ID': Globalvar.current_userID, // Include current_userID
-        });
+      // Fetch Pet_ID corresponding to the selected petName
+      String? petId = await fetchPetIdByPetName(pet);
+      print('Fetched Pet_ID: $petId');
+      // Check if Pet_ID is fetched
+      if (petId != null) {
+        String apptid = Uuid().v4();
+        print('Generate Appt_ID = $apptid \n');
 
-        // Show success message
+        // Store data in Firebase
+        try {
+          await FirebaseFirestore.instance.collection('Pet appointment').add({
+            'Appt_Date': date,
+            'Appt_Time': time,
+            'Appt_Type': type,
+            'Appt_Pet': pet,
+            'Appt_Location': location,
+            'Appt_Note': note,
+            'Pet_ID': petId, // Include Pet_ID
+            'User_ID': Globalvar.current_userID, // Include current_userID
+            'Appt_ID': apptid,
+          });
+
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Appointment saved successfully')),
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AppointmentAll(),
+            ),
+          );
+        } catch (e) {
+          // Show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to save appointment')),
+          );
+        }
+      } else {
+        // Show error message if Pet_ID is not fetched
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Appointment saved successfully')),
-        );
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AppointmentAll(),
-          ),
-        );
-      } catch (e) {
-        // Show error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save appointment')),
+          SnackBar(content: Text('Failed to fetch Pet_ID')),
         );
       }
     }
