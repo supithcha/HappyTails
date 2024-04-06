@@ -22,6 +22,8 @@ class Homepage extends StatefulWidget {
   _HomepageState createState() => _HomepageState();
 }
 
+
+
 class _HomepageState extends State<Homepage> {
   String? userFullname; // Variable to store the username
 
@@ -39,7 +41,7 @@ class _HomepageState extends State<Homepage> {
       });
       print('Fetched user information: $userFullname');
     } else {
-      print('User username not found');
+      print('username not found');
     }
   }
 
