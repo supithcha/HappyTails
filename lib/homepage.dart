@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart'; // Import Firebase core package
+import 'package:firebase_core/firebase_core.dart';
+import 'package:happytails/firebase_options.dart'; // Import Firebase core package
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
