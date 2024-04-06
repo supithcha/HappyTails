@@ -26,24 +26,53 @@ class DetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Detail Page',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        iconTheme: IconThemeData(color: Colors.white),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.white,
-                Colors.indigo.shade200,
-                Colors.indigo.shade400,
-                Colors.indigo.shade700,
-                Colors.indigo.shade900,
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+      // appBar: AppBar(
+      //   title: Text(
+      //     'Detail Page',
+      //     style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      //   ),
+      //   iconTheme: IconThemeData(color: Colors.white),
+      //   flexibleSpace: Container(
+      //     decoration: BoxDecoration(
+      //       gradient: LinearGradient(
+      //         colors: [
+      //           Colors.white,
+      //           Colors.indigo.shade200,
+      //           Colors.indigo.shade400,
+      //           Colors.indigo.shade700,
+      //           Colors.indigo.shade900,
+      //         ],
+      //         begin: Alignment.topCenter,
+      //         end: Alignment.bottomCenter,
+      //       ),
+      //     ),
+      //   ),
+      // ),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight + 20),
+        child: Padding(
+          padding: EdgeInsets.only(top: 40),
+          child: AppBar(
+            title: Text(
+              'Detail Page',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+            iconTheme: IconThemeData(color: Colors.white),
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.white,
+                    Colors.indigo.shade200,
+                    Colors.indigo.shade400,
+                    Colors.indigo.shade700,
+                    Colors.indigo.shade900,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
             ),
           ),
         ),
@@ -121,9 +150,8 @@ class DetailsPage extends StatelessWidget {
                 SizedBox(height: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: services
-                      .map((service) => Text('• $service'))
-                      .toList(),
+                  children:
+                      services.map((service) => Text('• $service')).toList(),
                 ),
               ],
             ),

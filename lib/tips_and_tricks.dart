@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:happytails/bottom_nav_bar.dart';
-import 'package:happytails/route_paths.dart';
 
 // void main() => runApp(TipsPage());
 
