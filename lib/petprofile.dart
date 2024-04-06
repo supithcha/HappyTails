@@ -65,7 +65,6 @@ class _PetProfilePageState extends State<PetProfilePage> {
       print('Fetched pet information: $petName');
       print('Pet_Name: $petName');
       print('Pet_Image: $petImage');
-
     } else {
       print('Document not found');
     }
@@ -83,21 +82,20 @@ class _PetProfilePageState extends State<PetProfilePage> {
             Stack(
               children: [
                 // Pet Image
-                
+
                 Container(
                   height: 250,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     image: petImage != null
                         ? DecorationImage(
-                            // image: MemoryImage(base64Decode(petImage!)),
-                            image: MemoryImage(base64Decode(_padBase64String(petImage!))),
+                            image: NetworkImage(petImage!),
                             fit: BoxFit.cover,
                           )
                         : null,
                   ),
                 ),
-                
+
                 // Notification Icon
                 Positioned(
                   top: 10,
@@ -158,8 +156,8 @@ class _PetProfilePageState extends State<PetProfilePage> {
                     children: [
                       _coloredBox(petGender, Colors.pink, Icons.female),
                       Container(
-                        width: 70,
-                        height: 70,
+                        width: 55,
+                        height: 55,
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 174, 175, 247),
                           borderRadius: BorderRadius.circular(10),
@@ -272,8 +270,8 @@ class _PetProfilePageState extends State<PetProfilePage> {
     } else {}
 
     return Container(
-      width: 70,
-      height: 70,
+      width: 55,
+      height: 55,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),
