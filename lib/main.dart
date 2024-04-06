@@ -11,6 +11,7 @@ import 'package:happytails/signup.dart';
 import 'package:happytails/start_pet_appt.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
+import 'global_variables.dart';
 import 'option_pet_select.dart';
 import 'login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         // MUST replace when ทำของจริง ตอนนี้แปะไปก่อนเฉยๆ
         RoutePaths.record: (context) => StartPetApptPage(),
         RoutePaths.clinic: (context) => MapClinicPage(title: 'Nearby Clinics'),
-        RoutePaths.home: (context) => SignUpPage(),
+        RoutePaths.home: (context) => SignInPage(),
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
         RoutePaths.profile: (context) => StartPetProfilePage(),
       },
@@ -57,9 +58,9 @@ class AuthenticationWrapper extends StatelessWidget {
           //     child: CircularProgressIndicator(),
           //   ),
           // );
-          return HomepageLoading();
+          return const HomepageLoading();
         } else {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && isLoggedIn == false) {
             // User is signed in
             // return const Homepage();
             return const StartPetApptPage();
