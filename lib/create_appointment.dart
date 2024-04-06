@@ -8,7 +8,7 @@ class PetAppointment {
   final String type;
   final String pet;
   final String location;
-  final String status;
+  // final String status;
   final String note;
   final String apptId;
 
@@ -18,7 +18,7 @@ class PetAppointment {
     required this.type,
     required this.pet,
     required this.location,
-    required this.status,
+    // required this.status,
     required this.note,
     required this.apptId,
   });
@@ -39,7 +39,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   String? _selectedType;
   String? _selectedPet;
   String? _location;
-  String? _status;
+  // String? _status;
   String? _note;
 
   final TextEditingController _dateController = TextEditingController();
@@ -51,14 +51,13 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
   List<String> appointmentStatuses = ['Pending', 'Complete'];
   List<String> petNames = []; // To store fetched pet names
-  List<String> petID = [];
   @override
   void initState() {
     super.initState();
-    fetchPetNamesandID(); // Fetch pet names when the widget initializes
+    fetchPetNames(); // Fetch pet names when the widget initializes
   }
 
-  Future<void> fetchPetNamesandID() async {
+  Future<void> fetchPetNames() async {
     try {
       // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
       QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -68,13 +67,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       setState(() {
         petNames =
             snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
-        petID = snapshot.docs.map((doc) => doc['Pet_ID'] as String).toList();
-        for (var i in petNames) {
-           print("Pet name: $i");
-        }
-        for (var i in petID) {
-           print("Pet name: $i");
-        }
       });
     } catch (e) {
       print('Failed to fetch pet names: $e');
@@ -88,7 +80,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       String type = _selectedType!;
       String pet = _petController.text.trim();
       String location = _locationController.text.trim();
-      String status = _status ?? appointmentStatuses[0]; // Default value
+      // String status = _status ?? appointmentStatuses[0]; // Default value
       String note = _noteController.text.trim();
 
       // Combine date and time into one value
@@ -100,11 +92,10 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           'Appt_DateTime': apptDateTime,
           'Appt_Type': type,
           'Appt_Pet': pet,
-          'Appt_Location': location,
-          'Appt_Status': status,
-          'Appt_Note': note,
+          'Appt_Location': _location,
+          // 'Appt_Status': status,
+          'Appt_Note': _note,
           'User_ID': Globalvar.current_userID, // Include current_userID
-          'Pet_ID': petID
         });
 
         // Show success message
