@@ -85,7 +85,6 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
   ];
 
   Uint8List? _img;
-  // int current_userID ;
 
   void selectedImage() async {
     final imagePicker = ImagePicker();

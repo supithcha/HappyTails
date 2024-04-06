@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happytails/userprofile.dart';
 import 'option_pet_select.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 import 'package:happytails/route_paths.dart';
@@ -62,7 +63,7 @@ class _StartPetProfilePageState extends State<StartPetProfilePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const OptionPetPage()),
+                        builder: (context) => const UserProfilePage()),
                   );
                 },
                 color: const Color.fromARGB(255, 0, 74, 173),
