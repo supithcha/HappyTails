@@ -11,6 +11,7 @@ import 'package:happytails/signup.dart';
 import 'package:happytails/start_pet_appt.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
+import 'package:happytails/userprofile.dart';
 import 'global_variables.dart';
 import 'option_pet_select.dart';
 import 'login.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         RoutePaths.clinic: (context) => MapClinicPage(title: 'Nearby Clinics'),
         RoutePaths.home: (context) => Homepage(),
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
-        RoutePaths.profile: (context) => StartPetProfilePage(),
+        RoutePaths.profile: (context) => UserProfilePage(),
       },
       home: AuthenticationWrapper(),
     );
@@ -52,18 +53,12 @@ class AuthenticationWrapper extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Show loading indicator while checking authentication state
-          // return Scaffold(
-          //   body: Center(
-          //     child: CircularProgressIndicator(),
-          //   ),
-          // );
           return const HomepageLoading();
         } else {
           if (snapshot.hasData && isLoggedIn == false) {
             // User is signed in
             // return const Homepage();
-            return const StartPetApptPage();
+            return const Homepage();
           } else {
             // User is not signed in, redirect to sign-in page
             return const SignInPage();
@@ -74,33 +69,6 @@ class AuthenticationWrapper extends StatelessWidget {
   }
 }
 
-// class HomepageLoading extends StatelessWidget {
-//   const HomepageLoading({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     Future.delayed(Duration(seconds: 3), () {
-//       Navigator.push(
-//         context,
-//         MaterialPageRoute(
-//           // builder: (context) => Welcome(),
-//           builder: (context) => Petprofile(),
-//         ),
-//       );
-//     });
-
-//     return Scaffold(
-//       body: Container(
-//         color: Color(0xff004aad),
-//         child: Center(
-//           child: Image.asset(
-//             'assets/logo/full_logo_white.png',
-//             height: 300,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class HomepageLoading extends StatelessWidget {
   const HomepageLoading({Key? key}) : super(key: key);

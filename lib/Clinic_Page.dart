@@ -51,13 +51,17 @@ class _MapClinicPageState extends State<MapClinicPage> {
         title: Text(widget.title),
       ),
       body: content(),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //      // Use the navigator to navigate to the selected page
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //     pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-           // Use the navigator to navigate to the selected page
-          Navigator.pushNamed(context, pages[index]);
-        },
-          pages: pages,
+        initialIndex: 1, // Initial selected index
+        // pages: pages
       ),
     );
   }

@@ -85,7 +85,6 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
   ];
 
   Uint8List? _img;
-  // int current_userID ;
 
   void selectedImage() async {
     final imagePicker = ImagePicker();
@@ -126,16 +125,21 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
       try {
         if (_img != null) {
           final imageUrl = await uploadImageToFirestore(_img!);
-          print('current_userID = $current_userID');
+          print('current_userID at pet profile page = $current_userID');
           petInfo['User_ID'] = current_userID;
           petInfo['Pet_Image'] = imageUrl;
+          petInfo['Pet_Image'] = imageUrl;
+          // var value = _dob;
+          // var dateTime = DateTime.parse(value!);
+          // print(value.runtimeType);
+          // print('$dateTime');
+          // print('$_dob');
+          // print('$petInfo');
+          // petInfo['Pet_DOB'] = dateTime;
           await FirebaseFirestore.instance.collection('Pet').add(petInfo);
           // print('Pet information saved successfully! \n $petInfo');
           setState(() {
             _petid = petid;
-            print('$petid');
-           
-
             Navigator.push(
             context,
             MaterialPageRoute(
@@ -143,7 +147,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
             ),
           );
           });
-          print('$petid');
+          print('Pet is = $petid');
         }
       } catch (e) {
         print('Error saving pet information: $e');
@@ -802,12 +806,16 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
           ),
         ),
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //   pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          Navigator.pushNamed(context, pages[index]);
-        },
-        pages: pages,
+        initialIndex: 2, // Initial selected index
+        // pages: pages
       ),
     );
   }

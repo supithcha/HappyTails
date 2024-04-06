@@ -38,7 +38,7 @@ class _StartPetApptPageState extends State<StartPetApptPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 35,
+                  fontSize: 25,
                 ),
               ),
             ),
@@ -52,7 +52,7 @@ class _StartPetApptPageState extends State<StartPetApptPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                fontSize: 15,
+                fontSize: 16,
               ),
             ),
             // Add button
@@ -73,13 +73,17 @@ class _StartPetApptPageState extends State<StartPetApptPage> {
           ],
         ),
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //      // Use the navigator to navigate to the selected page
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //     pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-           // Use the navigator to navigate to the selected page
-          Navigator.pushNamed(context, pages[index]);
-        },
-          pages: pages,
+        initialIndex: 0, // Initial selected index
+        // pages: pages
       ),
     );
   }

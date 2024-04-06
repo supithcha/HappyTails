@@ -17,7 +17,7 @@ class Welcome extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 gradient: RadialGradient(
-                  colors: [Colors.pink.shade50, Colors.white],
+                  colors: [Color.fromARGB(255, 253, 206, 179), Colors.white],
                 ),
               ),
               child: Center(
@@ -26,26 +26,30 @@ class Welcome extends StatelessWidget {
                     Text(
                       'Welcome to',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Image.asset(
                       'assets/logo/full_logo_blue.png',
-                      height: 150,
+                      height: 200,
                     ),
+                    SizedBox(height: 10),
                     Text(
                       'Hello, $username.', // Display dynamic username here
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: FontWeight.w700,
                         fontStyle: FontStyle.italic,
                       ),
                     ),
-                    Text(
-                      "Let's get start the application to take care your partner!",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontStyle: FontStyle.italic,
+                    SizedBox(height: 10),
+                    Center(
+                      child: Text(
+                        "Let's get start the application to take care your partner!",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontStyle: FontStyle.italic,
+                        ),
                       ),
                     ),
                   ],

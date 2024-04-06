@@ -8,7 +8,7 @@ class PetAppointment {
   final String type;
   final String pet;
   final String location;
-  final String status;
+  // final String status;
   final String note;
   final String apptId;
 
@@ -18,7 +18,7 @@ class PetAppointment {
     required this.type,
     required this.pet,
     required this.location,
-    required this.status,
+    // required this.status,
     required this.note,
     required this.apptId,
   });
@@ -39,7 +39,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   String? _selectedType;
   String? _selectedPet;
   String? _location;
-  String? _status;
+  // String? _status;
   String? _note;
 
   final TextEditingController _dateController = TextEditingController();
@@ -56,20 +56,23 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
     super.initState();
     fetchPetNames(); // Fetch pet names when the widget initializes
   }
+
   Future<void> fetchPetNames() async {
-  try {
-    // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('Pet')
-        .where('User_ID', isEqualTo: Globalvar.current_userID)
-        .get();
-    setState(() {
-      petNames = snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
-    });
-  } catch (e) {
-    print('Failed to fetch pet names: $e');
+    try {
+      // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Pet')
+          .where('User_ID', isEqualTo: Globalvar.current_userID)
+          .get();
+      setState(() {
+        petNames =
+            snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+      });
+    } catch (e) {
+      print('Failed to fetch pet names: $e');
+    }
   }
-}
+
   Future<void> _saveAppointment() async {
     if (_formKey.currentState!.validate()) {
       String date = _dateController.text.trim();
@@ -77,7 +80,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       String type = _selectedType!;
       String pet = _petController.text.trim();
       String location = _locationController.text.trim();
-      String status = _status ?? appointmentStatuses[0]; // Default value
+      // String status = _status ?? appointmentStatuses[0]; // Default value
       String note = _noteController.text.trim();
 
       // Combine date and time into one value
@@ -89,9 +92,9 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           'Appt_DateTime': apptDateTime,
           'Appt_Type': type,
           'Appt_Pet': pet,
-          'Appt_Location': location,
-          'Appt_Status': status,
-          'Appt_Note': note,
+          'Appt_Location': _location,
+          // 'Appt_Status': status,
+          'Appt_Note': _note,
           'User_ID': Globalvar.current_userID, // Include current_userID
         });
 
@@ -133,8 +136,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Date of Appointment'),
-                  SizedBox(height: 10),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   TextFormField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -150,8 +152,9 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                       final DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
+                        firstDate: DateTime(1900), // Allow only future dates
+                        lastDate: DateTime(
+                            2100), // Example last date, you can adjust as needed
                       );
                       if (pickedDate != null) {
                         setState(() {
@@ -177,8 +180,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Time of Appointment'),
-                  SizedBox(height: 10),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   TextFormField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -186,9 +188,9 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                         borderSide: BorderSide(),
                       ),
                     ),
-                    readOnly: true, // Make the field read-only
+                    readOnly: true,
                     controller: TextEditingController(
-                      text: _time ?? '', // Display the selected date
+                      text: _time ?? '',
                     ),
                     onTap: () async {
                       final TimeOfDay? pickedTime = await showTimePicker(
@@ -222,7 +224,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                     Text(
                       'Type of Appointment',
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 15),
                     Stack(
                       children: [
                         DropdownButtonFormField<String>(
@@ -279,47 +281,65 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                     Text(
                       'Pet',
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 15),
                     Stack(
                       children: [
-                        DropdownButtonFormField<String>(
-                          value: _selectedPet,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _selectedPet = newValue;
-                            });
-                          },
-                          items: petNames.map((pet) {
-                            return DropdownMenuItem(
-                              value: pet,
-                              child: Text(pet),
-                            );
-                          }).toList(),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 12.0,
-                              horizontal: 16.0,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please select your pet';
-                            }
-                            return null;
-                          },
-                        ),
+                        petNames.isNotEmpty
+                            ? DropdownButtonFormField<String>(
+                                value: _selectedPet,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedPet = newValue;
+                                  });
+                                },
+                                items: petNames.map((pet) {
+                                  return DropdownMenuItem(
+                                    value: pet,
+                                    child: Text(pet),
+                                  );
+                                }).toList(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 12.0,
+                                    horizontal: 16.0,
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please select your pet';
+                                  }
+                                  return null;
+                                },
+                              )
+                            : TextFormField(
+                                controller: _petController,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 12.0,
+                                    horizontal: 16.0,
+                                  ),
+                                  labelText: 'Enter Pet Name',
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your pet name';
+                                  }
+                                  return null;
+                                },
+                              ),
                         Positioned(
-                          top: 3, // Adjust the position of the icon as needed
+                          top: 3,
                           right: 0,
                           child: IconButton(
                             icon:
                                 Icon(Icons.drive_file_rename_outline_outlined),
-                            onPressed: () {
-                              // Add your edit icon onPressed logic here
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ],
@@ -336,7 +356,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                     Text(
                       'Location',
                     ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 15),
                     Stack(
                       children: [
                         TextFormField(

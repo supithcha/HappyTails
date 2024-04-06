@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:happytails/createpetprofile.dart';
+import 'package:happytails/userprofile.dart';
 import 'option_pet_select.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 import 'package:happytails/route_paths.dart';
@@ -72,13 +74,17 @@ class _StartPetProfilePageState extends State<StartPetProfilePage> {
           ],
         ),
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //      // Use the navigator to navigate to the selected page
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //     pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-           // Use the navigator to navigate to the selected page
-          Navigator.pushNamed(context, pages[index]);
-        },
-          pages: pages,
+        initialIndex: 2, // Initial selected index
+        // pages: pages
       ),
     );
   }
