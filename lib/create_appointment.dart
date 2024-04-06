@@ -8,7 +8,7 @@ class PetAppointment {
   final String type;
   final String pet;
   final String location;
-  final String status;
+  // final String status;
   final String note;
   final String apptId;
 
@@ -18,7 +18,7 @@ class PetAppointment {
     required this.type,
     required this.pet,
     required this.location,
-    required this.status,
+    // required this.status,
     required this.note,
     required this.apptId,
   });
@@ -39,7 +39,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   String? _selectedType;
   String? _selectedPet;
   String? _location;
-  String? _status;
+  // String? _status;
   String? _note;
 
   final TextEditingController _dateController = TextEditingController();
@@ -51,7 +51,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
   List<String> appointmentStatuses = ['Pending', 'Complete'];
   List<String> petNames = []; // To store fetched pet names
-  String petID = "";
   @override
   void initState() {
     super.initState();
@@ -68,7 +67,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       setState(() {
         petNames =
             snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
-        petID = snapshot.docs.map((doc) => doc['Pet_ID'] as String).first;
       });
     } catch (e) {
       print('Failed to fetch pet names: $e');
@@ -82,7 +80,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       String type = _selectedType!;
       String pet = _petController.text.trim();
       String location = _locationController.text.trim();
-      String status = _status ?? appointmentStatuses[0]; // Default value
+      // String status = _status ?? appointmentStatuses[0]; // Default value
       String note = _noteController.text.trim();
 
       // Combine date and time into one value
@@ -94,11 +92,10 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           'Appt_DateTime': apptDateTime,
           'Appt_Type': type,
           'Appt_Pet': pet,
-          'Appt_Location': location,
-          'Appt_Status': status,
-          'Appt_Note': note,
+          'Appt_Location': _location,
+          // 'Appt_Status': status,
+          'Appt_Note': _note,
           'User_ID': Globalvar.current_userID, // Include current_userID
-          'Pet_ID': petID
         });
 
         // Show success message
@@ -352,62 +349,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ],
                 ),
               ),
-
-              // SizedBox(
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text(
-              //         'Pet',
-              //       ),
-              //       SizedBox(height: 8),
-              //       Stack(
-              //         children: [
-              //           DropdownButtonFormField<String>(
-              //             value: _selectedPet,
-              //             onChanged: (newValue) {
-              //               setState(() {
-              //                 _selectedPet = newValue;
-              //               });
-              //             },
-              //             items: petNames.map((pet) {
-              //               return DropdownMenuItem(
-              //                 value: pet,
-              //                 child: Text(pet),
-              //               );
-              //             }).toList(),
-              //             decoration: InputDecoration(
-              //               border: OutlineInputBorder(
-              //                 borderRadius: BorderRadius.circular(10),
-              //               ),
-              //               contentPadding: EdgeInsets.symmetric(
-              //                 vertical: 12.0,
-              //                 horizontal: 16.0,
-              //               ),
-              //             ),
-              //             validator: (value) {
-              //               if (value == null || value.isEmpty) {
-              //                 return 'Please select your pet';
-              //               }
-              //               return null;
-              //             },
-              //           ),
-              //           Positioned(
-              //             top: 3, // Adjust the position of the icon as needed
-              //             right: 0,
-              //             child: IconButton(
-              //               icon:
-              //                   Icon(Icons.drive_file_rename_outline_outlined),
-              //               onPressed: () {
-              //                 // Add your edit icon onPressed logic here
-              //               },
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
               SizedBox(height: 20.0),
               // Location
               SizedBox(
