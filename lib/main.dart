@@ -106,7 +106,7 @@ class HomepageLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.delayed(Duration(seconds: 1)),
+      future: Future.delayed(Duration(seconds: 5)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
