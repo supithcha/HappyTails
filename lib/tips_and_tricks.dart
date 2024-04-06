@@ -127,7 +127,6 @@ class EachTipsPage extends StatefulWidget {
 }
 
 class _EachTipsPageState extends State<EachTipsPage> {
-  int _selectedIndex = 0;
   final List<String> pages = [
     RoutePaths.record,
     RoutePaths.clinic,
@@ -138,11 +137,12 @@ class _EachTipsPageState extends State<EachTipsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.item.name),
-      ),
-      body: Center(
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(widget.item.name),
+    ),
+    body: SingleChildScrollView(
+      child: Center(
         child: Container(
           padding: EdgeInsets.all(15),
           child: Column(
@@ -153,59 +153,46 @@ class _EachTipsPageState extends State<EachTipsPage> {
                 height: 270,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                      25), 
+                  borderRadius: BorderRadius.circular(25),
                   image: DecorationImage(
                     image: AssetImage("assets/tt/" + widget.item.image),
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(4),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      // Description 2
-                      _buildBoldText("", widget.item.description2),
+              Container(
+                padding: EdgeInsets.all(4),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    // Description 2
+                    _buildBoldText("", widget.item.description2),
 
-                      // Image
-                      //_buildBoldText("Image:", widget.item.image),
+                    // Context
+                    _buildBoldText("Context :", widget.item.context),
 
-                      // Context
-                      _buildBoldText("Context :", widget.item.context),
+                    // Age
+                    _buildBoldText("Age :", widget.item.age),
 
-                      // Age
-                      _buildBoldText("Age :", widget.item.age),
+                    // Personality
+                    _buildBoldText("Personality :", widget.item.personality),
 
-                      // Personality
-                      _buildBoldText("Personality :", widget.item.personality),
-
-                      // Breed
-                      _buildBoldText("Breed :", widget.item.breed),
-                    ],
-                  ),
+                    // Breed
+                    _buildBoldText("Breed :", widget.item.breed),
+                  ],
                 ),
               ),
             ],
           ),
         ),
       ),
-      // bottomNavigationBar: BottomNavBar(
-      //   selectedIndex: _selectedIndex,
-      //   onItemTapped: (index) {
-      //      // Use the navigator to navigate to the selected page
-      //     Navigator.pushNamed(context, pages[index]);
-      //   },
-      //     pages: pages,
-      // ),
-      bottomNavigationBar: BottomNavBar(
-        initialIndex: 3, // Initial selected index
-        // pages: pages
-      ),
-    );
-  }
+    ),
+    bottomNavigationBar: BottomNavBar(
+      initialIndex: 3, // Initial selected index
+    ),
+  );
+}
+
 
   Widget _buildBoldText(String label, String text) {
     return RichText(
