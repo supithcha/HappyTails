@@ -101,7 +101,7 @@ class _EachTipsPageState extends State<EachTipsPage> {
         flexibleSpace: FlexibleSpaceBar(
           title: Text(
             widget.item.name,
-            overflow: TextOverflow.visible, // Allow the title to wrap
+            overflow: TextOverflow.visible,
           ),
         ),
       ),

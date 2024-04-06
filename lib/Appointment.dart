@@ -20,20 +20,20 @@ class MyApp extends StatelessWidget {
       ),
       home: DefaultTabController(
         length: 2,
-        child: Home(),
+        child: AppointmentAll(),
       ),
     );
   }
 }
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class AppointmentAll extends StatefulWidget {
+  const AppointmentAll({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _AppointmentAllState createState() => _AppointmentAllState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProviderStateMixin {
   late TabController tabController = TabController(length: 2, vsync: this);
   int _selectedIndex = 0;
   // Use the defined route paths
