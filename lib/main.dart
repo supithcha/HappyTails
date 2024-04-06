@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        RoutePaths.record: (context) => StartPetApptPage(),
+        RoutePaths.record: (context) => AppointmentAll(),
         RoutePaths.clinic: (context) => MapClinicPage(title: 'Nearby Clinics'),
         RoutePaths.home: (context) => Homepage(),
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),

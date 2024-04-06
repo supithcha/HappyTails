@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:happytails/Appointment.dart';
 import 'global_variables.dart' as Globalvar;
+import 'package:uuid/uuid.dart';
 
 class PetAppointment {
   final String date;
@@ -8,7 +10,6 @@ class PetAppointment {
   final String type;
   final String pet;
   final String location;
-  // final String status;
   final String note;
   final String apptId;
 
@@ -18,7 +19,6 @@ class PetAppointment {
     required this.type,
     required this.pet,
     required this.location,
-    // required this.status,
     required this.note,
     required this.apptId,
   });
@@ -39,17 +39,11 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   String? _selectedType;
   String? _selectedPet;
   String? _location;
-  // String? _status;
   String? _note;
 
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
   final TextEditingController _petController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _noteController = TextEditingController();
 
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
-  List<String> appointmentStatuses = ['Pending', 'Complete'];
   List<String> petNames = []; // To store fetched pet names
   @override
   void initState() {
@@ -59,7 +53,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
 
   Future<void> fetchPetNames() async {
     try {
-      // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
+      // Fetch pet names from Firestore collection 'Pet' filtered by current_userID
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('Pet')
           .where('User_ID', isEqualTo: Globalvar.current_userID)
@@ -67,52 +61,95 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       setState(() {
         petNames =
             snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+        print(petNames);
       });
     } catch (e) {
       print('Failed to fetch pet names: $e');
     }
   }
 
+// Function to fetch Pet_ID by Pet_Name
+  Future<String?> fetchPetIdByPetName(String petName) async {
+    try {
+      // Fetch pet id from Firestore collection 'Pet' filtered by current_userID and Pet_Name
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Pet')
+          .where('User_ID', isEqualTo: Globalvar.current_userID)
+          .where('Pet_Name', isEqualTo: petName)
+          .get();
+      // Check if snapshot has any documents
+      if (snapshot.docs.isNotEmpty) {
+        print('Document found');
+        // Return Pet_ID
+        return snapshot.docs.first['Pet_ID'] as String?;
+      } else {
+        print('Document not found');
+        return null;
+      }
+    } catch (e) {
+      print('Failed to fetch pet id by pet name: $e');
+      return null;
+    }
+  }
+
   Future<void> _saveAppointment() async {
     if (_formKey.currentState!.validate()) {
-      String date = _dateController.text.trim();
-      String time = _timeController.text.trim();
-      String type = _selectedType!;
-      String pet = _petController.text.trim();
-      String location = _locationController.text.trim();
-      // String status = _status ?? appointmentStatuses[0]; // Default value
-      String note = _noteController.text.trim();
+      String date = _date ?? '';
+      String time = _time ?? '';
+      String type = _selectedType ?? '';
+      String pet = _selectedPet ?? '';
+      String location = _location ?? ''; // Use _location variable
+      String note = _note ?? ''; // Use _note variable
 
-      // Combine date and time into one value
-      String apptDateTime = '$date $time';
+      print('Date: $date');
+      print('Time: $time');
+      print('Type: $type');
+      print('Pet: $pet');
+      print('Location: $location');
+      print('Note: $note');
 
-      // Store data in Firebase
-      try {
-        await FirebaseFirestore.instance.collection('Pet appointment').add({
-          'Appt_DateTime': apptDateTime,
-          'Appt_Type': type,
-          'Appt_Pet': pet,
-          'Appt_Location': _location,
-          // 'Appt_Status': status,
-          'Appt_Note': _note,
-          'User_ID': Globalvar.current_userID, // Include current_userID
-        });
+      // Fetch Pet_ID corresponding to the selected petName
+      String? petId = await fetchPetIdByPetName(pet);
+      print('Fetched Pet_ID: $petId');
+      // Check if Pet_ID is fetched
+      if (petId != null) {
+        String apptid = Uuid().v4();
+        print('Generate Appt_ID = $apptid \n');
 
-        // Show success message
+        // Store data in Firebase
+        try {
+          await FirebaseFirestore.instance.collection('Pet appointment').add({
+            'Appt_Date': date,
+            'Appt_Time': time,
+            'Appt_Type': type,
+            'Appt_Pet': pet,
+            'Appt_Location': location,
+            'Appt_Note': note,
+            'Pet_ID': petId, // Include Pet_ID
+            'User_ID': Globalvar.current_userID, // Include current_userID
+            'Appt_ID': apptid,
+          });
+
+          // Show success message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Appointment saved successfully')),
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AppointmentAll(),
+            ),
+          );
+        } catch (e) {
+          // Show error message
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to save appointment')),
+          );
+        }
+      } else {
+        // Show error message if Pet_ID is not fetched
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Appointment saved successfully')),
-        );
-
-        // Clear input fields
-        _dateController.clear();
-        _timeController.clear();
-        _petController.clear();
-        _locationController.clear();
-        _noteController.clear();
-      } catch (e) {
-        // Show error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to save appointment')),
+          SnackBar(content: Text('Failed to fetch Pet_ID')),
         );
       }
     }
@@ -131,7 +168,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              // Date of Appointment
+              // Date of Appointment section
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -175,7 +212,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 ],
               ),
               SizedBox(height: 16),
-              // Time
+              // Time section
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -216,7 +253,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 ],
               ),
               SizedBox(height: 20.0),
-              // Type of Appointment
+              // Type of Appointment section
               SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -273,7 +310,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 ),
               ),
               SizedBox(height: 20.0),
-              // Pet
+              // Pet section
               SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -348,7 +385,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 ),
               ),
               SizedBox(height: 20.0),
-              // Location
+              // Location section
               SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -385,9 +422,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                           child: IconButton(
                             icon:
                                 Icon(Icons.drive_file_rename_outline_outlined),
-                            onPressed: () {
-                              // Add your edit icon onPressed logic here
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ],
@@ -396,7 +431,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 ),
               ),
               SizedBox(height: 20.0),
-              // Note
+              // Note section
               SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -435,6 +470,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ],
                 ),
               ),
+
               SizedBox(height: 20.0),
               // Confirm Button
               Center(
@@ -443,7 +479,12 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                       0.8, // 80% of the screen width
                   height: 40,
                   child: ElevatedButton(
-                    onPressed: _saveAppointment,
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save(); // Save form data
+                        _saveAppointment(); // Call _saveAppointment method
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.grey.shade400, // Text color

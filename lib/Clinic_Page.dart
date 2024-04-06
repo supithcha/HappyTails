@@ -24,14 +24,15 @@ class _MapClinicPageState extends State<MapClinicPage> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
            child: AppBar(
+            automaticallyImplyLeading: false,
             title: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 5.0),
+                padding: const EdgeInsets.only(top: 10.0),
                 child: Image.asset(
                   'assets/logo/logo-white.png',
                   width: 60,
-                  height: 60,
+                  height: 100,
                 ),
               ),
               Column(
@@ -39,7 +40,7 @@ class _MapClinicPageState extends State<MapClinicPage> {
                 children: [
                   Text(
                     'Nearby Clinics',
-                    style: TextStyle(color: Colors.white, fontSize: 13, fontStyle: FontStyle.italic),
+                    style: TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic),
                   ),
                 ],
               ),

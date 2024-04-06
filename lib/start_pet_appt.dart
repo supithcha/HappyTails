@@ -13,14 +13,6 @@ class StartPetApptPage extends StatefulWidget {
 }
 
 class _StartPetApptPageState extends State<StartPetApptPage> {
-  int _selectedIndex = 0;
-  final List<String> pages = [
-    RoutePaths.record,
-    RoutePaths.clinic,
-    RoutePaths.home,
-    RoutePaths.guide,
-    RoutePaths.profile,
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -73,17 +65,8 @@ class _StartPetApptPageState extends State<StartPetApptPage> {
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavBar(
-      //   selectedIndex: _selectedIndex,
-      //   onItemTapped: (index) {
-      //      // Use the navigator to navigate to the selected page
-      //     Navigator.pushNamed(context, pages[index]);
-      //   },
-      //     pages: pages,
-      // ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 0, // Initial selected index
-        // pages: pages
       ),
     );
   }
