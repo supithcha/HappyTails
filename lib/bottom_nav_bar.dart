@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 // import 'package:happytails/route_paths.dart';
 // ยังให้สีส้มกลมๆเลื่อนตามindex of nav ไม่ได้
 class BottomNavBar extends StatelessWidget {
@@ -12,8 +13,6 @@ class BottomNavBar extends StatelessWidget {
     required this.pages,
     Key? key, 
   }) : super(key: key);
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -164,5 +163,8 @@ class BottomNavBar extends StatelessWidget {
     );
   }
   
+}
+
+class NavigationController extends GetxController{
   
 }
