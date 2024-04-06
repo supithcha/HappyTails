@@ -409,50 +409,50 @@ class _HomepageState extends State<Homepage> {
                 ],
               ),
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 45.0),
-                  child: Text(
-                    "Appointment",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                //SizedBox(width: 220), // Add space between the text and button
-                TextButton(
-                  onPressed: () {
-                    if (petNames.isNotEmpty) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              PetProfilePage(petid: petIDs.first),
-                        ),
-                      );
-                    }
-                  },
-                  style: ButtonStyle(
-                    side: MaterialStateProperty.all<BorderSide>(
-                      BorderSide(color: Colors.grey),
-                    ),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                    ),
-                  ),
-                  child: Text(
-                    'See all',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Padding(
+            //       padding: const EdgeInsets.only(left: 45.0),
+            //       child: Text(
+            //         "Appointment",
+            //         style: TextStyle(
+            //           fontSize: 20,
+            //           fontWeight: FontWeight.bold,
+            //         ),
+            //       ),
+            //     ),
+            //     //SizedBox(width: 220), // Add space between the text and button
+            //     TextButton(
+            //       onPressed: () {
+            //         if (petNames.isNotEmpty) {
+            //           Navigator.push(
+            //             context,
+            //             MaterialPageRoute(
+            //               builder: (context) =>
+            //                   PetProfilePage(petid: petIDs.first),
+            //             ),
+            //           );
+            //         }
+            //       },
+            //       style: ButtonStyle(
+            //         side: MaterialStateProperty.all<BorderSide>(
+            //           BorderSide(color: Colors.grey),
+            //         ),
+            //         shape: MaterialStateProperty.all<OutlinedBorder>(
+            //           RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(15.0),
+            //           ),
+            //         ),
+            //       ),
+            //       child: Text(
+            //         'See all',
+            //         style: TextStyle(color: Colors.grey, fontSize: 12),
+            //       ),
+            //     ),
+            //   ],
+            // ),
           ],
         ),
       ),
