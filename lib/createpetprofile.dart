@@ -13,6 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
+import 'global_variables.dart'; 
 
 class PetInformation {
   final String name;
@@ -28,6 +29,7 @@ class PetInformation {
   final String doctorAppointment;
   final String Pet_Image;
   final String petid;
+  final String userID;
 
   PetInformation({
     required this.name,
@@ -43,6 +45,7 @@ class PetInformation {
     required this.doctorAppointment,
     required this.Pet_Image,
     required this.petid,
+    required this.userID,
   });
 }
 
@@ -68,9 +71,10 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
   String? _doctorAppointment;
   String? _Pet_Image;
   String? _petid;
+  String? userID;
 
   int _selectedIndex = 0;
-
+  
   // Use the defined route paths
   final List<String> pages = [
     RoutePaths.record,
@@ -81,6 +85,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
   ];
 
   Uint8List? _img;
+  // int current_userID ;
 
   void selectedImage() async {
     final imagePicker = ImagePicker();
@@ -112,6 +117,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
         'Pet_Weight': _weight,
         'Pet_Image': _Pet_Image,
         'Pet_ID': _petid,
+        'User_ID': current_userID,
       };
 
       String petid = Uuid().v4();
@@ -120,12 +126,15 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
       try {
         if (_img != null) {
           final imageUrl = await uploadImageToFirestore(_img!);
+          print('current_userID = $current_userID');
+          petInfo['User_ID'] = current_userID;
           petInfo['Pet_Image'] = imageUrl;
           await FirebaseFirestore.instance.collection('Pet').add(petInfo);
           // print('Pet information saved successfully! \n $petInfo');
           setState(() {
             _petid = petid;
             print('$petid');
+           
 
             Navigator.push(
             context,
@@ -761,9 +770,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                     ],
                   ),
                 ),
-
                 SizedBox(height: 25),
-
                 // Confirm Button
                 Center(
                   child: SizedBox(

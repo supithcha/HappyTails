@@ -104,19 +104,6 @@ class _PetProfilePageState extends State<PetProfilePage> {
                 ),
               ],
             ),
-
-            // Container(
-            //   height: 250,
-            //   decoration: BoxDecoration(
-            //     image: petImage != null
-            //         ? DecorationImage(
-            //             image: MemoryImage(base64Decode(petImage!)),
-            //             fit: BoxFit.cover,
-            //           )
-            //         : null,
-            //   ),
-            // ),
-
             // White Area with Pet Information
             Container(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
