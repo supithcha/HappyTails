@@ -82,12 +82,16 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          Navigator.pushNamed(context, pages[index]);
-        },
-        pages: pages,
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //   pages: pages,
+      // ),
+       bottomNavigationBar: BottomNavBar(
+        initialIndex: 0, // Initial selected index
+        // pages: pages
       ),
     );
   }

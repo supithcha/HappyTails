@@ -102,13 +102,17 @@ class _TipsPageState extends State<TipsPage> {
           );
         },
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //      // Use the navigator to navigate to the selected page
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //     pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-           // Use the navigator to navigate to the selected page
-          Navigator.pushNamed(context, pages[index]);
-        },
-          pages: pages,
+        initialIndex: 3, // Initial selected index
+        // pages: pages
       ),
     );
   }
@@ -188,13 +192,17 @@ class _EachTipsPageState extends State<EachTipsPage> {
           ),
         ),
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //      // Use the navigator to navigate to the selected page
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //     pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-           // Use the navigator to navigate to the selected page
-          Navigator.pushNamed(context, pages[index]);
-        },
-          pages: pages,
+        initialIndex: 3, // Initial selected index
+        // pages: pages
       ),
     );
   }

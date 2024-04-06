@@ -82,6 +82,10 @@ class Veterinary extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavBar(
+        initialIndex: 0, // Initial selected index
+        // pages: pages
+      ),
     );
   }
 }
@@ -106,7 +110,6 @@ class _ProductBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int _selectedIndex = 0;
     
     return Container(
       padding: EdgeInsets.fromLTRB(10, 7, 10, 1),

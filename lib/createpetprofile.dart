@@ -806,12 +806,16 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
           ),
         ),
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //   pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          Navigator.pushNamed(context, pages[index]);
-        },
-        pages: pages,
+        initialIndex: 2, // Initial selected index
+        // pages: pages
       ),
     );
   }

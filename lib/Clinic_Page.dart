@@ -6,25 +6,7 @@ import 'package:osm_flutter_hooks/osm_flutter_hooks.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: const MapClinicPage(title: 'Clinic Nearby'),
-//     );
-//   }
-// }
+// Use OpenStreetMap (OSM) in place of GoogleMaps
 
 class MapClinicPage extends StatefulWidget {
   const MapClinicPage({super.key, required this.title});
@@ -36,28 +18,73 @@ class MapClinicPage extends StatefulWidget {
 }
 
 class _MapClinicPageState extends State<MapClinicPage> {
-  int _selectedIndex = 0;
-  final List<String> pages = [
-    RoutePaths.record,
-    RoutePaths.clinic,
-    RoutePaths.home,
-    RoutePaths.guide,
-    RoutePaths.profile,
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+           child: AppBar(
+            title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Image.asset(
+                  'logo/logo-white.png',
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Nearby Clinics',
+                    style: TextStyle(color: Colors.white, fontSize: 13, fontStyle: FontStyle.italic),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          // actions: [
+          //   IconButton(
+          //     icon: Icon(Icons.notifications),
+          //     onPressed: () {
+          //       // Add  notification logic here
+          //     },
+          //   ),
+          // ],
+          // iconTheme: IconThemeData(color: Colors.white),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+              gradient: LinearGradient(
+                colors: [
+                 // Colors.white,
+                  Colors.indigo.shade200,
+                  Colors.indigo.shade400,
+                  Colors.indigo.shade700,
+                  Colors.indigo.shade900,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+       
+        ),
       ),
       body: content(),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //      // Use the navigator to navigate to the selected page
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //     pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-           // Use the navigator to navigate to the selected page
-          Navigator.pushNamed(context, pages[index]);
-        },
-          pages: pages,
+        initialIndex: 1, // Initial selected index
+        // pages: pages
       ),
     );
   }

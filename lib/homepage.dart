@@ -7,19 +7,17 @@ import 'global_variables.dart' as Globalvar;
 import 'package:happytails/route_paths.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const Homepage());
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+//   runApp(const Homepage());
+// }
 
 class Homepage extends StatefulWidget {
   //final String UserFullname;
-
   const Homepage({Key? key}) : super(key: key);
-
   @override
   _HomepageState createState() => _HomepageState();
 }
@@ -46,36 +44,60 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
-  // Use the defined route paths
-  final List<String> pages = [
-    RoutePaths.record,
-    RoutePaths.clinic,
-    RoutePaths.home,
-    RoutePaths.guide,
-    RoutePaths.profile,
-  ];
-  int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Happy Tails',
-      theme: ThemeData(
-        fontFamily: 'Futura',
-        primaryColor: Colors.white,
-      ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            userFullname != null ? 'Hello, $userFullname' : 'Loading...',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    return 
+    // MaterialApp(
+    //   title: 'HappyTails',
+    //   theme: ThemeData(
+    //     fontFamily: 'Futura',
+    //     primaryColor: Colors.white,
+    //   ),
+    //   home: 
+      Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+           child: AppBar(
+            title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Image.asset(
+                  'logo/logo-white.png',
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    userFullname != null ? 'Hello, $userFullname' : 'Loading...',
+                    style: TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic),
+                  ),
+                  Text(
+                    'How is your pet\'s health today?',
+                    style: TextStyle(color: Colors.white, fontSize: 13, fontStyle: FontStyle.italic),
+                  ),
+                ],
+              ),
+            ],
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {
+                // Add  notification logic here
+              },
+            ),
+          ],
           iconTheme: IconThemeData(color: Colors.white),
           flexibleSpace: Container(
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
               gradient: LinearGradient(
                 colors: [
-                  Colors.white,
+                 // Colors.white,
                   Colors.indigo.shade200,
                   Colors.indigo.shade400,
                   Colors.indigo.shade700,
@@ -86,16 +108,17 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
           ),
+       
         ),
-        body: Container(), // Placeholder for the body
-        bottomNavigationBar: BottomNavBar(
-          selectedIndex: _selectedIndex,
-          onItemTapped: (index) {
-            Navigator.pushNamed(context, pages[index]);
-          },
-          pages: pages,
-        ),
+      
       ),
-    );
+       body: Container(), // Placeholder for the body
+        bottomNavigationBar: BottomNavBar(
+          initialIndex: 2, // Initial selected index
+          // pages: pages
+        ),
+      );
+    //   ),
+    // );
   }
 }

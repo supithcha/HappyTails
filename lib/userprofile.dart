@@ -52,12 +52,16 @@ class UserProfilePage extends StatelessWidget {
                 ),
         ),
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //   pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          Navigator.pushNamed(context, pages[index]);
-        },
-        pages: pages,
+        initialIndex: 4, // Initial selected index
+        // pages: pages
       ),
     );
   }
