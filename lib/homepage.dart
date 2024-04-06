@@ -49,6 +49,7 @@ class _HomepageState extends State<Homepage> {
           .get();
       setState(() {
         petNames = snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+        print(petNames);
         petIDs = snapshot.docs.map((doc) => doc['Pet_ID'] as String).toList();
         petWeights = snapshot.docs.map((doc) => doc['Pet_Weight'] as String).toList();
       });
@@ -69,8 +70,8 @@ class _HomepageState extends State<Homepage> {
     } else {}
 
     return Container(
-      width: 70,
-      height: 70,
+      width: 50,
+      height: 50,
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),
@@ -93,7 +94,7 @@ class _HomepageState extends State<Homepage> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Image.asset(
-                  'assets/logo/logo-white.png',
+                  'logo/logo-white.png',
                   width: 60,
                   height: 100,
                 ),
@@ -105,11 +106,14 @@ class _HomepageState extends State<Homepage> {
                   children: [
                     Text(
                       userFullname != null ? 'Hello, $userFullname' : 'Loading...',
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic),
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      'How is your pet\'s health today?',
-                      style: TextStyle(color: Colors.white, fontSize: 13, fontStyle: FontStyle.italic),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: Text(
+                        'How is your pet\'s health today?',
+                        style: TextStyle(color: Colors.white, fontSize: 13, fontStyle: FontStyle.italic),
+                      ),
                     ),
                   ],
                 ),
@@ -117,11 +121,14 @@ class _HomepageState extends State<Homepage> {
             ],
           ),
           actions: [
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-                // Add notification logic here
-              },
+            Padding(
+              padding: const EdgeInsets.only(right: 20.0, top: 10.0),
+              child: IconButton(
+                icon: Icon(Icons.notifications),
+                onPressed: () {
+                  // Add notification logic here
+                },
+              ),
             ),
           ],
           iconTheme: IconThemeData(color: Colors.white),
@@ -146,7 +153,7 @@ class _HomepageState extends State<Homepage> {
         children: [
           Container(
             width: double.infinity,
-            height: 250,
+            height: 225,
             child: Card(
               margin: EdgeInsets.all(32),
               child: Padding(
@@ -158,11 +165,13 @@ class _HomepageState extends State<Homepage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Your Pets: ${petNames.join(', ')}", // Text content
+                          //petMedhis ?? 'Loading...', // Text content
+                          petNames.isNotEmpty ? "Your Pets: ${petNames[0]}" : 'Loading...',
                           style: TextStyle( // TextStyle for the text
                             color: Colors.black,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                            
                           ),
                         ),
                         TextButton(
@@ -190,19 +199,19 @@ class _HomepageState extends State<Homepage> {
                           ),
                           child: Text(
                             'Details',
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.grey, fontSize: 12),
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10), // Add some space between the text and the row
+                    SizedBox(height: 5), // Add some space between the text and the row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         _coloredBox('', Colors.pink, Icons.female),
                         Container(
-                          width: 70,
-                          height: 70,
+                          width: 50,
+                          height: 50,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 174, 175, 247),
                             borderRadius: BorderRadius.circular(10),
@@ -250,14 +259,52 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
           ),
-          SizedBox(height: 16),
-          Text(
-            "Appointment",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+         Row(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    Padding(
+      padding: const EdgeInsets.only(left: 45.0),
+      child: Text(
+        "Appointment",
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+    //SizedBox(width: 220), // Add space between the text and button
+    TextButton(
+      onPressed: () {
+        // Navigate to the appointments
+        // Assuming petName is the first pet name
+        if (petNames.isNotEmpty) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PetProfilePage(petid: petIDs.first),
             ),
+          );
+        }
+      },
+      style: ButtonStyle(
+        side: MaterialStateProperty.all<BorderSide>(
+          BorderSide(color: Colors.grey),
+        ),
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.0),
           ),
+        ),
+      ),
+      child: Text(
+        'Details',
+        style: TextStyle(color: Colors.grey, fontSize: 12),
+      ),
+    ),
+  ],
+),
+
         ],
       ),
       bottomNavigationBar: BottomNavBar(
