@@ -12,7 +12,6 @@ import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
 import 'option_pet_select.dart';
 import 'login.dart';
-import 'petprofile.dart';
 import 'welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
@@ -90,11 +89,11 @@ class HomepageLoading extends StatelessWidget {
       future: Future.delayed(Duration(seconds: 1)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          WidgetsBinding.instance!.addPostFrameCallback((_) { // Once the delay is done, navigate to Petprofile
+          WidgetsBinding.instance!.addPostFrameCallback((_) { 
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SignInPage(),
+                builder: (context) => SignUpPage(),
               ),
             );
           });

@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:happytails/petprofile2.dart';
+import 'package:happytails/petprofile.dart';
 import 'package:happytails/route_paths.dart';
 import 'option_pet_select.dart';
 import 'package:image_picker/image_picker.dart';
@@ -157,7 +157,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                 // Photo Section
                 SizedBox(height: 30),
                 Container(
-                  height: 170,
+                  height: 200,
                   width: 550,
                   decoration: BoxDecoration(
                     border: Border.all(),
@@ -197,7 +197,6 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                     ],
                   ),
                 ),
-
                 SizedBox(height: 30),
                 // Name and Gender Section
                 Row(
