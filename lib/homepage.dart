@@ -16,8 +16,6 @@ void main() async {
 }
 
 class Homepage extends StatefulWidget {
-  //final String UserFullname;
-
   const Homepage({Key? key}) : super(key: key);
 
   @override
@@ -46,15 +44,15 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
-  // Use the defined route paths
-  final List<String> pages = [
-    RoutePaths.record,
-    RoutePaths.clinic,
-    RoutePaths.home,
-    RoutePaths.guide,
-    RoutePaths.profile,
-  ];
-  int _selectedIndex = 0;
+  // // Use the defined route paths
+  // final List<String> pages = [
+  //   RoutePaths.record,
+  //   RoutePaths.clinic,
+  //   RoutePaths.home,
+  //   RoutePaths.guide,
+  //   RoutePaths.profile,
+  // ];
+  // int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -87,18 +85,11 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
         ),
-        body: Container(), // Placeholder for the body
-        // bottomNavigationBar: BottomNavBar(
-        //   selectedIndex: _selectedIndex,
-        //   onItemTapped: (index) {
-        //     Navigator.pushNamed(context, pages[index]);
-        //   },
-        //   pages: pages,
-        // ),
+        body: Container(),
         bottomNavigationBar: BottomNavBar(
-        initialIndex: 2, // Initial selected index
-        // pages: pages
-      ),
+          initialIndex: 2, // Initial selected index
+          // pages: pages
+        ),
       ),
     );
   }

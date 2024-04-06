@@ -200,6 +200,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     setState(() {
       selectedIndex = index;
       Navigator.of(context).pushReplacementNamed(pages[index]);
+      print(pages[index]);
     });
   }
 

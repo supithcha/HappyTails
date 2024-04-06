@@ -110,6 +110,10 @@ class _TipsPageState extends State<TipsPage> {
       //   },
       //     pages: pages,
       // ),
+      bottomNavigationBar: BottomNavBar(
+        initialIndex: 3, // Initial selected index
+        // pages: pages
+      ),
     );
   }
 }

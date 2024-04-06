@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        // MUST replace when ทำของจริง ตอนนี้แปะไปก่อนเฉยๆ
         RoutePaths.record: (context) => StartPetApptPage(),
         RoutePaths.clinic: (context) => MapClinicPage(title: 'Nearby Clinics'),
         RoutePaths.home: (context) => Homepage(),
