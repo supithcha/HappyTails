@@ -32,7 +32,7 @@ class _HomepageState extends State<Homepage> {
   Future<void> fetchUsername() async {
     int? userID = current_userID; // Fetch current user ID from global variables
     if (userID != null) {
-      String? fullname = await getUsernameByID(userID.toString());
+      //String? fullname = await getUsernameByID(userID.toString());
       if (fullname != null) {
         setState(() {
           userFullname = fullname; // Update the state variable

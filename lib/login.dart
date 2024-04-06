@@ -75,6 +75,7 @@ class __FormContentState extends State<_FormContent> {
   bool _isPasswordVisible = false;
   String? email;
   String? password;
+  
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool _agreedToTerms = false;
@@ -333,7 +334,7 @@ Future<bool> loginUser(String username, String password) async {
       // Check if the password matches the stored password
       if (password == storedPassword) {
         current_userID = userID;
-        print(current_userID);
+        print('Current userID from login page = $current_userID');
         return true; // Return true if the username and password match
       } else {
         return false; // Return false if the password doesn't match
