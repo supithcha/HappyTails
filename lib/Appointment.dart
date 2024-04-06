@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:happytails/tabbarPage/Vaccination.dart';
-import 'package:happytails/tabbarPage/Veterinary.dart';
+import 'package:happytails/Veterinary.dart';
+import 'package:happytails/Vaccination.dart';
+import 'package:happytails/bottom_nav_bar.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,21 +19,22 @@ class MyApp extends StatelessWidget {
       ),
       home: DefaultTabController(
         length: 2,
-        child: Appointment(),
+        child: Home(),
       ),
     );
   }
 }
 
-class Appointment extends StatefulWidget {
-  const Appointment({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  _AppointmentState createState() => _AppointmentState();
+  _HomeState createState() => _HomeState();
 }
 
-class _AppointmentState extends State<Appointment> with SingleTickerProviderStateMixin {
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late TabController tabController = TabController(length: 2, vsync: this);
+  int _selectedIndex = 0; // Add this line to manage the selected index
 
   @override
   void initState() {
@@ -51,17 +53,16 @@ class _AppointmentState extends State<Appointment> with SingleTickerProviderStat
     return Scaffold(
       appBar: _appBar(
         title: Text(
-          'Appoinment', 
+          'Appointment',
           style: TextStyle(
-          fontSize: 40,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+            fontSize: 40,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
       body: Column(
         children: [
-          //_topBar(),
           Expanded(
             child: TabBarView(
               controller: tabController,
@@ -69,11 +70,20 @@ class _AppointmentState extends State<Appointment> with SingleTickerProviderStat
                 Veterinary(),
                 Vaccination(),
               ],
-            
             ),
           ),
         ],
       ),
+
+        //ยังใส่ไม่ได้
+       //bottomNavigationBar: BottomNavBar(
+       // selectedIndex: _selectedIndex,
+        //onItemTapped: (index) {
+           // Use the navigator to navigate to the selected page
+          //Navigator.pushNamed(context, pages[index]);
+        //},
+          //pages: pages,
+     // ),
     );
   }
 
@@ -96,7 +106,6 @@ class _AppointmentState extends State<Appointment> with SingleTickerProviderStat
     return BoxDecoration(
       borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
       gradient: LinearGradient(
-        
         colors: [
           Colors.white,
           Colors.indigo.shade200,
@@ -114,7 +123,7 @@ class _AppointmentState extends State<Appointment> with SingleTickerProviderStat
     return Container(
       alignment: Alignment.center,
       child: Text(
-        'Appoinment',
+        'Appointment',
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 40,
@@ -130,19 +139,14 @@ class _AppointmentState extends State<Appointment> with SingleTickerProviderStat
       controller: tabController,
       labelColor: Colors.white,
       unselectedLabelColor: Colors.blueGrey.shade300,
-      onTap: (index) {
-        setState(() {
-          tabController.index = index;
-        });
-      },
-    tabs: [
-      Tab(
-        text: 'Veterinary',
-      ),
-      Tab(
-        text: 'Vaccination',
-      ),
-    ],
+      tabs: [
+        Tab(
+          text: 'Veterinary',
+        ),
+        Tab(
+          text: 'Vaccination',
+        ),
+      ],
     );
   }
 }

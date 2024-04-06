@@ -1,5 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'global_variables.dart';
+
+class PetAppointment {
+  final String date;
+  final String time;
+  final String type;
+  final String pet;
+  final String location;
+  final String status;
+  final String note;
+  final String apptId;
+
+  PetAppointment({
+    required this.date,
+    required this.time,
+    required this.type,
+    required this.pet,
+    required this.location,
+    required this.status,
+    required this.note,
+    required this.apptId,
+  });
+}
 
 class CreatePetApptPage extends StatefulWidget {
   const CreatePetApptPage({Key? key}) : super(key: key);
@@ -10,31 +33,36 @@ class CreatePetApptPage extends StatefulWidget {
 
 class _CreatePetApptPageState extends State<CreatePetApptPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  String? _date;
+  String? _time;
+  String? _selectedType;
+  String? _pet;
+  String? _location;
+  String? _status;
+  String? _note;
+
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
-  final TextEditingController _typeController = TextEditingController();
-  final TextEditingController _statusController = TextEditingController();
   final TextEditingController _petController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
   List<String> appointmentStatuses = ['Pending', 'Complete'];
-  String? _selectedType;
+
   Future<void> _saveAppointment() async {
     if (_formKey.currentState!.validate()) {
       String date = _dateController.text.trim();
       String time = _timeController.text.trim();
-      // String type = _typeController.text.trim();
       String type = _selectedType!;
       String pet = _petController.text.trim();
       String location = _locationController.text.trim();
-      String status = _statusController.text.trim();
+      String status = _status ?? appointmentStatuses[0]; // Default value
       String note = _noteController.text.trim();
 
       // Combine date and time into one value
       String apptDateTime = '$date $time';
-      
 
       // Store data in Firebase
       try {
@@ -45,6 +73,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           'Appt_Location': location,
           'Appt_Status': status,
           'Appt_Note': note,
+          'User_ID': current_userID, // Include current_userID
         });
 
         // Show success message
@@ -55,7 +84,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
         // Clear input fields
         _dateController.clear();
         _timeController.clear();
-        _typeController.clear();
         _petController.clear();
         _locationController.clear();
         _noteController.clear();
@@ -81,50 +109,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Vaccination Status',
-                      ),
-                      SizedBox(height: 8),
-                      Stack(
-                        children: [
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 12.0,
-                                horizontal: 16.0,
-                              ),
-                            ),
-                            validator: (value) {
-                              // Add validation if needed
-                              return null;
-                            },
-                            onSaved: (value) {
-                              // _location = value;
-                            },
-                          ),
-                          Positioned(
-                            top: 3, // Adjust the position of the icon as needed
-                            right: 0,
-                            child: IconButton(
-                              icon: Icon(
-                                  Icons.drive_file_rename_outline_outlined),
-                              onPressed: () {
-                                // Add your edit icon onPressed logic here
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              // Date of Appointment
               TextFormField(
                 controller: _dateController,
                 decoration: InputDecoration(labelText: 'Date of Appointment'),
@@ -194,10 +179,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
               TextFormField(
                 controller: _noteController,
                 decoration: InputDecoration(labelText: 'Note'),
-                validator: (value) {
-                  // Note is optional, so no validation needed
-                  return null;
-                },
+                // Note is optional, so no validation needed
               ),
               SizedBox(height: 20.0),
               ElevatedButton(

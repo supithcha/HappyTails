@@ -35,7 +35,6 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^1.0.7
   firebase_auth: ^4.19.0
-  # google_maps_flutter: ^2.5.3
   flutter_osm_plugin: ^1.0.0
   location: ^6.0.1
   http: ^1.2.0
@@ -90,6 +89,8 @@ flutter:
     - assets/pet/rabbit.png
     - assets/Appointment/hospital.png
     - assets/Appointment/PetCenter.jpg
+    - assets/Appointment/vaccine.png
+    - assets/Appointment/UVET.jpg
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
