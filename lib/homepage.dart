@@ -46,7 +46,7 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
-  // // Use the defined route paths
+  // Use the defined route paths
   // final List<String> pages = [
   //   RoutePaths.record,
   //   RoutePaths.clinic,
@@ -59,23 +59,55 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Happy Tails',
+      title: 'HappyTails',
       theme: ThemeData(
         fontFamily: 'Futura',
         primaryColor: Colors.white,
       ),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            userFullname != null ? 'Hello, $userFullname' : 'Loading...',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(80),
+           child: AppBar(
+            title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 5.0),
+                child: Image.asset(
+                  'logo/logo-white.png',
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    userFullname != null ? 'Hello, $userFullname' : 'Loading...',
+                    style: TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic),
+                  ),
+                  Text(
+                    'How is your pet\'s health today?',
+                    style: TextStyle(color: Colors.white, fontSize: 13, fontStyle: FontStyle.italic),
+                  ),
+                ],
+              ),
+            ],
           ),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {
+                // Add  notification logic here
+              },
+            ),
+          ],
           iconTheme: IconThemeData(color: Colors.white),
           flexibleSpace: Container(
             decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
               gradient: LinearGradient(
                 colors: [
-                  Colors.white,
+                 // Colors.white,
                   Colors.indigo.shade200,
                   Colors.indigo.shade400,
                   Colors.indigo.shade700,
@@ -86,8 +118,11 @@ class _HomepageState extends State<Homepage> {
               ),
             ),
           ),
+       
         ),
-        body: Container(), // Placeholder for the body
+      
+      ),
+       body: Container(), // Placeholder for the body
         // bottomNavigationBar: BottomNavBar(
         //   selectedIndex: _selectedIndex,
         //   onItemTapped: (index) {
@@ -99,6 +134,7 @@ class _HomepageState extends State<Homepage> {
           initialIndex: 2, // Initial selected index
           // pages: pages
         ),
+      
       ),
     );
   }
