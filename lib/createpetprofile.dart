@@ -128,10 +128,10 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
           print('current_userID at pet profile page = $current_userID');
           petInfo['User_ID'] = current_userID;
           petInfo['Pet_Image'] = imageUrl;
-          petInfo['Pet_Image'] = imageUrl;
+          petInfo['Pet_DOB'] = _dob;
           // var value = _dob;
           // var dateTime = DateTime.parse(value!);
-          // print(value.runtimeType);
+          print(_dob.runtimeType);
           // print('$dateTime');
           // print('$_dob');
           // print('$petInfo');
