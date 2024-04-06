@@ -16,6 +16,8 @@ void main() async {
 }
 
 class Homepage extends StatefulWidget {
+  //final String UserFullname;
+
   const Homepage({Key? key}) : super(key: key);
 
   @override
@@ -85,7 +87,14 @@ class _HomepageState extends State<Homepage> {
             ),
           ),
         ),
-        body: Container(),
+        body: Container(), // Placeholder for the body
+        // bottomNavigationBar: BottomNavBar(
+        //   selectedIndex: _selectedIndex,
+        //   onItemTapped: (index) {
+        //     Navigator.pushNamed(context, pages[index]);
+        //   },
+        //   pages: pages,
+        // ),
         bottomNavigationBar: BottomNavBar(
           initialIndex: 2, // Initial selected index
           // pages: pages
