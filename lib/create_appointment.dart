@@ -40,11 +40,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   String? _location;
   String? _note;
 
-  // final TextEditingController _dateController = TextEditingController();
-  // final TextEditingController _timeController = TextEditingController();
   final TextEditingController _petController = TextEditingController();
-  // final TextEditingController _locationController = TextEditingController();
-  // final TextEditingController _noteController = TextEditingController();
 
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
   List<String> petNames = []; // To store fetched pet names
@@ -111,12 +107,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
             builder: (context) => AppointmentAll(),
           ),
         );
-        // // Clear input fields
-        // _dateController.clear();
-        // _timeController.clear();
-        // _petController.clear();
-        // _locationController.clear();
-        // _noteController.clear();
       } catch (e) {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
