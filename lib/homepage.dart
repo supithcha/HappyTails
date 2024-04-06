@@ -34,7 +34,8 @@ class _HomepageState extends State<Homepage> {
   }
 
   Future<void> fetchUsername() async {
-    String? username = await Globalvar.getUsernameByID(Globalvar.current_userID);
+    String? username =
+        await Globalvar.getUsernameByID(Globalvar.current_userID);
     if (username != null && username.isNotEmpty) {
       setState(() {
         userFullname = username; // Update the state variable
@@ -44,6 +45,7 @@ class _HomepageState extends State<Homepage> {
       print('Username not found');
     }
   }
+
   // Use the defined route paths
   final List<String> pages = [
     RoutePaths.record,
@@ -86,13 +88,13 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
         body: Container(), // Placeholder for the body
-      bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          Navigator.pushNamed(context, pages[index]);
-        },
-        pages: pages,
-      ),
+        bottomNavigationBar: BottomNavBar(
+          selectedIndex: _selectedIndex,
+          onItemTapped: (index) {
+            Navigator.pushNamed(context, pages[index]);
+          },
+          pages: pages,
+        ),
       ),
     );
   }

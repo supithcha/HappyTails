@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happytails/detailPage/details_page.dart';
-
-
+import 'package:happytails/route_paths.dart';
+import 'package:happytails/bottom_nav_bar.dart';
 
 class Veterinary extends StatelessWidget {
   const Veterinary({Key? key}) : super(key: key);

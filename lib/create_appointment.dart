@@ -51,25 +51,30 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
   List<String> appointmentStatuses = ['Pending', 'Complete'];
   List<String> petNames = []; // To store fetched pet names
+  String petID = "";
   @override
   void initState() {
     super.initState();
     fetchPetNames(); // Fetch pet names when the widget initializes
   }
+
   Future<void> fetchPetNames() async {
-  try {
-    // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('Pet')
-        .where('User_ID', isEqualTo: Globalvar.current_userID)
-        .get();
-    setState(() {
-      petNames = snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
-    });
-  } catch (e) {
-    print('Failed to fetch pet names: $e');
+    try {
+      // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Pet')
+          .where('User_ID', isEqualTo: Globalvar.current_userID)
+          .get();
+      setState(() {
+        petNames =
+            snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+        petID = snapshot.docs.map((doc) => doc['Pet_ID'] as String).first;
+      });
+    } catch (e) {
+      print('Failed to fetch pet names: $e');
+    }
   }
-}
+
   Future<void> _saveAppointment() async {
     if (_formKey.currentState!.validate()) {
       String date = _dateController.text.trim();
@@ -93,6 +98,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           'Appt_Status': status,
           'Appt_Note': note,
           'User_ID': Globalvar.current_userID, // Include current_userID
+          'Pet_ID': petID
         });
 
         // Show success message
@@ -150,8 +156,9 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                       final DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
+                        firstDate: DateTime(1900), // Allow only future dates
+                        lastDate: DateTime(
+                            2100), // Example last date, you can adjust as needed
                       );
                       if (pickedDate != null) {
                         setState(() {
@@ -186,9 +193,9 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                         borderSide: BorderSide(),
                       ),
                     ),
-                    readOnly: true, // Make the field read-only
+                    readOnly: true,
                     controller: TextEditingController(
-                      text: _time ?? '', // Display the selected date
+                      text: _time ?? '',
                     ),
                     onTap: () async {
                       final TimeOfDay? pickedTime = await showTimePicker(
@@ -282,44 +289,62 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                     SizedBox(height: 8),
                     Stack(
                       children: [
-                        DropdownButtonFormField<String>(
-                          value: _selectedPet,
-                          onChanged: (newValue) {
-                            setState(() {
-                              _selectedPet = newValue;
-                            });
-                          },
-                          items: petNames.map((pet) {
-                            return DropdownMenuItem(
-                              value: pet,
-                              child: Text(pet),
-                            );
-                          }).toList(),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 12.0,
-                              horizontal: 16.0,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please select your pet';
-                            }
-                            return null;
-                          },
-                        ),
+                        petNames.isNotEmpty
+                            ? DropdownButtonFormField<String>(
+                                value: _selectedPet,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    _selectedPet = newValue;
+                                  });
+                                },
+                                items: petNames.map((pet) {
+                                  return DropdownMenuItem(
+                                    value: pet,
+                                    child: Text(pet),
+                                  );
+                                }).toList(),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 12.0,
+                                    horizontal: 16.0,
+                                  ),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please select your pet';
+                                  }
+                                  return null;
+                                },
+                              )
+                            : TextFormField(
+                                controller: _petController,
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 12.0,
+                                    horizontal: 16.0,
+                                  ),
+                                  labelText: 'Enter Pet Name',
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your pet name';
+                                  }
+                                  return null;
+                                },
+                              ),
                         Positioned(
-                          top: 3, // Adjust the position of the icon as needed
+                          top: 3,
                           right: 0,
                           child: IconButton(
                             icon:
                                 Icon(Icons.drive_file_rename_outline_outlined),
-                            onPressed: () {
-                              // Add your edit icon onPressed logic here
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ],
@@ -327,6 +352,62 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ],
                 ),
               ),
+
+              // SizedBox(
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         'Pet',
+              //       ),
+              //       SizedBox(height: 8),
+              //       Stack(
+              //         children: [
+              //           DropdownButtonFormField<String>(
+              //             value: _selectedPet,
+              //             onChanged: (newValue) {
+              //               setState(() {
+              //                 _selectedPet = newValue;
+              //               });
+              //             },
+              //             items: petNames.map((pet) {
+              //               return DropdownMenuItem(
+              //                 value: pet,
+              //                 child: Text(pet),
+              //               );
+              //             }).toList(),
+              //             decoration: InputDecoration(
+              //               border: OutlineInputBorder(
+              //                 borderRadius: BorderRadius.circular(10),
+              //               ),
+              //               contentPadding: EdgeInsets.symmetric(
+              //                 vertical: 12.0,
+              //                 horizontal: 16.0,
+              //               ),
+              //             ),
+              //             validator: (value) {
+              //               if (value == null || value.isEmpty) {
+              //                 return 'Please select your pet';
+              //               }
+              //               return null;
+              //             },
+              //           ),
+              //           Positioned(
+              //             top: 3, // Adjust the position of the icon as needed
+              //             right: 0,
+              //             child: IconButton(
+              //               icon:
+              //                   Icon(Icons.drive_file_rename_outline_outlined),
+              //               onPressed: () {
+              //                 // Add your edit icon onPressed logic here
+              //               },
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
               SizedBox(height: 20.0),
               // Location
               SizedBox(
