@@ -61,29 +61,31 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
-  Widget _coloredBox(String petGender, Color color, IconData iconData) {
-    if (petGender != '') {
-      if (petGender == 'Female') {
-        color = const Color.fromARGB(255, 239, 93, 168);
-        iconData = Icons.female;
-      } else if (petGender == 'Male') {
-        color = const Color.fromARGB(255, 0, 74, 173);
-        iconData = Icons.male;
-      }
-    } else {}
+ Widget _coloredBox(Color color, IconData iconData, String text) {
+  return Container(
+    width: 55,
+    height: 55,
+    decoration: BoxDecoration(
+      color: color,
+      borderRadius: BorderRadius.circular(10),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Icon(iconData, color: Colors.white),
+        SizedBox(height: 10), // Add some spacing between the icon and text
+        Text(
+          text,
+          style: TextStyle(
+            fontSize: 13, 
+            color: const Color.fromARGB(255, 0, 0, 0)
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
-    return Container(
-      width: 50,
-      height: 50,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
-        child: Icon(iconData, color: Colors.white),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +125,7 @@ class _HomepageState extends State<Homepage> {
                         'How is your pet\'s health today?',
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: 14,
+                            fontSize: 16,
                             fontStyle: FontStyle.italic),
                       ),
                     ),
@@ -167,9 +169,9 @@ class _HomepageState extends State<Homepage> {
             width: double.infinity,
             height: 225,
             child: Card(
-              margin: EdgeInsets.all(32),
+              margin: EdgeInsets.all(20),
               child: Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(15.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -184,14 +186,12 @@ class _HomepageState extends State<Homepage> {
                           style: TextStyle(
                             // TextStyle for the text
                             color: Colors.black,
-                            fontSize: 20,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         TextButton(
                           onPressed: () {
-                            // Navigate to the pet profile page
-                            // Assuming petName is the first pet name
                             if (petNames.isNotEmpty) {
                               Navigator.push(
                                 context,
@@ -219,68 +219,46 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                        height:
-                            5), // Add some space between the text and the row
+                    SizedBox( height: 5), // Add some space between the text and the row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        _coloredBox('', Colors.pink, Icons.female),
-                        Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 174, 175, 247),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              petWeights.isNotEmpty
-                                  ? petWeights.first
-                                  : '', // Assuming petWeight is the first weight
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        _coloredBox(
-                            '',
-                            const Color.fromARGB(255, 160, 227, 226),
-                            Icons.check),
-                        _coloredBox('', const Color.fromARGB(255, 240, 158, 84),
-                            Icons.favorite),
-                        _coloredBox(
-                            '',
-                            const Color.fromARGB(255, 175, 220, 147),
-                            Icons.menu_book),
+                        _coloredBox(const Color.fromARGB(255, 239, 93, 168),
+                            Icons.check, 'Add Pet'),
+                        _coloredBox(const Color.fromARGB(255, 160, 227, 226),
+                            Icons.check, '${petNames[0]}'),
+                        _coloredBox(const Color.fromARGB(255, 240, 158, 84),
+                            Icons.favorite, '${petNames[1]}'),
+                        _coloredBox(const Color.fromARGB(255, 175, 220, 147),
+                            Icons.menu_book, '${petNames[2]}'),
                       ],
                     ),
                     SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          'Gender',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        Text(
-                          'Weight',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        Text(
-                          'Vaccine',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        Text(
-                          'Health',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                        Text(
-                          'Record',
-                          style: TextStyle(fontSize: 13),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    //   children: [
+                    //     Text(
+                    //       'Gender',
+                    //       style: TextStyle(fontSize: 10),
+                    //     ),
+                    //     Text(
+                    //       'Weight',
+                    //       style: TextStyle(fontSize: 10),
+                    //     ),
+                    //     Text(
+                    //       'Vaccine',
+                    //       style: TextStyle(fontSize: 10),
+                    //     ),
+                    //     Text(
+                    //       'Health',
+                    //       style: TextStyle(fontSize: 10),
+                    //     ),
+                    //     Text(
+                    //       'Record',
+                    //       style: TextStyle(fontSize: 13),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),
