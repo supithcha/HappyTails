@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 import 'package:happytails/global_variables.dart';
+import 'package:happytails/main.dart';
 import 'package:happytails/route_paths.dart';
 import 'global_variables.dart';
 import 'signup.dart';
@@ -257,7 +258,9 @@ class _Logout extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.all(50.0),
         child: FilledButton(
-          onPressed: () async {},
+          onPressed: () async {
+  logoutAndRedirect(context);
+},
           style: ButtonStyle(
             backgroundColor: _confirmButton != -1
                 ? MaterialStateProperty.all(
@@ -275,3 +278,14 @@ class _Logout extends StatelessWidget {
     );
   }
 }
+
+void logoutAndRedirect(BuildContext context) {
+  FirebaseAuth.instance.signOut();
+
+  // Redirect to HomepageLoading
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => HomepageLoading()),
+  );
+}
+
