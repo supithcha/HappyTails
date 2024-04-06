@@ -37,7 +37,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   String? _date;
   String? _time;
   String? _selectedType;
-  String? _pet;
+  String? _selectedPet;
   String? _location;
   String? _status;
   String? _note;
@@ -252,6 +252,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 ),
               ),
               SizedBox(height: 20.0),
+              // Pet
               SizedBox(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,7 +287,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please select the appointment type';
+                              return 'Please select your pet';
                             }
                             return null;
                           },
