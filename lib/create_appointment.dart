@@ -34,8 +34,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
 
       // Combine date and time into one value
       String apptDateTime = '$date $time';
-      
-
+  
       // Store data in Firebase
       try {
         await FirebaseFirestore.instance.collection('Pet appointment').add({
