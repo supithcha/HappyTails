@@ -91,12 +91,16 @@ class Vaccination extends StatelessWidget {
           ),
         ],
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   selectedIndex: _selectedIndex,
+      //   onItemTapped: (index) {
+      //     Navigator.pushNamed(context, pages[index]);
+      //   },
+      //   pages: pages,
+      // ),
       bottomNavigationBar: BottomNavBar(
-        selectedIndex: _selectedIndex,
-        onItemTapped: (index) {
-          Navigator.pushNamed(context, pages[index]);
-        },
-        pages: pages,
+        initialIndex: 0, // Initial selected index
+        // pages: pages
       ),
     );
   }
