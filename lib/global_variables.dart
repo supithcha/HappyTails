@@ -13,12 +13,10 @@ Future<String?> getDocumentIdByUserId(String collectionPath, int userId) async {
       .where('User_ID', isEqualTo: userId)
       .limit(1)
       .get();
-
   // If there is a matching document, retrieve its ID
   if (querySnapshot.docs.isNotEmpty) {
     documentId = querySnapshot.docs.first.id;
   }
-
   return documentId;
 }
 
@@ -74,7 +72,6 @@ Future<String?> getUsernameByID(String id) async {
 
 // Future<String?> getLocationByID(String id) async {
 //   String? location;
-
 //   // Query Firestore for the document with name equal to the specified value
 //   QuerySnapshot querySnapshot = await FirebaseFirestore.instance
 //       .collection('User')
