@@ -35,7 +35,6 @@ class AppointmentAll extends StatefulWidget {
 
 class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProviderStateMixin {
   late TabController tabController = TabController(length: 2, vsync: this);
-  int _selectedIndex = 0;
   // Use the defined route paths
   final List<String> pages = [
     RoutePaths.record,
@@ -82,27 +81,38 @@ class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProvid
           ),
         ],
       ),
-      //  bottomNavigationBar: BottomNavBar(
-      //   initialIndex: 0, // Initial selected index
-      //   // pages: pages
-      // ),
     );
   }
 
+  // PreferredSize _appBar({required Widget title}) {
+  //   return PreferredSize(
+  //     preferredSize: const Size.fromHeight(120),
+  //     child: Container(
+  //       decoration: _boxDecoration(),
+  //       child: Column(
+  //         children: [
+  //           _topBar(),
+  //           _tabBar(),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
   PreferredSize _appBar({required Widget title}) {
-    return PreferredSize(
-      preferredSize: Size.fromHeight(106),
-      child: Container(
-        decoration: _boxDecoration(),
-        child: Column(
-          children: [
-            _topBar(),
-            _tabBar(),
-          ],
-        ),
+  return PreferredSize(
+    preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.20),
+    child: Container(
+      decoration: _boxDecoration(),
+      child: Column(
+        children: [
+          _topBar(),
+          _tabBar(),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   BoxDecoration _boxDecoration() {
     return BoxDecoration(
@@ -120,21 +130,22 @@ class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProvid
       ),
     );
   }
-
   Widget _topBar() {
-    return Container(
-      alignment: Alignment.center,
-      child: Text(
-        'Appointment',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 40,
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-        ),
+  return Container(
+    alignment: Alignment.bottomCenter, // Align bottom center
+    padding: EdgeInsets.only(top:50,bottom: 10),
+    child: Text(
+      'Appointment',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 40,
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   Widget _tabBar() {
     return TabBar(

@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:happytails/create_appointment.dart';
 import 'package:happytails/detailPage/details_page.dart';
 import 'package:happytails/bottom_nav_bar.dart';
+import 'package:happytails/start_pet_appt.dart';
 import 'global_variables.dart' as Globalvar;
 
 class Vaccination extends StatelessWidget {
@@ -41,49 +43,60 @@ class Vaccination extends StatelessWidget {
                 // If there's an error fetching the data
                 return Text('Error: ${snapshot.error}');
               } else {
-                // If the data is successfully fetched
                 final documents = snapshot.data!.docs;
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: documents.length,
-                    itemBuilder: (context, index) {
-                      final document = documents[index];
-                      return _EachVet(
-                        Date: document['Appt_Date'],
-                        description: document['Appt_Location'],
-                        Petname: document['Appt_Pet'],
-                        image: "Appointment/vaccine.png",
-                        Phone:
-                            " Tel: 1119",
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DetailsPage(
-                                date: document['Appt_Date'],
-                                description: document['Appt_Location'],
-                                petName: document['Appt_Pet'],
-                                phone:
-                                    " Tel: 062-491-9494",
-                                appointmentType:
-                                    "Vaccination",
-                                address:
-                                    "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
-                                time: "Open: 10.00-22.00",
-                                services: [
-                                  "Individualized Consultation and counseling vaccination services",
-                                  "Vaccination and Certification",
-                                  "Vaccination service prior to Pre-Post travelling abroad"
-                                ],
-                                image: "Appointment/UVET.jpg",
+                int itemCount = documents.length;
+                if (itemCount == 0) {
+                  // If there are no vaccination appointments
+                  WidgetsBinding.instance!.addPostFrameCallback((_) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StartPetApptPage()),
+                    );
+                  });
+                  return Container(); // Return an empty container for now
+                } else {
+                  // If the data is successfully fetched
+                  final documents = snapshot.data!.docs;
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: documents.length,
+                      itemBuilder: (context, index) {
+                        final document = documents[index];
+                        return _EachVet(
+                          Date: document['Appt_Date'],
+                          description: document['Appt_Location'],
+                          Petname: document['Appt_Pet'],
+                          image: "assets/Appointment/vaccine.png",
+                          Phone: " Tel: 1119",
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailsPage(
+                                  date: document['Appt_Date'],
+                                  description: document['Appt_Location'],
+                                  petName: document['Appt_Pet'],
+                                  phone: " Tel: 062-491-9494",
+                                  appointmentType: "Vaccination",
+                                  address:
+                                      "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
+                                  time: "Open: 10.00-22.00",
+                                  services: [
+                                    "Individualized Consultation and counseling vaccination services",
+                                    "Vaccination and Certification",
+                                    "Vaccination service prior to Pre-Post travelling abroad"
+                                  ],
+                                  image: "Appointment/UVET.jpg",
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                );
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  );
+                }
               }
             },
           ),

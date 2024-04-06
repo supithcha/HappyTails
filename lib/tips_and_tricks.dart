@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:happytails/bottom_nav_bar.dart';
-import 'package:happytails/route_paths.dart';
 
 // void main() => runApp(TipsPage());
 
@@ -52,6 +51,7 @@ class TipsPage extends StatefulWidget {
 
 class _TipsPageState extends State<TipsPage> {
   late List<Trick> tips;
+
   @override
   void initState() {
     super.initState();
@@ -61,7 +61,51 @@ class _TipsPageState extends State<TipsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80),
+        child: AppBar(
+          automaticallyImplyLeading: false,
+          title: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Image.asset(
+                  'assets/logo/logo-white.png',
+                  width: 60,
+                  height: 100,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, left: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tips and Tricks',
+                      style: TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.indigo.shade200,
+                  Colors.indigo.shade400,
+                  Colors.indigo.shade700,
+                  Colors.indigo.shade900,
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+        ),
+      ),
       body: ListView.builder(
         itemCount: tips.length,
         itemBuilder: (context, index) {
@@ -84,6 +128,7 @@ class _TipsPageState extends State<TipsPage> {
     );
   }
 }
+
 
 class EachTipsPage extends StatefulWidget {
   EachTipsPage({Key? key, required this.item}) : super(key: key);
