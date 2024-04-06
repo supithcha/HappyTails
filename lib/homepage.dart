@@ -1,21 +1,20 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:happytails/firebase_options.dart'; // Import Firebase core package
+import 'package:firebase_core/firebase_core.dart'; 
+import 'firebase_options.dart';
+import 'global_variables.dart'; 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const Homepage(UserFullname: 'Fayfay')); // Pass the username here
+  runApp(const Homepage()); // No need to pass the username here
 }
 
 class Homepage extends StatefulWidget {
-  final String UserFullname;
-
-  const Homepage({Key? key, required this.UserFullname}) : super(key: key);
+  const Homepage({Key? key}) : super(key: key);
 
   @override
   _HomepageState createState() => _HomepageState();
@@ -27,23 +26,23 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    fetchUsername(widget.UserFullname); // Fetch username when the widget initializes
+    fetchUsername(); // Fetch username when the widget initializes
   }
 
-  Future<void> fetchUsername(String username) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('User')
-        .where('User_ID', isEqualTo: 6)
-        .get();
-
-    if (querySnapshot.docs.isNotEmpty) {
-      DocumentSnapshot userSnapshot = querySnapshot.docs.first;
-      setState(() {
-        userFullname = userSnapshot['User_Fullname']; // Update the state variable
-      });
-      print('Fetched user information: $userFullname');
+  Future<void> fetchUsername() async {
+    int? userID = current_userID; // Fetch current user ID from global variables
+    if (userID != null) {
+      //String? fullname = await getUsernameByID(userID.toString());
+      if (fullname != null) {
+        setState(() {
+          userFullname = fullname; // Update the state variable
+        });
+        print('Fetched user information: $userFullname');
+      } else {
+        print('User not found');
+      }
     } else {
-      print('Document not found');
+      print('User ID not found');
     }
   }
 
