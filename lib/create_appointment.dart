@@ -40,11 +40,11 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   String? _location;
   String? _note;
 
-  final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
+  // final TextEditingController _dateController = TextEditingController();
+  // final TextEditingController _timeController = TextEditingController();
   final TextEditingController _petController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _noteController = TextEditingController();
+  // final TextEditingController _locationController = TextEditingController();
+  // final TextEditingController _noteController = TextEditingController();
 
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
   List<String> petNames = []; // To store fetched pet names
@@ -78,8 +78,8 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       String time = _time ?? '';
       String type = _selectedType ?? '';
       String pet = _selectedPet ?? '';
-      String location = _locationController.text.trim();
-      String note = _noteController.text.trim();
+      String location = _location ?? ''; // Use _location variable
+      String note = _note ?? ''; // Use _note variable
 
       // Print values for debugging
       print('Date: $date');
@@ -111,12 +111,12 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
             builder: (context) => AppointmentAll(),
           ),
         );
-        // Clear input fields
-        _dateController.clear();
-        _timeController.clear();
-        _petController.clear();
-        _locationController.clear();
-        _noteController.clear();
+        // // Clear input fields
+        // _dateController.clear();
+        // _timeController.clear();
+        // _petController.clear();
+        // _locationController.clear();
+        // _noteController.clear();
       } catch (e) {
         // Show error message
         ScaffoldMessenger.of(context).showSnackBar(
@@ -381,6 +381,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                             if (value == null || value.isEmpty) {
                               return 'Please enter appointment location';
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             _location = value;
@@ -392,8 +393,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                           child: IconButton(
                             icon:
                                 Icon(Icons.drive_file_rename_outline_outlined),
-                            onPressed: () {
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ],
