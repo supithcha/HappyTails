@@ -53,17 +53,11 @@ class AuthenticationWrapper extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Show loading indicator while checking authentication state
-          // return Scaffold(
-          //   body: Center(
-          //     child: CircularProgressIndicator(),
-          //   ),
-          // );
           return const HomepageLoading();
         } else {
-          if (snapshot.hasData && isLoggedIn == false) {
-            // User is signed in
-            // return const Homepage();
-            return const StartPetApptPage();
+          if (snapshot.hasData && isLoggedIn == true) {
+            // User is signed in, return the homepage
+            return const Homepage();
           } else {
             // User is not signed in, redirect to sign-in page
             return const SignInPage();
@@ -74,33 +68,6 @@ class AuthenticationWrapper extends StatelessWidget {
   }
 }
 
-// class HomepageLoading extends StatelessWidget {
-//   const HomepageLoading({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     Future.delayed(Duration(seconds: 3), () {
-//       Navigator.push(
-//         context,
-//         MaterialPageRoute(
-//           // builder: (context) => Welcome(),
-//           builder: (context) => Petprofile(),
-//         ),
-//       );
-//     });
-
-//     return Scaffold(
-//       body: Container(
-//         color: Color(0xff004aad),
-//         child: Center(
-//           child: Image.asset(
-//             'assets/logo/full_logo_white.png',
-//             height: 300,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class HomepageLoading extends StatelessWidget {
   const HomepageLoading({Key? key}) : super(key: key);

@@ -51,14 +51,14 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
   List<String> appointmentTypes = ['Vaccination', 'Veterinary'];
   List<String> appointmentStatuses = ['Pending', 'Complete'];
   List<String> petNames = []; // To store fetched pet names
-  String petID = "";
+  List<String> petID = [];
   @override
   void initState() {
     super.initState();
-    fetchPetNames(); // Fetch pet names when the widget initializes
+    fetchPetNamesandID(); // Fetch pet names when the widget initializes
   }
 
-  Future<void> fetchPetNames() async {
+  Future<void> fetchPetNamesandID() async {
     try {
       // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
       QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -68,7 +68,13 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       setState(() {
         petNames =
             snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
-        petID = snapshot.docs.map((doc) => doc['Pet_ID'] as String).first;
+        petID = snapshot.docs.map((doc) => doc['Pet_ID'] as String).toList();
+        for (var i in petNames) {
+           print("Pet name: $i");
+        }
+        for (var i in petID) {
+           print("Pet name: $i");
+        }
       });
     } catch (e) {
       print('Failed to fetch pet names: $e');
@@ -352,62 +358,6 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ],
                 ),
               ),
-
-              // SizedBox(
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text(
-              //         'Pet',
-              //       ),
-              //       SizedBox(height: 8),
-              //       Stack(
-              //         children: [
-              //           DropdownButtonFormField<String>(
-              //             value: _selectedPet,
-              //             onChanged: (newValue) {
-              //               setState(() {
-              //                 _selectedPet = newValue;
-              //               });
-              //             },
-              //             items: petNames.map((pet) {
-              //               return DropdownMenuItem(
-              //                 value: pet,
-              //                 child: Text(pet),
-              //               );
-              //             }).toList(),
-              //             decoration: InputDecoration(
-              //               border: OutlineInputBorder(
-              //                 borderRadius: BorderRadius.circular(10),
-              //               ),
-              //               contentPadding: EdgeInsets.symmetric(
-              //                 vertical: 12.0,
-              //                 horizontal: 16.0,
-              //               ),
-              //             ),
-              //             validator: (value) {
-              //               if (value == null || value.isEmpty) {
-              //                 return 'Please select your pet';
-              //               }
-              //               return null;
-              //             },
-              //           ),
-              //           Positioned(
-              //             top: 3, // Adjust the position of the icon as needed
-              //             right: 0,
-              //             child: IconButton(
-              //               icon:
-              //                   Icon(Icons.drive_file_rename_outline_outlined),
-              //               onPressed: () {
-              //                 // Add your edit icon onPressed logic here
-              //               },
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
               SizedBox(height: 20.0),
               // Location
               SizedBox(
