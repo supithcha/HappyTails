@@ -6,15 +6,17 @@ import 'firebase_options.dart';
 import 'global_variables.dart'; 
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+ WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const Homepage()); // No need to pass the username here
+  runApp(const Homepage()); 
 }
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+  //final String UserFullname;
+
+  const Homepage({Key? key }) : super(key: key);
 
   @override
   _HomepageState createState() => _HomepageState();
@@ -23,26 +25,21 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   String? userFullname; // Variable to store the username
 
-  @override
+ @override
   void initState() {
     super.initState();
     fetchUsername(); // Fetch username when the widget initializes
   }
 
   Future<void> fetchUsername() async {
-    int? userID = current_userID; // Fetch current user ID from global variables
-    if (userID != null) {
-      //String? fullname = await getUsernameByID(userID.toString());
-      if (fullname != null) {
-        setState(() {
-          userFullname = fullname; // Update the state variable
-        });
-        print('Fetched user information: $userFullname');
-      } else {
-        print('User not found');
-      }
+    String? username = current_user; // Fetch current user username from global variables
+    if (username != null && username.isNotEmpty) {
+      setState(() {
+        userFullname = username; // Update the state variable
+      });
+      print('Fetched user information: $userFullname');
     } else {
-      print('User ID not found');
+      print('User username not found');
     }
   }
 
