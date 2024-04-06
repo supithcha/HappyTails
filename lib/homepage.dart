@@ -7,19 +7,17 @@ import 'global_variables.dart' as Globalvar;
 import 'package:happytails/route_paths.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const Homepage());
-}
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+//   runApp(const Homepage());
+// }
 
 class Homepage extends StatefulWidget {
   //final String UserFullname;
-
   const Homepage({Key? key}) : super(key: key);
-
   @override
   _HomepageState createState() => _HomepageState();
 }
@@ -46,25 +44,17 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
-  // Use the defined route paths
-  // final List<String> pages = [
-  //   RoutePaths.record,
-  //   RoutePaths.clinic,
-  //   RoutePaths.home,
-  //   RoutePaths.guide,
-  //   RoutePaths.profile,
-  // ];
-  // int _selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'HappyTails',
-      theme: ThemeData(
-        fontFamily: 'Futura',
-        primaryColor: Colors.white,
-      ),
-      home: Scaffold(
+    return 
+    // MaterialApp(
+    //   title: 'HappyTails',
+    //   theme: ThemeData(
+    //     fontFamily: 'Futura',
+    //     primaryColor: Colors.white,
+    //   ),
+    //   home: 
+      Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(80),
            child: AppBar(
@@ -127,8 +117,8 @@ class _HomepageState extends State<Homepage> {
           initialIndex: 2, // Initial selected index
           // pages: pages
         ),
-      
-      ),
-    );
+      );
+    //   ),
+    // );
   }
 }
