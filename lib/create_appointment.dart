@@ -110,50 +110,203 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               // Date of Appointment
-              TextFormField(
-                controller: _dateController,
-                decoration: InputDecoration(labelText: 'Date of Appointment'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the date';
-                  }
-                  return null;
-                },
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Date of Appointment'),
+                  SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                    readOnly: true, // Make the field read-only
+                    controller: TextEditingController(
+                      text: _date ?? '', // Display the selected date
+                    ),
+                    onTap: () async {
+                      final DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          _date = pickedDate.toString().substring(0, 10);
+                        });
+                      }
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please select appointment date";
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _date = value ?? '';
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 16),
+              // Time
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Time of Appointment'),
+                  SizedBox(height: 10),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                    readOnly: true, // Make the field read-only
+                    controller: TextEditingController(
+                      text: _time ?? '', // Display the selected date
+                    ),
+                    onTap: () async {
+                      final TimeOfDay? pickedTime = await showTimePicker(
+                        context: context,
+                        initialTime: TimeOfDay.now(),
+                      );
+                      if (pickedTime != null) {
+                        setState(() {
+                          _time = pickedTime.format(context);
+                        });
+                      }
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Please select appointment time";
+                      }
+                      return null;
+                    },
+                    onSaved: (value) {
+                      _time = value ?? '';
+                    },
+                  ),
+                ],
               ),
               SizedBox(height: 20.0),
-              TextFormField(
-                controller: _timeController,
-                decoration: InputDecoration(labelText: 'Time of Appointment'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the time';
-                  }
-                  return null;
-                },
+              // Type of Appointment
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Type of Appointment',
+                    ),
+                    SizedBox(height: 8),
+                    Stack(
+                      children: [
+                        DropdownButtonFormField<String>(
+                          value: _selectedType,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedType = newValue;
+                            });
+                          },
+                          items: appointmentTypes.map((type) {
+                            return DropdownMenuItem(
+                              value: type,
+                              child: Text(type),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 12.0,
+                              horizontal: 16.0,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select the appointment type';
+                            }
+                            return null;
+                          },
+                        ),
+                        Positioned(
+                          top: 3, // Adjust the position of the icon as needed
+                          right: 0,
+                          child: IconButton(
+                            icon:
+                                Icon(Icons.drive_file_rename_outline_outlined),
+                            onPressed: () {
+                              // Add your edit icon onPressed logic here
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20.0),
-              DropdownButtonFormField<String>(
-                value: _selectedType,
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedType = newValue;
-                  });
-                },
-                items: appointmentTypes.map((type) {
-                  return DropdownMenuItem(
-                    value: type,
-                    child: Text(type),
-                  );
-                }).toList(),
-                decoration: InputDecoration(labelText: 'Type of Appointment'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select the appointment type';
-                  }
-                  return null;
-                },
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pet',
+                    ),
+                    SizedBox(height: 8),
+                    Stack(
+                      children: [
+                        DropdownButtonFormField<String>(
+                          value: _selectedPet,
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedType = newValue;
+                            });
+                          },
+                          items: appointmentTypes.map((type) {
+                            return DropdownMenuItem(
+                              value: type,
+                              child: Text(type),
+                            );
+                          }).toList(),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 12.0,
+                              horizontal: 16.0,
+                            ),
+                          ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please select the appointment type';
+                            }
+                            return null;
+                          },
+                        ),
+                        Positioned(
+                          top: 3, // Adjust the position of the icon as needed
+                          right: 0,
+                          child: IconButton(
+                            icon:
+                                Icon(Icons.drive_file_rename_outline_outlined),
+                            onPressed: () {
+                              // Add your edit icon onPressed logic here
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              SizedBox(height: 20.0),
               TextFormField(
                 controller: _petController,
                 decoration: InputDecoration(labelText: 'Pet'),
@@ -164,27 +317,119 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   return null;
                 },
               ),
+
               SizedBox(height: 20.0),
-              TextFormField(
-                controller: _locationController,
-                decoration: InputDecoration(labelText: 'Location'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the location';
-                  }
-                  return null;
-                },
+              // Location
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Location',
+                    ),
+                    SizedBox(height: 8),
+                    Stack(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 12.0,
+                              horizontal: 16.0,
+                            ),
+                          ),
+                          validator: (value) {
+                            // Add validation if needed
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _location = value;
+                          },
+                        ),
+                        Positioned(
+                          top: 3, // Adjust the position of the icon as needed
+                          right: 0,
+                          child: IconButton(
+                            icon:
+                                Icon(Icons.drive_file_rename_outline_outlined),
+                            onPressed: () {
+                              // Add your edit icon onPressed logic here
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20.0),
-              TextFormField(
-                controller: _noteController,
-                decoration: InputDecoration(labelText: 'Note'),
-                // Note is optional, so no validation needed
+              // Note
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Note',
+                    ),
+                    SizedBox(height: 8),
+                    Stack(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 72.0,
+                              horizontal: 16.0,
+                            ),
+                          ),
+                          onSaved: (value) {
+                            _note = value;
+                          },
+                        ),
+                        Positioned(
+                          top: 3,
+                          right: 0,
+                          child: IconButton(
+                            icon:
+                                Icon(Icons.drive_file_rename_outline_outlined),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: _saveAppointment,
-                child: Text('Save Appointment'),
+              // Confirm Button
+              Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width *
+                      0.8, // 80% of the screen width
+                  height: 40,
+                  child: ElevatedButton(
+                    onPressed: _saveAppointment,
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: Colors.grey.shade400, // Text color
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(25), // Border radius
+                      ),
+                    ),
+                    child: Text(
+                      'Confirm',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
