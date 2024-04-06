@@ -44,7 +44,7 @@ class _StartPetApptPageState extends State<StartPetApptPage> {
             ),
             Padding(
               padding: const EdgeInsets.all(25.0),
-              child: Image.asset('logo/empty_icon.png', height: 240),
+              child: Image.asset('assets/logo/empty_icon.png', height: 240),
             ),
             // Add text
             const Text(

@@ -63,7 +63,7 @@ class _HomepageState extends State<Homepage> {
               Padding(
                 padding: const EdgeInsets.only(left: 5.0),
                 child: Image.asset(
-                  'logo/logo-white.png',
+                  'assets/logo/logo-white.png',
                   width: 60,
                   height: 60,
                 ),

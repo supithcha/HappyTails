@@ -156,7 +156,7 @@ class _EachTipsPageState extends State<EachTipsPage> {
                   borderRadius: BorderRadius.circular(
                       25), 
                   image: DecorationImage(
-                    image: AssetImage("tt/" + widget.item.image),
+                    image: AssetImage("assets/tt/" + widget.item.image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -267,7 +267,7 @@ class ProductBox extends StatelessWidget {
                   height: 200,
                   width: double.infinity,
                   child: Image.asset(
-                    "tt/" + this.item.image,
+                    "assets/tt/" + this.item.image,
                     fit: BoxFit.cover,
                   ),
                 ),
