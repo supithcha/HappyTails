@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'global_variables.dart'; 
 import 'welcome.dart';
 
 class SignInPage extends StatelessWidget {
@@ -225,78 +226,44 @@ class __FormContentState extends State<_FormContent> {
                 margin: EdgeInsets.only(top: 30.0),
                 child: FilledButton(
                   onPressed: () async {
-      if ((_formKey.currentState?.validate() ?? false) && _agreedToTerms) {
-        _formKey.currentState?.save();
+                    if ((_formKey.currentState?.validate() ?? false) &&
+                        _agreedToTerms) {
+                      _formKey.currentState?.save();
 
-        // Check if email and password are not null
-        if (email != null && password != null) {
-          // Call loginUser function
-          bool success = await loginUser(email!, password!);
+                      // Check if email and password are not null
+                      if (email != null && password != null) {
+                        // Call loginUser function
+                        bool success = await loginUser(email!, password!);
 
-          if (success) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Welcome(username: email),
-              ),
-            );
-          } else {
-            // Handle authentication failure
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Invalid email or password')),
-            );
-          }
-        } else {
-          // Handle case where email or password is null
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Email or password is null')),
-          );
-        }
-      } else {
-        // Handle if the terms are not agreed upon
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please agree to the terms')),
-        );
-      }
-    },
-                  // onPressed: () async {
-                  //   if (_formKey.currentState?.validate() ??
-                  //       false && _agreedToTerms ?? false ) {
-                  //     _formKey.currentState?.save();
+                        if (success) {
+                          isLoggedIn = true;
 
-                  //     // Check if email and password are not null
-                  //     if (email != null && password != null) {
-                  //       // Call loginUser function
-                  //       bool success = await loginUser(email!, password!);
-
-                  //       if (success) {
-                  //         Navigator.pushReplacement(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) => Welcome(
-                  //                     username: email,
-                  //                   )),
-                  //         );
-                  //       } else {
-                  //         // Handle authentication failure
-                  //         ScaffoldMessenger.of(context).showSnackBar(
-                  //           SnackBar(
-                  //               content: Text('Invalid email or password')),
-                  //         );
-                  //       }
-                  //     } else {
-                  //       // Handle case where email or password is null
-                  //       ScaffoldMessenger.of(context).showSnackBar(
-                  //         SnackBar(content: Text('Email or password is null')),
-                  //       );
-                  //     }
-                  //   } else {
-                  //     // Handle if the terms are not agreed upon
-                  //     ScaffoldMessenger.of(context).showSnackBar(
-                  //       SnackBar(content: Text('Please agree to the terms')),
-                  //     );
-                  //   }
-                  // },
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Welcome(username: email),
+                            ),
+                          );
+                        } else {
+                          // Handle authentication failure
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Invalid email or password')),
+                          );
+                        }
+                      } else {
+                        // Handle case where email or password is null
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Email or password is null')),
+                        );
+                      }
+                    } else {
+                      // Handle if the terms are not agreed upon
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Please agree to the terms')),
+                      );
+                    }
+                  },
                   style: ButtonStyle(
                     backgroundColor: _confirmButton != -1
                         ? MaterialStateProperty.all(
@@ -346,30 +313,33 @@ class __FormContentState extends State<_FormContent> {
 }
 
 // from database
-Future<bool> loginUser(String email, String password) async {
+Future<bool> loginUser(String username, String password) async {
   try {
-    // Retrieve the user document from the "User" collection based on the provided email
+    // Retrieve the user document from the "User" collection based on the provided username
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('User')
-        .where('User_username', isEqualTo: email)
+        .where('User_username', isEqualTo: username)
         .get();
 
-    // Check if any user with the provided email exists
+    // Check if any user with the provided username exists
     if (querySnapshot.docs.isNotEmpty) {
-      // Get the first document (assuming email is unique)
+      // Get the first document (assuming username is unique)
       DocumentSnapshot userDoc = querySnapshot.docs.first;
 
       // Get the password stored in the user document
       String storedPassword = userDoc['User_password'];
+      int userID = userDoc['User_ID']; // Get the userID from the user document
 
       // Check if the password matches the stored password
       if (password == storedPassword) {
-        return true; // Return true if the email and password match
+        current_userID = userID;
+        print(current_userID);
+        return true; // Return true if the username and password match
       } else {
         return false; // Return false if the password doesn't match
       }
     } else {
-      return false; // Return false if no user with the provided email exists
+      return false; // Return false if no user with the provided username exists
     }
   } catch (e) {
     print('Login error: $e');
