@@ -98,7 +98,12 @@ class _EachTipsPageState extends State<EachTipsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.item.name),
+        flexibleSpace: FlexibleSpaceBar(
+          title: Text(
+            widget.item.name,
+            overflow: TextOverflow.visible, // Allow the title to wrap
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -109,7 +114,7 @@ class _EachTipsPageState extends State<EachTipsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  height: 270,
+                  height: 200, // Reduce the height of the image container
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
