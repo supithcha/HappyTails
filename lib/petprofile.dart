@@ -45,11 +45,12 @@ class _PetProfilePageState extends State<PetProfilePage> {
   }
 
   Future<void> fetchPetInformationById(String petId) async {
+    print('pet id receive from create pet profile = $petId');
+
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('Pet')
         .where('Pet_ID', isEqualTo: petId)
         .get();
-
     if (querySnapshot.docs.isNotEmpty) {
       DocumentSnapshot petSnapshot = querySnapshot.docs.first;
       setState(() {
@@ -62,6 +63,9 @@ class _PetProfilePageState extends State<PetProfilePage> {
         petWeight = petSnapshot['Pet_Weight'];
       });
       print('Fetched pet information: $petName');
+      print('Pet_Name: $petName');
+      print('Pet_Image: $petImage');
+
     } else {
       print('Document not found');
     }
@@ -79,17 +83,21 @@ class _PetProfilePageState extends State<PetProfilePage> {
             Stack(
               children: [
                 // Pet Image
+                
                 Container(
                   height: 250,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     image: petImage != null
                         ? DecorationImage(
-                            image: MemoryImage(base64Decode(petImage!)),
+                            // image: MemoryImage(base64Decode(petImage!)),
+                            image: MemoryImage(base64Decode(_padBase64String(petImage!))),
                             fit: BoxFit.cover,
                           )
                         : null,
                   ),
                 ),
+                
                 // Notification Icon
                 Positioned(
                   top: 10,
@@ -277,6 +285,15 @@ class _PetProfilePageState extends State<PetProfilePage> {
   }
 }
 
+String _padBase64String(String input) {
+  int remainder = input.length % 4;
+  if (remainder == 0) {
+    return input;
+  } else {
+    // Add '=' padding characters to make length a multiple of four
+    return input.padRight(input.length + (4 - remainder), '=');
+  }
+}
 
 void _shownotitext(BuildContext context) {
   showDialog(

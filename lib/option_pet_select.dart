@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happytails/createpet2.dart';
 import 'package:happytails/route_paths.dart';
 import 'createpetprofile.dart';
 import 'package:happytails/bottom_nav_bar.dart';
@@ -387,7 +388,7 @@ class _OptionPetPageState extends State<OptionPetPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CreatePetProfilePage(
+                              builder: (context) => CreatePetProfilePagetwo(
                                   selectedPetName: selectedPetName),
                             ),
                           );

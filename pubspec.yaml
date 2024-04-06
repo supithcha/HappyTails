@@ -47,6 +47,7 @@ dependencies:
   flutter_map: ^6.1.0
   osm_flutter_hooks: ^1.4.0
   get: ^4.6.6
+  flutter_image_compress: ^2.2.0
 
 dev_dependencies:
   flutter_test:

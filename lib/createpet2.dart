@@ -13,7 +13,11 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
-import 'global_variables.dart'; 
+import 'global_variables.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+
+
+
 
 class PetInformation {
   final String allergies;
@@ -29,7 +33,6 @@ class PetInformation {
   final String vaccinationStatus;
   final String weight;
   final int userID;
-  
 
   PetInformation({
     required this.allergies,
@@ -48,16 +51,17 @@ class PetInformation {
   });
 }
 
-class CreatePetProfilePage extends StatefulWidget {
+class CreatePetProfilePagetwo extends StatefulWidget {
   @override
   final String selectedPetName;
-  
-  const CreatePetProfilePage({Key? key, required this.selectedPetName})
+
+  const CreatePetProfilePagetwo({Key? key, required this.selectedPetName})
       : super(key: key);
-  _CreatePetProfilePageState createState() => _CreatePetProfilePageState();
+  _CreatePetProfilePagetwoState createState() =>
+      _CreatePetProfilePagetwoState();
 }
 
-class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
+class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
   final _formKey = GlobalKey<FormState>();
   String? _allergies;
   String? _breed;
@@ -73,7 +77,10 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
   String? _weight;
   int? _userID;
   int _selectedIndex = 0;
-  
+
+  final firestore = FirebaseFirestore.instance;
+  File? _image;
+
   // Use the defined route paths
   final List<String> pages = [
     RoutePaths.record,
@@ -83,87 +90,106 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
     RoutePaths.profile,
   ];
 
-  Uint8List? _img;
-
-  void selectedImage() async {
-    final imagePicker = ImagePicker();
-    final XFile? img = await imagePicker.pickImage(source: ImageSource.gallery);
-    if (img != null) {
-      final bytes = await img.readAsBytes();
-      setState(() {
-        _img = bytes;
-      });
-      print('Image selected');
-    } else {
-      print('No image selected');
-    }
-  } 
-
-  
-
   Future<void> _savePetInformation() async {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-      final petInfo = {
-        'Pet_Allergy': _allergies,
-        'Pet_Breed': _breed,
-        'Pet_DOB': _dob,
-        'Pet_Gender': _gender,
-        'Pet_ID': _petid,
-        'Pet_Image': _Pet_Image,
-        'Pet_Med_History': _medicalHistory,
-        'Pet_Medication': _medication,
-        'Pet_Name': _name,
-        'Pet_Type': widget.selectedPetName,
-        'Pet_Vacc_status': _vaccinationStatus,
-        'Pet_Weight': _weight,
-        'User_ID': current_userID,
-      };
+  if (_formKey.currentState!.validate()) {
+    _formKey.currentState!.save();
+    final petInfo = {
+      'Pet_Allergy': _allergies,
+      'Pet_Breed': _breed,
+      'Pet_DOB': _dob,
+      'Pet_Gender': _gender,
+      'Pet_ID': _petid,
+      'Pet_Image': _Pet_Image,
+      'Pet_Med_History': _medicalHistory,
+      'Pet_Medication': _medication,
+      'Pet_Name': _name,
+      'Pet_Type': widget.selectedPetName,
+      'Pet_Vacc_status': _vaccinationStatus,
+      'Pet_Weight': _weight,
+      'User_ID': current_userID,
+    };
 
-      try {
-        if (_img != null) {
-          
-          
-          String petid = Uuid().v4();
-          _petid = petid ;
-          // petInfo['Pet_ID'] = petid;
-          print('Generate pet id = $petid \n ,$_petid');
-          
-          petInfo['User_ID'] = current_userID;
-          print('current_userID at pet profile page = $current_userID');
-          
-          final Petimgbase64 = await uploadImageToFirestore(_img!);   
-          // Trim data URI prefix if present
-          String trimmedBase64 = Petimgbase64!.split(',').last;
-          // Pad the base64 string if needed
-          String paddedBase64 = _padBase64String(trimmedBase64);
-
-          petInfo['Pet_Image'] = paddedBase64;
-          print('Petimgbase64 = $Petimgbase64');
-          print('paddedBase64 = $paddedBase64');
-
-          String type = widget.selectedPetName ;
-          // petInfo['Pet_Image'] = type;
-          print ('type $type');
-          petInfo['Pet_ID'] = petid;
-          print('Pet info \n _allergies = $_allergies \n _breed = $_breed \n _dob = $_dob \n _gender = $_gender \n _petid = $_petid \n pet type = $type \n current_userID = $current_userID');
-          print('Pet id = $petid');
-          await FirebaseFirestore.instance.collection('Pet').add(petInfo);
-          // print('Pet information saved successfully! \n $petInfo');
-          setState(() {
-            Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PetProfilePage(petid: petid),
-            ),
-          );
-          });
-        }
-      } catch (e) {
-        print('Error saving pet information: $e');
+    try {
+      if (_image != null) {
+        String imgURL = await uploadImage(_image);
+        _Pet_Image = imgURL;
+        petInfo['Pet_Image'] = imgURL;
+        print('Image Url = $_Pet_Image');
       }
+
+      String petid = Uuid().v4();
+      _petid = petid;
+      petInfo['User_ID'] = current_userID;
+      petInfo['Pet_ID'] = petid;
+
+      await FirebaseFirestore.instance.collection('Pet').add(petInfo);
+
+      setState(() {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PetProfilePage(petid: petid),
+          ),
+        );
+      });
+    } catch (e) {
+      print('Error saving pet information: $e');
     }
   }
+}
+
+  // Future<void> _savePetInformation() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     _formKey.currentState!.save();
+  //     final petInfo = {
+  //       'Pet_Allergy': _allergies,
+  //       'Pet_Breed': _breed,
+  //       'Pet_DOB': _dob,
+  //       'Pet_Gender': _gender,
+  //       'Pet_ID': _petid,
+  //       'Pet_Image': _Pet_Image,
+  //       'Pet_Med_History': _medicalHistory,
+  //       'Pet_Medication': _medication,
+  //       'Pet_Name': _name,
+  //       'Pet_Type': widget.selectedPetName,
+  //       'Pet_Vacc_status': _vaccinationStatus,
+  //       'Pet_Weight': _weight,
+  //       'User_ID': current_userID,
+  //     };
+
+  //     try {
+  //       String putimagurl;
+  //       if (_image != null) {
+  //         uploadImage(_image).then((imgURL) {
+  //           // print('ImgURL after return = $imgURL');
+  //           putimagurl = imgURL;
+  //           _Pet_Image = imgURL;
+  //           petInfo['Pet_Image'] = putimagurl;
+  //           print('ImgURL after uploadImage= $putimagurl');
+  //         }).catchError((error) {
+  //           print('Error uploading image: $error');
+  //         });
+  //         String petid = Uuid().v4();
+  //         _petid = petid;
+  //         petInfo['User_ID'] = current_userID;
+  //         petInfo['Pet_ID'] = petid;
+  //         print('_Pet_Image url = $_Pet_Image');
+  //         await FirebaseFirestore.instance.collection('Pet').add(petInfo);
+
+  //         setState(() {
+  //           Navigator.push(
+  //             context,
+  //             MaterialPageRoute(
+  //               builder: (context) => PetProfilePage(petid: petid),
+  //             ),
+  //           );
+  //         });
+  //       }
+  //     } catch (e) {
+  //       print('Error saving pet information: $e');
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -203,18 +229,32 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                   child: Stack(
                     alignment: Alignment.bottomRight,
                     children: [
-                      if (_img != null)
-                        Image.memory(
-                          _img!,
+                      if (_image != null)
+                        Image.file(
+                          _image!,
                           width: double.infinity,
                           height: double.infinity,
                           fit: BoxFit.cover,
-                        ),
+                        )
+                      else
+                        Text('No image selected'),
+                      // Image.memory(
+                      //   _image! as Uint8List,
+                      //   width: double.infinity,
+                      //   height: double.infinity,
+                      //   fit: BoxFit.cover,
+                      // ),
                       IconButton(
                         icon: Icon(Icons.camera_alt),
                         // onPressed: _pickAndNavigateToNextPage,
-                        onPressed: () {
-                          selectedImage();
+                        onPressed: () async {
+                          final ImagePicker _picker = ImagePicker();
+                          final image = await _picker.pickImage(
+                              source: ImageSource.gallery);
+                          if (image != null) {
+                            _image = File(image.path);
+                            print('File path: ${image.path}');
+                          }
                         },
                       ),
                     ],
@@ -438,8 +478,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                             child: IconButton(
                               icon: Icon(
                                   Icons.drive_file_rename_outline_outlined),
-                              onPressed: () {
-                              },
+                              onPressed: () {},
                             ),
                           ),
                         ],
@@ -739,51 +778,6 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
                   ),
                 ),
 
-                // Doctor Appointment
-                SizedBox(height: 16),
-                // SizedBox(
-                //   child: Column(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     children: [
-                //       Text(
-                //         'Doctor Appointment',
-                //       ),
-                //       SizedBox(height: 8),
-                //       Stack(
-                //         children: [
-                //           TextFormField(
-                //             decoration: InputDecoration(
-                //               border: OutlineInputBorder(
-                //                 borderRadius: BorderRadius.circular(10),
-                //               ),
-                //               contentPadding: EdgeInsets.symmetric(
-                //                 vertical: 12.0,
-                //                 horizontal: 16.0,
-                //               ),
-                //             ),
-                //             validator: (value) {
-                //               return null;
-                //             },
-                //             onSaved: (value) {
-                //               _doctorAppointment = value;
-                //             },
-                //           ),
-                //           Positioned(
-                //             top: 3,
-                //             right: 0,
-                //             child: IconButton(
-                //               icon: Icon(
-                //                   Icons.drive_file_rename_outline_outlined),
-                //               onPressed: () {
-                //                 // Add your edit icon onPressed logic here
-                //               },
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 SizedBox(height: 25),
                 // Confirm Button
                 Center(
@@ -816,13 +810,6 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
           ),
         ),
       ),
-      // bottomNavigationBar: BottomNavBar(
-      //   selectedIndex: _selectedIndex,
-      //   onItemTapped: (index) {
-      //     Navigator.pushNamed(context, pages[index]);
-      //   },
-      //   pages: pages,
-      // ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 2, // Initial selected index
         // pages: pages
@@ -831,36 +818,42 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
   }
 }
 
-String _padBase64String(String input) {
-  int remainder = input.length % 4;
-  if (remainder == 0) {
-    return input;
-  } else {
-    // Add '=' padding characters to make length a multiple of four
-    return input.padRight(input.length + (4 - remainder), '=');
-  }
-}
 
-Future<String> uploadImageToFirestore(Uint8List img) async {
+
+Future<String> uploadImage(File? image) async {
+  var imageName = DateTime.now().millisecondsSinceEpoch.toString();
+  print('imageName = $imageName');
+
+  // Get the temporary directory path
+  String tempDirPath = (await getTemporaryDirectory()).path;
+
+  // Resize the image and save it to a new file
+  final resizedImage = await FlutterImageCompress.compressAndGetFile(
+    image!.path,
+    '$tempDirPath/$imageName.jpg', // Specify a new path for the compressed image
+    quality: 50, // Adjust quality as needed
+    minWidth: 800, // Set minimum width
+    minHeight: 600, // Set minimum height
+  );
+
+  File file = File(resizedImage!.path);
+  var storageRef =
+      FirebaseStorage.instance.ref().child('pet_image/$imageName.jpg');
+  print('storageRef = $storageRef');
+
+  var uploadTask = storageRef.putFile(file);
+  print('uploadTask = $uploadTask');
+
   try {
-    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    // print('See filename: $fileName');
-    Reference storageReference =
-        FirebaseStorage.instance.ref().child('images/$fileName');
-    // print('See ref: ${storageReference.fullPath}');
-    // Convert Uint8List to base64 string
-    String base64Image = base64Encode(img);
-    // print('See base64 Image: $base64Image');
-    // await FirebaseFirestore.instance.collection('Pet').add({'base64Image': base64Image});
-    return base64Image;
+    await uploadTask; // Wait for the upload to complete
+    var downloadUrl = await storageRef.getDownloadURL();
+    print('downloadUrl = $downloadUrl');
+    return downloadUrl;
   } catch (e) {
     print('Error uploading image: $e');
-    return '';
+    return 'Error'; // Return an empty string or handle the error as needed
   }
 }
 
-Future<XFile?> pickImage() async {
-  final ImagePicker _picker = ImagePicker();
-  XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-  return pickedImage;
-}
+
+
