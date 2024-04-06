@@ -49,6 +49,7 @@ class _HomepageState extends State<Homepage> {
           .get();
       setState(() {
         petNames = snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+        print(petNames);
         petIDs = snapshot.docs.map((doc) => doc['Pet_ID'] as String).toList();
         petWeights = snapshot.docs.map((doc) => doc['Pet_Weight'] as String).toList();
       });
@@ -93,7 +94,7 @@ class _HomepageState extends State<Homepage> {
               Padding(
                 padding: const EdgeInsets.only(top: 10.0),
                 child: Image.asset(
-                  'assets/logo/logo-white.png',
+                  'logo/logo-white.png',
                   width: 60,
                   height: 100,
                 ),
@@ -158,11 +159,13 @@ class _HomepageState extends State<Homepage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Your Pets: ${petNames.join(', ')}", // Text content
+                          //petMedhis ?? 'Loading...', // Text content
+                          "Your pet",
                           style: TextStyle( // TextStyle for the text
                             color: Colors.black,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
+                            
                           ),
                         ),
                         TextButton(
