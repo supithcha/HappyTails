@@ -61,31 +61,19 @@ class _HomepageState extends State<Homepage> {
     }
   }
 
- Widget _coloredBox(Color color, IconData iconData, String text) {
-  return Container(
-    width: 55,
-    height: 55,
-    decoration: BoxDecoration(
-      color: color,
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Icon(iconData, color: Colors.white),
-        SizedBox(height: 10), // Add some spacing between the icon and text
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 13, 
-            color: const Color.fromARGB(255, 0, 0, 0)
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
+  Widget _coloredBox(Color color, IconData iconData, String text) {
+    return Container(
+      width: 60,
+      height: 60,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Center(
+        child: Icon(iconData, color: Colors.white),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +207,9 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ],
                     ),
-                    SizedBox( height: 5), // Add some space between the text and the row
+                    SizedBox(
+                        height:
+                            5), // Add some space between the text and the row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -234,31 +224,31 @@ class _HomepageState extends State<Homepage> {
                       ],
                     ),
                     SizedBox(height: 10),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //   children: [
-                    //     Text(
-                    //       'Gender',
-                    //       style: TextStyle(fontSize: 10),
-                    //     ),
-                    //     Text(
-                    //       'Weight',
-                    //       style: TextStyle(fontSize: 10),
-                    //     ),
-                    //     Text(
-                    //       'Vaccine',
-                    //       style: TextStyle(fontSize: 10),
-                    //     ),
-                    //     Text(
-                    //       'Health',
-                    //       style: TextStyle(fontSize: 10),
-                    //     ),
-                    //     Text(
-                    //       'Record',
-                    //       style: TextStyle(fontSize: 13),
-                    //     ),
-                    //   ],
-                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Add Pet',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        Text(
+                          petNames[0] != null ? petNames[0] : '...',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        Text(
+                          petNames[1] != null ? petNames[1] : '...',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        Text(
+                          petNames[1] != null ? petNames[2] : '...',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                        Text(
+                          petNames[1] != null ? petNames[3] : '...',
+                          style: TextStyle(fontSize: 13),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -304,7 +294,7 @@ class _HomepageState extends State<Homepage> {
                   ),
                 ),
                 child: Text(
-                  'Details',
+                  'See all',
                   style: TextStyle(color: Colors.grey, fontSize: 12),
                 ),
               ),
