@@ -289,7 +289,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                               _selectedType = newValue;
                             });
                           },
-                          items: appointmentTypes.map((type) {
+                          items: petNames.map((type) {
                             return DropdownMenuItem(
                               value: type,
                               child: Text(type),
