@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'global_variables.dart'; 
 
 class CreatePetApptPage extends StatefulWidget {
   const CreatePetApptPage({Key? key}) : super(key: key);
@@ -44,6 +45,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           'Appt_Location': location,
           'Appt_Status': status,
           'Appt_Note': note,
+          'User_ID': current_userID, // Include current_userID
         });
 
         // Show success message
