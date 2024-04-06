@@ -16,35 +16,34 @@ import 'package:uuid/uuid.dart';
 import 'global_variables.dart'; 
 
 class PetInformation {
-  final String name;
-  final String gender;
+  final String allergies;
   final String breed;
   final String dob;
-  final String weight;
+  final String gender;
+  final String petid;
+  final String Pet_Image;
+  final String medicalHistory;
+  final String medication;
+  final String name;
   final String petType;
   final String vaccinationStatus;
-  final String medicalHistory;
-  final String allergies;
-  final String medication;
-  final String doctorAppointment;
-  final String Pet_Image;
-  final String petid;
-  final String userID;
+  final String weight;
+  final int userID;
+  
 
   PetInformation({
-    required this.name,
-    required this.gender,
+    required this.allergies,
     required this.breed,
     required this.dob,
-    required this.weight,
+    required this.gender,
+    required this.petid,
+    required this.Pet_Image,
+    required this.medicalHistory,
+    required this.medication,
+    required this.name,
     required this.petType,
     required this.vaccinationStatus,
-    required this.medicalHistory,
-    required this.allergies,
-    required this.medication,
-    required this.doctorAppointment,
-    required this.Pet_Image,
-    required this.petid,
+    required this.weight,
     required this.userID,
   });
 }
@@ -52,6 +51,7 @@ class PetInformation {
 class CreatePetProfilePage extends StatefulWidget {
   @override
   final String selectedPetName;
+  
   const CreatePetProfilePage({Key? key, required this.selectedPetName})
       : super(key: key);
   _CreatePetProfilePageState createState() => _CreatePetProfilePageState();
@@ -59,20 +59,19 @@ class CreatePetProfilePage extends StatefulWidget {
 
 class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  String? _name;
-  String? _gender;
+  String? _allergies;
   String? _breed;
   String? _dob;
-  String? _weight;
-  String? _vaccinationStatus;
-  String? _medicalHistory;
-  String? _allergies;
-  String? _medication;
-  String? _doctorAppointment;
-  String? _Pet_Image;
+  String? _gender;
   String? _petid;
-  String? userID;
-
+  String? _Pet_Image;
+  String? _medicalHistory;
+  String? _medication;
+  String? _name;
+  String? _petType;
+  String? _vaccinationStatus;
+  String? _weight;
+  int? _userID;
   int _selectedIndex = 0;
   
   // Use the defined route paths
@@ -94,11 +93,13 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
       setState(() {
         _img = bytes;
       });
-      print('Image selected and _img set');
+      print('Image selected');
     } else {
       print('No image selected');
     }
-  }
+  } 
+
+  
 
   Future<void> _savePetInformation() async {
     if (_formKey.currentState!.validate()) {
@@ -108,38 +109,41 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
         'Pet_Breed': _breed,
         'Pet_DOB': _dob,
         'Pet_Gender': _gender,
+        'Pet_ID': _petid,
+        'Pet_Image': _Pet_Image,
         'Pet_Med_History': _medicalHistory,
         'Pet_Medication': _medication,
         'Pet_Name': _name,
         'Pet_Type': widget.selectedPetName,
         'Pet_Vacc_status': _vaccinationStatus,
         'Pet_Weight': _weight,
-        'Pet_Image': _Pet_Image,
-        'Pet_ID': _petid,
         'User_ID': current_userID,
       };
 
-      String petid = Uuid().v4();
-      petInfo['Pet_ID'] = petid;
-
       try {
         if (_img != null) {
-          final imageUrl = await uploadImageToFirestore(_img!);
-          print('current_userID at pet profile page = $current_userID');
+          
+          
+          String petid = Uuid().v4();
+          _petid = petid ;
+          // petInfo['Pet_ID'] = petid;
+          print('Generate pet id = $petid \n ,$_petid');
+          
           petInfo['User_ID'] = current_userID;
-          petInfo['Pet_Image'] = imageUrl;
-          petInfo['Pet_Image'] = imageUrl;
-          // var value = _dob;
-          // var dateTime = DateTime.parse(value!);
-          // print(value.runtimeType);
-          // print('$dateTime');
-          // print('$_dob');
-          // print('$petInfo');
-          // petInfo['Pet_DOB'] = dateTime;
+          print('current_userID at pet profile page = $current_userID');
+          
+          final Petimgbase64 = await uploadImageToFirestore(_img!);      
+          petInfo['Pet_Image'] = Petimgbase64;
+          print('pet image = $Petimgbase64,,,, $Petimgbase64');
+
+          String type = widget.selectedPetName ;
+          petInfo['Pet_Image'] = type;
+          print ('type $type');
+          print('Pet info \n _allergies = $_allergies \n _breed = $_breed \n _dob = $_dob \n _gender = $_gender \n _petid = $_petid \n pet type = $type \n current_userID = $current_userID');
+          
           await FirebaseFirestore.instance.collection('Pet').add(petInfo);
           // print('Pet information saved successfully! \n $petInfo');
           setState(() {
-            _petid = petid;
             Navigator.push(
             context,
             MaterialPageRoute(
@@ -147,7 +151,6 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
             ),
           );
           });
-          print('Pet is = $petid');
         }
       } catch (e) {
         print('Error saving pet information: $e');
@@ -731,49 +734,49 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
 
                 // Doctor Appointment
                 SizedBox(height: 16),
-                SizedBox(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Doctor Appointment',
-                      ),
-                      SizedBox(height: 8),
-                      Stack(
-                        children: [
-                          TextFormField(
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                vertical: 12.0,
-                                horizontal: 16.0,
-                              ),
-                            ),
-                            validator: (value) {
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _doctorAppointment = value;
-                            },
-                          ),
-                          Positioned(
-                            top: 3,
-                            right: 0,
-                            child: IconButton(
-                              icon: Icon(
-                                  Icons.drive_file_rename_outline_outlined),
-                              onPressed: () {
-                                // Add your edit icon onPressed logic here
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                // SizedBox(
+                //   child: Column(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     children: [
+                //       Text(
+                //         'Doctor Appointment',
+                //       ),
+                //       SizedBox(height: 8),
+                //       Stack(
+                //         children: [
+                //           TextFormField(
+                //             decoration: InputDecoration(
+                //               border: OutlineInputBorder(
+                //                 borderRadius: BorderRadius.circular(10),
+                //               ),
+                //               contentPadding: EdgeInsets.symmetric(
+                //                 vertical: 12.0,
+                //                 horizontal: 16.0,
+                //               ),
+                //             ),
+                //             validator: (value) {
+                //               return null;
+                //             },
+                //             onSaved: (value) {
+                //               _doctorAppointment = value;
+                //             },
+                //           ),
+                //           Positioned(
+                //             top: 3,
+                //             right: 0,
+                //             child: IconButton(
+                //               icon: Icon(
+                //                   Icons.drive_file_rename_outline_outlined),
+                //               onPressed: () {
+                //                 // Add your edit icon onPressed logic here
+                //               },
+                //             ),
+                //           ),
+                //         ],
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 SizedBox(height: 25),
                 // Confirm Button
                 Center(
@@ -824,10 +827,10 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
 Future<String> uploadImageToFirestore(Uint8List img) async {
   try {
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-    print('See filename: $fileName');
+    // print('See filename: $fileName');
     Reference storageReference =
         FirebaseStorage.instance.ref().child('images/$fileName');
-    print('See ref: ${storageReference.fullPath}');
+    // print('See ref: ${storageReference.fullPath}');
     // Convert Uint8List to base64 string
     String base64Image = base64Encode(img);
     // print('See base64 Image: $base64Image');
