@@ -2,20 +2,23 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:happytails/firebase_options.dart'; // Import Firebase core package
+import 'firebase_options.dart';
+import 'global_variables.dart' as Globalvar;
+import 'package:happytails/route_paths.dart';
+import 'package:happytails/bottom_nav_bar.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const Homepage(UserFullname: 'Fayfay')); // Pass the username here
+  runApp(const Homepage());
 }
 
 class Homepage extends StatefulWidget {
-  final String UserFullname;
+  //final String UserFullname;
 
-  const Homepage({Key? key, required this.UserFullname}) : super(key: key);
+  const Homepage({Key? key}) : super(key: key);
 
   @override
   _HomepageState createState() => _HomepageState();
@@ -27,25 +30,29 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
-    fetchUsername(widget.UserFullname); // Fetch username when the widget initializes
+    fetchUsername(); // Fetch username when the widget initializes
   }
 
-  Future<void> fetchUsername(String username) async {
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('User')
-        .where('User_ID', isEqualTo: 6)
-        .get();
-
-    if (querySnapshot.docs.isNotEmpty) {
-      DocumentSnapshot userSnapshot = querySnapshot.docs.first;
+  Future<void> fetchUsername() async {
+    String? username = await Globalvar.getUsernameByID(Globalvar.current_userID);
+    if (username != null && username.isNotEmpty) {
       setState(() {
-        userFullname = userSnapshot['User_Fullname']; // Update the state variable
+        userFullname = username; // Update the state variable
       });
       print('Fetched user information: $userFullname');
     } else {
-      print('Document not found');
+      print('Username not found');
     }
   }
+  // Use the defined route paths
+  final List<String> pages = [
+    RoutePaths.record,
+    RoutePaths.clinic,
+    RoutePaths.home,
+    RoutePaths.guide,
+    RoutePaths.profile,
+  ];
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +86,13 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
         body: Container(), // Placeholder for the body
+      bottomNavigationBar: BottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          Navigator.pushNamed(context, pages[index]);
+        },
+        pages: pages,
+      ),
       ),
     );
   }

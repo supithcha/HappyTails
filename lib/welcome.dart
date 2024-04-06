@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'start_pet_profile.dart';
+import 'global_variables.dart'; 
 
 class Welcome extends StatelessWidget {
   final String? username;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happytails/Veterinary.dart';
 import 'package:happytails/Vaccination.dart';
+import 'package:happytails/route_paths.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 
 void main() {
@@ -9,6 +10,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +36,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late TabController tabController = TabController(length: 2, vsync: this);
-  int _selectedIndex = 0; // Add this line to manage the selected index
-
+  int _selectedIndex = 0;
+  // Use the defined route paths
+  final List<String> pages = [
+    RoutePaths.record,
+    RoutePaths.clinic,
+    RoutePaths.home,
+    RoutePaths.guide,
+    RoutePaths.profile,
+  ];
   @override
   void initState() {
     tabController = TabController(length: 2, vsync: this);
@@ -74,16 +83,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
-
-        //ยังใส่ไม่ได้
-       //bottomNavigationBar: BottomNavBar(
-       // selectedIndex: _selectedIndex,
-        //onItemTapped: (index) {
-           // Use the navigator to navigate to the selected page
-          //Navigator.pushNamed(context, pages[index]);
-        //},
-          //pages: pages,
-     // ),
+      bottomNavigationBar: BottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          Navigator.pushNamed(context, pages[index]);
+        },
+        pages: pages,
+      ),
     );
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'global_variables.dart';
+import 'global_variables.dart' as Globalvar;
 
 class PetAppointment {
   final String date;
@@ -61,7 +61,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
     // Fetch pet names from Firestore collection 'Pets' filtered by current_userID
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('Pet')
-        .where('User_ID', isEqualTo: current_userID)
+        .where('User_ID', isEqualTo: Globalvar.current_userID)
         .get();
     setState(() {
       petNames = snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
@@ -92,7 +92,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
           'Appt_Location': location,
           'Appt_Status': status,
           'Appt_Note': note,
-          'User_ID': current_userID, // Include current_userID
+          'User_ID': Globalvar.current_userID, // Include current_userID
         });
 
         // Show success message
@@ -286,13 +286,13 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                           value: _selectedPet,
                           onChanged: (newValue) {
                             setState(() {
-                              _selectedType = newValue;
+                              _selectedPet = newValue;
                             });
                           },
-                          items: petNames.map((type) {
+                          items: petNames.map((pet) {
                             return DropdownMenuItem(
-                              value: type,
-                              child: Text(type),
+                              value: pet,
+                              child: Text(pet),
                             );
                           }).toList(),
                           decoration: InputDecoration(
@@ -350,7 +350,9 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                             ),
                           ),
                           validator: (value) {
-                            // Add validation if needed
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter appointment location';
+                            }
                             return null;
                           },
                           onSaved: (value) {

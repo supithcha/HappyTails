@@ -40,7 +40,7 @@ Future<int?> getUserIdByName(String name) async {
   return userID;
 }
 
-Future<String?> getUsernameByID(String id) async {
+Future<String?> getUsernameByID(int id) async {
   String? username;
   // Query Firestore for the document with name equal to the specified value
   QuerySnapshot querySnapshot = await FirebaseFirestore.instance
@@ -49,7 +49,7 @@ Future<String?> getUsernameByID(String id) async {
       .limit(1)
       .get();
   if (querySnapshot.docs.isNotEmpty) {
-    username = querySnapshot.docs.first.get('User_Fullname');
+    username = querySnapshot.docs.first.get('User_username');
   }
   return username;
 }

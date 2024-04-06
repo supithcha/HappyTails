@@ -11,17 +11,18 @@ import 'package:happytails/signup.dart';
 import 'package:happytails/start_pet_appt.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
+import 'global_variables.dart';
 import 'option_pet_select.dart';
 import 'login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
 
-void main () async {
-  WidgetsFlutterBinding.ensureInitialized () ;
-  await Firebase.initializeApp (
-    options : DefaultFirebaseOptions . currentPlatform ,
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp ( const MyApp () );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         // MUST replace when ทำของจริง ตอนนี้แปะไปก่อนเฉยๆ
         RoutePaths.record: (context) => StartPetApptPage(),
         RoutePaths.clinic: (context) => MapClinicPage(title: 'Nearby Clinics'),
-        RoutePaths.home: (context) => SignUpPage(),
+        RoutePaths.home: (context) => Homepage(),
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
         RoutePaths.profile: (context) => StartPetProfilePage(),
       },
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -51,13 +53,14 @@ class AuthenticationWrapper extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // Show loading indicator while checking authentication state
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          // return Scaffold(
+          //   body: Center(
+          //     child: CircularProgressIndicator(),
+          //   ),
+          // );
+          return const HomepageLoading();
         } else {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && isLoggedIn == false) {
             // User is signed in
             // return const Homepage();
             return const StartPetApptPage();
@@ -101,38 +104,32 @@ class AuthenticationWrapper extends StatelessWidget {
 
 class HomepageLoading extends StatelessWidget {
   const HomepageLoading({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    // Use a FutureBuilder to wait for the delay
     return FutureBuilder(
-      future: Future.delayed(Duration(seconds: 1)),
+      future: Future.delayed(Duration(seconds: 5)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          WidgetsBinding.instance!.addPostFrameCallback((_) { 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SignUpPage(),
-              ),
-            );
-          });
-        }
-        return Scaffold(
-          body: Container(
-            color: Color(0xff004aad),
-            child: Center(
-              child: Image.asset(
-                'assets/logo/full_logo_white.png',
-                height: 300,
+          return Scaffold(
+            body: Container(
+              color: Color(0xff004aad),
+              child: Center(
+                child: Image.asset(
+                  'assets/logo/full_logo_white.png',
+                  height: 300,
+                ),
               ),
             ),
-          ),
-        );
+          );
+        } else {
+          // Show loading indicator while waiting for the delay
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
       },
     );
   }
 }
-
-
-
