@@ -350,7 +350,9 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                             ),
                           ),
                           validator: (value) {
-                            // Add validation if needed
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter appointment location';
+                            }
                             return null;
                           },
                           onSaved: (value) {
