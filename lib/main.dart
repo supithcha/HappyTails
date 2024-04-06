@@ -59,7 +59,8 @@ class AuthenticationWrapper extends StatelessWidget {
         } else {
           if (snapshot.hasData) {
             // User is signed in
-            return const Homepage();
+            // return const Homepage();
+            return const StartPetApptPage();
           } else {
             // User is not signed in, redirect to sign-in page
             return const SignInPage();
