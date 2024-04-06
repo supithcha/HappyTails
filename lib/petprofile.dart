@@ -71,18 +71,6 @@ class _PetProfilePageState extends State<PetProfilePage> {
   Widget build(BuildContext context) {
     var _selectedIndex = 0;
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(Icons.notifications_outlined),
-      //       onPressed: () {
-      //         // Handle notification icon tap
-      //       },
-      //     ),
-      //   ],
-      // ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -110,7 +98,7 @@ class _PetProfilePageState extends State<PetProfilePage> {
                     icon: Icon(Icons.notifications_outlined),
                     color: Colors.white,
                     onPressed: () {
-                      // Handle notification icon tap
+                      _shownotitext(context);
                     },
                   ),
                 ),
@@ -244,7 +232,7 @@ class _PetProfilePageState extends State<PetProfilePage> {
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: Color.fromARGB(255, 90, 90, 90)),
+                                color: Color.fromARGB(255, 189, 188, 188)),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
@@ -297,4 +285,33 @@ class _PetProfilePageState extends State<PetProfilePage> {
       ),
     );
   }
+}
+
+
+void _shownotitext(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        title: Text('Notification'),
+        content: Text('''
+          Empty notification
+          '''),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 0, 74, 173),
+                )),
+          ),
+        ],
+      );
+    },
+  );
 }
