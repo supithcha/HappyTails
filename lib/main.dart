@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
         // MUST replace when ทำของจริง ตอนนี้แปะไปก่อนเฉยๆ
         RoutePaths.record: (context) => StartPetApptPage(),
         RoutePaths.clinic: (context) => MapClinicPage(title: 'Nearby Clinics'),
-        RoutePaths.home: (context) => SignInPage(),
+        RoutePaths.home: (context) => Homepage(),
         RoutePaths.guide: (context) => TipsPage(title: 'Tips and Tricks'),
         RoutePaths.profile: (context) => StartPetProfilePage(),
       },

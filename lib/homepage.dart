@@ -1,49 +1,58 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart'; 
+import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'global_variables.dart'; 
+import 'global_variables.dart' as Globalvar;
+import 'package:happytails/route_paths.dart';
+import 'package:happytails/bottom_nav_bar.dart';
 
 void main() async {
- WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const Homepage()); 
+  runApp(const Homepage());
 }
 
 class Homepage extends StatefulWidget {
   //final String UserFullname;
 
-  const Homepage({Key? key }) : super(key: key);
+  const Homepage({Key? key}) : super(key: key);
 
   @override
   _HomepageState createState() => _HomepageState();
 }
 
-
-
 class _HomepageState extends State<Homepage> {
   String? userFullname; // Variable to store the username
 
- @override
+  @override
   void initState() {
     super.initState();
     fetchUsername(); // Fetch username when the widget initializes
   }
 
   Future<void> fetchUsername() async {
-    String? username = current_user; // Fetch current user username from global variables
+    String? username = await Globalvar.getUsernameByID(Globalvar.current_userID);
     if (username != null && username.isNotEmpty) {
       setState(() {
         userFullname = username; // Update the state variable
       });
       print('Fetched user information: $userFullname');
     } else {
-      print('username not found');
+      print('Username not found');
     }
   }
+  // Use the defined route paths
+  final List<String> pages = [
+    RoutePaths.record,
+    RoutePaths.clinic,
+    RoutePaths.home,
+    RoutePaths.guide,
+    RoutePaths.profile,
+  ];
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +86,13 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
         body: Container(), // Placeholder for the body
+      bottomNavigationBar: BottomNavBar(
+        selectedIndex: _selectedIndex,
+        onItemTapped: (index) {
+          Navigator.pushNamed(context, pages[index]);
+        },
+        pages: pages,
+      ),
       ),
     );
   }
