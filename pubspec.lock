@@ -274,10 +274,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_osm_plugin
-      sha256: "202414d4741c28d8b75cc555abb4823a055d597f755c02497ac91cb434c22b72"
+      sha256: "29747a6f881694eb31caadb49eeaa04d8091b95a9d824e8281f3bf5767424082"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   flutter_osm_web:
     dependency: transitive
     description:
