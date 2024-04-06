@@ -64,6 +64,7 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
   String? _breed;
   String? _dob;
   String? _weight;
+  String? _petType;
   String? _vaccinationStatus;
   String? _medicalHistory;
   String? _allergies;
@@ -116,26 +117,38 @@ class _CreatePetProfilePageState extends State<CreatePetProfilePage> {
         'Pet_Weight': _weight,
         'Pet_Image': _Pet_Image,
         'Pet_ID': _petid,
+        'Pet_Image': _petid,
         'User_ID': current_userID,
       };
 
-      String petid = Uuid().v4();
-      petInfo['Pet_ID'] = petid;
+      // String petid = Uuid().v4();
+      // petInfo['Pet_ID'] = petid;
 
       try {
         if (_img != null) {
           final imageUrl = await uploadImageToFirestore(_img!);
+          String petid = Uuid().v4();
+
+          print('pet id generated: $petid');
+
+          petInfo['Pet_ID'] = petid;
           print('current_userID at pet profile page = $current_userID');
-          petInfo['User_ID'] = current_userID;
+          String stringValueid = current_userID.toString();
+          petInfo['User_ID'] = stringValueid;
           petInfo['Pet_Image'] = imageUrl;
           petInfo['Pet_DOB'] = _dob;
-          // var value = _dob;
-          // var dateTime = DateTime.parse(value!);
-          print(_dob.runtimeType);
-          // print('$dateTime');
-          // print('$_dob');
-          // print('$petInfo');
-          // petInfo['Pet_DOB'] = dateTime;
+          
+          print('stringValueid = $stringValueid.runtimeType');
+          print('_dob = $_dob.runtimeType');
+          print('_gender = $_gender.runtimeType');
+         
+          print('_weight = $_weight.runtimeType');
+          print('_allergies = $_allergies.runtimeType');
+          print('_breed = $_breed.runtimeType');
+          print('_medicalHistory = $_medicalHistory.runtimeType');
+          print('_vaccinationStatus = $_vaccinationStatus.runtimeType');
+          print('petid = $petid.runtimeType');
+          
           await FirebaseFirestore.instance.collection('Pet').add(petInfo);
           // print('Pet information saved successfully! \n $petInfo');
           setState(() {
