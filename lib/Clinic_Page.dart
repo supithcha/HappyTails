@@ -45,15 +45,15 @@ class _MapClinicPageState extends State<MapClinicPage> {
               ),
             ],
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.notifications),
-              onPressed: () {
-                // Add  notification logic here
-              },
-            ),
-          ],
-          iconTheme: IconThemeData(color: Colors.white),
+          // actions: [
+          //   IconButton(
+          //     icon: Icon(Icons.notifications),
+          //     onPressed: () {
+          //       // Add  notification logic here
+          //     },
+          //   ),
+          // ],
+          // iconTheme: IconThemeData(color: Colors.white),
           flexibleSpace: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
