@@ -235,10 +235,8 @@ class __FormContentState extends State<_FormContent> {
                       if (email != null && password != null) {
                         // Call loginUser function
                         bool success = await loginUser(email!, password!);
-                        // print(_confirmButton);
                         if (success) {
                           isLoggedIn = true;
-                          // print(_confirmButton);
 
                           Navigator.pushReplacement(
                             context,

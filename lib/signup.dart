@@ -87,9 +87,10 @@ class __FormContentState extends State<_FormContent> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   int _confirmButton = -1;
-  int _insertedButtonIndex = 0;
-  // bool _validate = false;
-
+  bool _isFullNameValid = false;
+  bool _isUsernameValid = false;
+  bool _isPasswordValid = false;
+  bool _isConfirmPasswordValid = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -112,9 +113,7 @@ class __FormContentState extends State<_FormContent> {
                   return 'Please enter your fullname';
                 }
                 fullName = value;
-                // _insertedButtonIndex = 1;
-                _insertedButtonIndex = _insertedButtonIndex + 1;
-                // _confirmButton = 1;
+                _isFullNameValid = true;
                 return null;
               },
               decoration: InputDecoration(
@@ -147,17 +146,9 @@ class __FormContentState extends State<_FormContent> {
                   // _validate = true;
                   return 'Please enter your username';
                 }
-                // bool emailValid = RegExp(
-                //         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                //     .hasMatch(value);
-                // if (!emailValid) {
-                //   return 'Please enter a valid email';
-                // }
                 setState(() {
                   username = value;
-                  // _insertedButtonIndex = 2;
-                  _insertedButtonIndex = _insertedButtonIndex + 1;
-                  // _confirmButton = 2;
+                  _isUsernameValid = true;
                 });
                 return null;
               },
@@ -199,8 +190,8 @@ class __FormContentState extends State<_FormContent> {
                 setState(() {
                   password = value;
                   // _insertedButtonIndex = 3;
-                  _insertedButtonIndex = _insertedButtonIndex + 1;
-                  // _confirmButton = 3;
+
+                  _isPasswordValid = true;
                 });
                 return null;
               },
@@ -241,8 +232,8 @@ class __FormContentState extends State<_FormContent> {
                 setState(() {
                   confirmPassword = value;
                   // _insertedButtonIndex = 4;
-                  _insertedButtonIndex = _insertedButtonIndex + 1;
-                  //  _confirmButton = 4;
+
+                  _isConfirmPasswordValid = true;
                 });
                 return null;
               },
@@ -296,14 +287,6 @@ class __FormContentState extends State<_FormContent> {
               margin: EdgeInsets.only(top: 30.0),
               child: FilledButton(
                 onPressed: () async {
-                  setState(() {
-                    // If any option is selected (not -1), change the button color to blue, otherwise grey
-                    // _insertedButtonIndex != -1
-                    //     ? _confirmButton = 0
-                    //     : _insertedButtonIndex = -1;
-                    _confirmButton =
-                        (_insertedButtonIndex == 4) ? 0 : -1;
-                  });
                   if (_formKey.currentState?.validate() ?? false) {
                     _formKey.currentState?.save();
                     // Check if all inputs are not null
@@ -338,7 +321,10 @@ class __FormContentState extends State<_FormContent> {
                   }
                 },
                 style: ButtonStyle(
-                  backgroundColor: _confirmButton != -1
+                  backgroundColor: (_isFullNameValid &&
+                          _isUsernameValid &&
+                          _isPasswordValid &&
+                          _isConfirmPasswordValid)
                       ? MaterialStateProperty.all(
                           Color.fromARGB(255, 0, 74, 173)) // Blue
                       : MaterialStateProperty.all(
