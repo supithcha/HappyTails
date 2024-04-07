@@ -179,7 +179,7 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _PetDeatils(String? petimg, String? petname, String? petbreed,
+  Widget _PetDetails(String? petimg, String? petname, String? petbreed,
       String? petgender, String? dob, String? weight) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
@@ -571,11 +571,11 @@ class _HomepageState extends State<Homepage> {
                   ),
                   SizedBox(height: 5),
                   if (petNames.length == 0)
-                      _PetDeatils('https://i.pinimg.com/474x/a2/87/72/a287720d28f7e8e91bfe6514dd18ad0b.jpg',
+                      _PetDetails('https://i.pinimg.com/474x/a2/87/72/a287720d28f7e8e91bfe6514dd18ad0b.jpg',
                       'Waiting for your pet','-','-','-','-',),
                   if (petNames.isNotEmpty)
                     for (int i = 0; i < petNames.length; i++)
-                      _PetDeatils(
+                      _PetDetails(
                         petImage.length > i ? petImage[i] ?? 'null' : 'null',
                         petNames.length > i ? petNames[i] ?? 'null' : 'null',
                         petBreed.length > i ? petBreed[i] ?? 'null' : 'null',
