@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:happytails/start_pet_profile.dart';
 import 'firebase_options.dart';
 import 'global_variables.dart' as Globalvar;
 import 'package:happytails/route_paths.dart';
@@ -226,40 +227,37 @@ class _HomepageState extends State<Homepage> {
                           ),
                         ],
                       ),
-                      SizedBox(
-                          height:
-                              5), // Add some space between the text and the row
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     _coloredBox(const Color.fromARGB(255, 239, 93, 168),
-                      //         Icons.add, 'Add Pet'),
-                      //     _coloredBox(const Color.fromARGB(255, 160, 227, 226),
-                      //         Icons.pets, '${petNames[0]}'),
-                      //     _coloredBox(const Color.fromARGB(255, 240, 158, 84),
-                      //         Icons.pets, '${petNames[1]}'),
-                      //     _coloredBox(const Color.fromARGB(255, 175, 220, 147),
-                      //         Icons.pets, '${petNames[2]}'),
-                      //     // _coloredBox(const Color.fromARGB(255, 175, 220, 147),
-                      //     // Icons.pets, '${petNames[2]}'),
-                      //   ],
-                      // ),
+                      SizedBox(height: 5),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          _coloredBox(const Color.fromARGB(255, 239, 93, 168),
-                              Icons.add, 'Add Pet'),
-                          // Check if the list is not empty
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        StartPetProfilePage()),
+                              );
+                            },
+                            child: _coloredBox(
+                              const Color.fromARGB(255, 239, 93, 168),
+                              Icons.add,
+                              'Add Pet',
+                            ),
+                          ),
+
+                          // Check if the petNames is not empty
                           if (petNames.isNotEmpty)
                             _coloredBox(
                                 const Color.fromARGB(255, 160, 227, 226),
                                 Icons.pets,
                                 '${petNames[0]}'),
-                          // Check if there are more than one element
+                          // Check if there are more than 1 element in petNames
                           if (petNames.length > 1)
                             _coloredBox(const Color.fromARGB(255, 240, 158, 84),
                                 Icons.pets, '${petNames[1]}'),
-                          // Check if there are more than two elements
+                          // Check if there are more than 2 elements in petNames
                           if (petNames.length > 2)
                             _coloredBox(
                                 const Color.fromARGB(255, 175, 220, 147),
@@ -267,33 +265,7 @@ class _HomepageState extends State<Homepage> {
                                 '${petNames[2]}'),
                         ],
                       ),
-
                       SizedBox(height: 10),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Text(
-                      //       'Add Pet',
-                      //       style: TextStyle(fontSize: 13),
-                      //     ),
-                      //     Text(
-                      //       petNames[0] != null ? petNames[0] : '...',
-                      //       style: TextStyle(fontSize: 13),
-                      //     ),
-                      //     Text(
-                      //       petNames[1] != null ? petNames[1] : '...',
-                      //       style: TextStyle(fontSize: 13),
-                      //     ),
-                      //     Text(
-                      //       petNames[1] != null ? petNames[2] : '...',
-                      //       style: TextStyle(fontSize: 13),
-                      //     ),
-                      //     // Text(
-                      //     //   petNames[1] != null ? petNames[3] : '...',
-                      //     //   style: TextStyle(fontSize: 13),
-                      //     // ),
-                      //   ],
-                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -301,28 +273,27 @@ class _HomepageState extends State<Homepage> {
                             'Add Pet',
                             style: TextStyle(fontSize: 13),
                           ),
-                          if (petNames
-                              .isNotEmpty) // Check if the list is not empty
+                          // Check if the list is not empty
+                          if (petNames.isNotEmpty)
                             Text(
                               petNames[0] ??
                                   '...', // Use null-aware operator to handle null values
                               style: TextStyle(fontSize: 13),
                             ),
-                          if (petNames.length >
-                              1) // Check if there are more than one element
+                          // Check if there are more than one element
+                          if (petNames.length > 1)
                             Text(
                               petNames[1] ??
                                   '...', // Use null-aware operator to handle null values
                               style: TextStyle(fontSize: 13),
                             ),
-                          if (petNames.length >
-                              2) // Check if there are more than two elements
+                          // Check if there are more than two elements
+                          if (petNames.length > 2)
                             Text(
                               petNames[2] ??
                                   '...', // Use null-aware operator to handle null values
                               style: TextStyle(fontSize: 13),
                             ),
-                          // Repeat similar checks for additional elements if needed
                         ],
                       ),
                     ],
