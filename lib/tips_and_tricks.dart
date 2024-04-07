@@ -156,70 +156,58 @@ class _EachTipsPageState extends State<EachTipsPage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.all(15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: 200, // Reduce the height of the image container
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    image: DecorationImage(
-                      image: AssetImage("assets/tt/" + widget.item.image),
-                      fit: BoxFit.cover,
-                    ),
+        child: Container(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                height: 200, // Reduce the height of the image container
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  image: DecorationImage(
+                    image: AssetImage("assets/tt/" + widget.item.image),
+                    fit: BoxFit.cover,
                   ),
                 ),
-                SizedBox(height: 20),
-                // Add spacing between image and text
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    // Description 2
-                    _buildBoldText("", widget.item.description2),
-                    SizedBox(height: 20),
-                    // Context
-                    _buildBoldText("Context :", widget.item.context),
-                    SizedBox(height: 20),
-                    // Age
-                    _buildBoldText("Age :", widget.item.age),
-                    SizedBox(height: 20),
-                    // Personality
-                    _buildBoldText("Personality :", widget.item.personality),
-                    SizedBox(height: 20),
-                    // Breed
-                    _buildBoldText("Breed :", widget.item.breed),
-                  ],
-                ),
-                SizedBox(height: 40),
-              ],
-            ),
+              ),
+              SizedBox(height: 20),
+              // Add spacing between image and text
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start, // Align text to the left
+                children: <Widget>[
+                  // Description 2
+                  _buildBoldText("", widget.item.description2),
+                  SizedBox(height: 20),
+                  // Context
+                  _buildBoldText("Context :", widget.item.context),
+                  SizedBox(height: 20),
+                  // Age
+                  _buildBoldText("Age :", widget.item.age),
+                  SizedBox(height: 20),
+                  // Personality
+                  _buildBoldText("Personality :", widget.item.personality),
+                  SizedBox(height: 20),
+                  // Breed
+                  _buildBoldText("Breed :", widget.item.breed),
+                ],
+              ),
+              SizedBox(height: 40),
+            ],
           ),
         ),
       ),
+
       bottomNavigationBar: BottomNavBar(
         initialIndex: 3, // Initial selected index
       ),
     );
   }
 
-  // Widget _buildBoldText(String label, String text) {
-  //   return RichText(
-  //     text: TextSpan(
-  //       children: [
-  //         TextSpan(
-  //           text: label + " ",
-  //           style: TextStyle(fontWeight: FontWeight.bold),
-  //         ),
-  //         TextSpan(text: text), // text is normal
-  //       ],
-  //     ),
-  //   );
-  // }
   Widget _buildBoldText(String label, String text) {
     return RichText(
       text: TextSpan(
@@ -262,14 +250,6 @@ Widget _buildDescriptionWithBoldWords(String description2) {
                   : FontWeight.normal,
             ),
           ),
-        // TextSpan(
-        //   text: boldWords.contains(word) ? '$word ' : '$word ',
-        //   style: TextStyle(
-        //     fontWeight: boldWords.contains(word)
-        //         ? FontWeight.bold
-        //         : FontWeight.normal,
-        //   ),
-        // ),
       ],
     ),
   );
@@ -304,8 +284,9 @@ class ProductBox extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.start, //text to left
+                    // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         this.item.name,
