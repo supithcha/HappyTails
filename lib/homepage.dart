@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:happytails/Appointment.dart';
+import 'package:happytails/login.dart';
+import 'package:happytails/main.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'firebase_options.dart';
 import 'global_variables.dart' as Globalvar;
@@ -45,6 +47,11 @@ class _HomepageState extends State<Homepage> {
       print('Fetched user information: $userFullname');
     } else {
       print('Username not found');
+      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomepageLoading()),
+                        );
+      print('Redirect user to Home loading');
     }
   }
 
@@ -55,8 +62,7 @@ class _HomepageState extends State<Homepage> {
           .collection('Pet')
           .where('User_ID', isEqualTo: Globalvar.current_userID)
           .get();
-      
-        if (snapshot.docs.isNotEmpty) {
+      if (snapshot.docs.isNotEmpty) {
           setState(() {
               petNames =
                   snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
