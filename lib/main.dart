@@ -3,11 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:happytails/Appointment.dart';
 import 'package:happytails/clinic_page.dart';
-import 'package:happytails/createpetprofile.dart';
 import 'package:happytails/firebase_options.dart';
 import 'package:happytails/homepage.dart';
 import 'package:happytails/route_paths.dart';
-import 'package:happytails/signup.dart';
 import 'package:happytails/start_pet_appt.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
@@ -15,7 +13,6 @@ import 'package:happytails/userprofile.dart';
 import 'global_variables.dart';
 import 'login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,10 +48,11 @@ class AuthenticationWrapper extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
+          // Show a loading indicator while checking authentication state
           return const HomepageLoading();
         } else {
           if (snapshot.hasData && isLoggedIn == true) {
-            // User is signed in
+            // User is signed in, show the homepage
             return const Homepage();
           } else {
             // User is not signed in, redirect to sign-in page
@@ -67,8 +65,9 @@ class AuthenticationWrapper extends StatelessWidget {
 }
 
 
+
 class HomepageLoading extends StatelessWidget {
-  const HomepageLoading({Key? key}) : super(key: key);
+  const HomepageLoading({super.key});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(

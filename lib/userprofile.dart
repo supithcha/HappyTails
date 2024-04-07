@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 import 'package:happytails/global_variables.dart';
+import 'package:happytails/login.dart';
 import 'package:happytails/main.dart';
 import 'package:happytails/route_paths.dart';
 import 'global_variables.dart';
@@ -18,14 +19,6 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-    var _selectedIndex = 0;
-    final List<String> pages = [
-      RoutePaths.record,
-      RoutePaths.clinic,
-      RoutePaths.home,
-      RoutePaths.guide,
-      RoutePaths.profile,
-    ];
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -52,16 +45,8 @@ class UserProfilePage extends StatelessWidget {
                 ),
         ),
       ),
-      // bottomNavigationBar: BottomNavBar(
-      //   selectedIndex: _selectedIndex,
-      //   onItemTapped: (index) {
-      //     Navigator.pushNamed(context, pages[index]);
-      //   },
-      //   pages: pages,
-      // ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 4, // Initial selected index
-        // pages: pages
       ),
     );
   }
@@ -114,9 +99,9 @@ class __FormContentState extends State<_FormContent> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-    color: const Color.fromARGB(255, 0, 74, 173),
-    borderRadius: BorderRadius.circular(15), // Adjust the value as needed
-  ),
+        color: const Color.fromARGB(255, 0, 74, 173),
+        borderRadius: BorderRadius.circular(15), // Adjust the value as needed
+      ),
       child: Center(
         child: SingleChildScrollView(
           child: Container(
@@ -130,7 +115,10 @@ class __FormContentState extends State<_FormContent> {
                   _gap(),
                   Text(
                     'Full name',
-                    style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white,),
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(height: 5),
                   Center(
@@ -150,7 +138,8 @@ class __FormContentState extends State<_FormContent> {
                           fullname ??
                               '', // Display the full name if it's not null
                           style: TextStyle(
-                            fontWeight: FontWeight.normal, color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -159,7 +148,10 @@ class __FormContentState extends State<_FormContent> {
                   _gap(),
                   Text(
                     'Username',
-                    style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white,),
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(height: 5),
                   Center(
@@ -179,7 +171,8 @@ class __FormContentState extends State<_FormContent> {
                           username ??
                               '', // Display the full name if it's not null
                           style: TextStyle(
-                            fontWeight: FontWeight.normal, color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -188,7 +181,10 @@ class __FormContentState extends State<_FormContent> {
                   _gap(),
                   Text(
                     'Password',
-                    style: TextStyle(fontWeight: FontWeight.normal, color: Colors.white,),
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      color: Colors.white,
+                    ),
                   ),
                   SizedBox(height: 5),
                   Center(
@@ -208,7 +204,8 @@ class __FormContentState extends State<_FormContent> {
                           password ??
                               '', // Display the full name if it's not null
                           style: TextStyle(
-                            fontWeight: FontWeight.normal, color: Colors.white,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
                           ),
                         ),
                       ),
@@ -263,8 +260,8 @@ class _Logout extends StatelessWidget {
         margin: EdgeInsets.all(50.0),
         child: FilledButton(
           onPressed: () async {
-  logoutAndRedirect(context);
-},
+            logoutAndRedirect(context);
+          },
           style: ButtonStyle(
             backgroundColor: _confirmButton != -1
                 ? MaterialStateProperty.all(
@@ -283,13 +280,24 @@ class _Logout extends StatelessWidget {
   }
 }
 
+// void logoutAndRedirect(BuildContext context)  {
+//    FirebaseAuth.instance.signOut();
+//   // Redirect to HomepageLoading
+//   Navigator.pushReplacement(
+//     context,
+//     MaterialPageRoute(builder: (context) => HomepageLoading()),
+//   );
+// }
 void logoutAndRedirect(BuildContext context) {
   FirebaseAuth.instance.signOut();
-
-  // Redirect to HomepageLoading
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => HomepageLoading()),
-  );
+  // Update isLoggedIn
+  isLoggedIn = false;
+  // Navigate to the sign-in page after a delay
+  Future.delayed(Duration(seconds: 2), () {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => SignInPage()),
+      (route) => false, // Remove all routes from the stack
+    );
+  });
 }
-
