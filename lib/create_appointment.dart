@@ -176,42 +176,84 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   SizedBox(height: 15),
                   Stack(
                     children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(),
-                          ),
-                        ),
-                        readOnly: true, // Make the field read-only
-                        controller: TextEditingController(
-                          text: _date ?? '', // Display the selected date
-                        ),
-                        onTap: () async {
-                          final DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate:
-                                DateTime(1900), // Allow only future dates
-                            lastDate: DateTime(
-                                2100), // Example last date, you can adjust as needed
-                          );
-                          if (pickedDate != null) {
-                            setState(() {
-                              _date = pickedDate.toString().substring(0, 10);
-                            });
-                          }
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Please select appointment date";
-                          }
-                          return null;
-                        },
-                        onSaved: (value) {
-                          _date = value ?? '';
-                        },
-                      ),
+                      SizedBox(
+  height: 70,
+  child: TextFormField(
+    decoration: InputDecoration(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(),
+      ),
+    ),
+    readOnly: true, // Make the field read-only
+    controller: TextEditingController(
+      text: _date ?? '', // Display the selected date
+    ),
+    minLines: null, // Set minLines to null for minimum height
+    maxLines: null, // Allow any number of lines
+    keyboardType: TextInputType.multiline, // Enable multiline input
+    onTap: () async {
+      final DateTime? pickedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1900), // Allow only future dates
+        lastDate: DateTime(2100), // Example last date, you can adjust as needed
+      );
+      if (pickedDate != null) {
+        setState(() {
+          _date = pickedDate.toString().substring(0, 10);
+        });
+      }
+    },
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return "Please select appointment date";
+      }
+      return null;
+    },
+    onSaved: (value) {
+      _date = value ?? '';
+    },
+  ),
+),
+
+                      // TextFormField(
+                      //   decoration: InputDecoration(
+                      //     border: OutlineInputBorder(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       borderSide: BorderSide(),
+                      //     ),
+                      //   ),
+                      //   readOnly: true, // Make the field read-only
+                      //   controller: TextEditingController(
+                      //     text: _date ?? '', // Display the selected date
+                      //   ),
+                        
+                      //   onTap: () async {
+                      //     final DateTime? pickedDate = await showDatePicker(
+                      //       context: context,
+                      //       initialDate: DateTime.now(),
+                      //       firstDate:
+                      //           DateTime(1900), // Allow only future dates
+                      //       lastDate: DateTime(
+                      //           2100), // Example last date, you can adjust as needed
+                      //     );
+                      //     if (pickedDate != null) {
+                      //       setState(() {
+                      //         _date = pickedDate.toString().substring(0, 10);
+                      //       });
+                      //     }
+                      //   },
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return "Please select appointment date";
+                      //     }
+                      //     return null;
+                      //   },
+                      //   onSaved: (value) {
+                      //     _date = value ?? '';
+                      //   },
+                      // ),
                       Positioned(
                         top: 0,
                         right: 0,
@@ -226,7 +268,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 16),
+              SizedBox(height: 15),
               // Time section
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,7 +322,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ),
                 ],
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 15.0),
               // Type of Appointment section
               SizedBox(
                 child: Column(
@@ -310,7 +352,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             contentPadding: EdgeInsets.symmetric(
-                              vertical: 12.0,
+                              vertical: 15.0,
                               horizontal: 16.0,
                             ),
                           ),
@@ -326,8 +368,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                           right: 0,
                           child: IconButton(
                             icon: Icon(Icons.arrow_drop_down_circle_rounded),
-                            onPressed: () {
-                              
+                            onPressed: () { 
                             },
                           ),
                         ),
@@ -336,7 +377,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 15.0),
               // Pet section
               SizedBox(
                 child: Column(
@@ -367,7 +408,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
-                                    vertical: 12.0,
+                                    vertical: 20.0,
                                     horizontal: 16.0,
                                   ),
                                 ),
@@ -385,7 +426,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
-                                    vertical: 12.0,
+                                    vertical: 17.0,
                                     horizontal: 16.0,
                                   ),
                                   labelText: 'Enter Pet Name',
@@ -411,7 +452,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 15.0),
               // Location section
               SizedBox(
                 child: Column(
@@ -429,7 +470,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             contentPadding: EdgeInsets.symmetric(
-                              vertical: 12.0,
+                              vertical: 17.0,
                               horizontal: 16.0,
                             ),
                           ),
@@ -457,7 +498,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 15.0),
               // Note section
               SizedBox(
                 child: Column(
@@ -498,7 +539,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 ),
               ),
 
-              SizedBox(height: 20.0),
+              SizedBox(height: 25.0),
               // Confirm Button
               Center(
                 child: SizedBox(

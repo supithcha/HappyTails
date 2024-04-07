@@ -105,7 +105,12 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
         'Pet_Weight': _weight,
         'User_ID': current_userID,
       };
-
+      if (_image == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('No selected image')),
+        );
+        petInfo['Pet_Image'] = 'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg';
+      }
       try {
         if (_image != null) {
           String imgURL = await uploadImage(_image);
@@ -134,59 +139,6 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
       }
     }
   }
-
-  // Future<void> _savePetInformation() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     _formKey.currentState!.save();
-  //     final petInfo = {
-  //       'Pet_Allergy': _allergies,
-  //       'Pet_Breed': _breed,
-  //       'Pet_DOB': _dob,
-  //       'Pet_Gender': _gender,
-  //       'Pet_ID': _petid,
-  //       'Pet_Image': _Pet_Image,
-  //       'Pet_Med_History': _medicalHistory,
-  //       'Pet_Medication': _medication,
-  //       'Pet_Name': _name,
-  //       'Pet_Type': widget.selectedPetName,
-  //       'Pet_Vacc_status': _vaccinationStatus,
-  //       'Pet_Weight': _weight,
-  //       'User_ID': current_userID,
-  //     };
-
-  //     try {
-  //       String putimagurl;
-  //       if (_image != null) {
-  //         uploadImage(_image).then((imgURL) {
-  //           // print('ImgURL after return = $imgURL');
-  //           putimagurl = imgURL;
-  //           _Pet_Image = imgURL;
-  //           petInfo['Pet_Image'] = putimagurl;
-  //           print('ImgURL after uploadImage= $putimagurl');
-  //         }).catchError((error) {
-  //           print('Error uploading image: $error');
-  //         });
-  //         String petid = Uuid().v4();
-  //         _petid = petid;
-  //         petInfo['User_ID'] = current_userID;
-  //         petInfo['Pet_ID'] = petid;
-  //         print('_Pet_Image url = $_Pet_Image');
-  //         await FirebaseFirestore.instance.collection('Pet').add(petInfo);
-
-  //         setState(() {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => PetProfilePage(petid: petid),
-  //             ),
-  //           );
-  //         });
-  //       }
-  //     } catch (e) {
-  //       print('Error saving pet information: $e');
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
