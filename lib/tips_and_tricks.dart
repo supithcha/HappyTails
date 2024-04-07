@@ -125,22 +125,6 @@ class _TipsPageState extends State<TipsPage> {
           );
         },
       ),
-      // body: ListView.builder(
-      //   itemCount: tips.length,
-      //   itemBuilder: (context, index) {
-      //     return GestureDetector(
-      //       child: ProductBox(item: tips[index]),
-      //       onTap: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //             builder: (context) => EachTipsPage(item: tips[index]),
-      //           ),
-      //         );
-      //       },
-      //     );
-      //   },
-      // ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 3, // Initial selected index
       ),
@@ -193,7 +177,7 @@ class _EachTipsPageState extends State<EachTipsPage> {
                 SizedBox(height: 20),
                  // Add spacing between image and text
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     // Description 2
                     _buildBoldText("", widget.item.description2),
@@ -212,24 +196,6 @@ class _EachTipsPageState extends State<EachTipsPage> {
                   ],
                 ),
                 SizedBox(height: 40),
-
-                // SingleChildScrollView(
-                //   child: Column(
-                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //     children: <Widget>[
-                //       // Description 2
-                //       _buildBoldText("", widget.item.description2),
-                //       // Context
-                //       _buildBoldText("Context :", widget.item.context),
-                //       // Age
-                //       _buildBoldText("Age :", widget.item.age),
-                //       // Personality
-                //       _buildBoldText("Personality :", widget.item.personality),
-                //       // Breed
-                //       _buildBoldText("Breed :", widget.item.breed),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -240,68 +206,6 @@ class _EachTipsPageState extends State<EachTipsPage> {
       ),
     );
   }
-
-// class _EachTipsPageState extends State<EachTipsPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         flexibleSpace: FlexibleSpaceBar(
-//           title: Text(
-//             widget.item.name,
-//             overflow: TextOverflow.visible,
-//           ),
-//         ),
-//       ),
-//       body: SingleChildScrollView(
-//         child: Center(
-//           child: Container(
-//             padding: EdgeInsets.all(15),
-//             child: Column(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: <Widget>[
-//                 Container(
-//                   height: 200, // Reduce the height of the image container
-//                   width: double.infinity,
-//                   decoration: BoxDecoration(
-//                     borderRadius: BorderRadius.circular(25),
-//                     image: DecorationImage(
-//                       image: AssetImage("assets/tt/" + widget.item.image),
-//                       fit: BoxFit.cover,
-//                     ),
-//                   ),
-//                 ),
-
-//                 SizedBox(height: 20), // Add spacing between image and text
-//                 SingleChildScrollView(
-//                   child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                     children: <Widget>[
-//                       // Description 2
-//                       _buildBoldText("", widget.item.description2),
-//                       // Context
-//                       _buildBoldText("Context :", widget.item.context),
-//                       // Age
-//                       _buildBoldText("Age :", widget.item.age),
-//                       // Personality
-//                       _buildBoldText("Personality :", widget.item.personality),
-//                       // Breed
-//                       _buildBoldText("Breed :", widget.item.breed),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//       bottomNavigationBar: BottomNavBar(
-//         initialIndex: 3, // Initial selected index
-//       ),
-//     );
-//   }
-
   // Widget _buildBoldText(String label, String text) {
   //   return RichText(
   //     text: TextSpan(
@@ -324,7 +228,7 @@ class _EachTipsPageState extends State<EachTipsPage> {
       ),
       children: [
         TextSpan(
-          text: label + " ",
+          text: label + '',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -342,9 +246,8 @@ class _EachTipsPageState extends State<EachTipsPage> {
 Widget _buildDescriptionWithBoldWords(String description2) {
   // List of words to be bolded
   List<String> boldWords = ["Context", "Age", "Personality", "Breed"];
-
   // Splitting the description into words
-  List<String> words = description2.split(' ');
+  List<String> words = description2.split('');
 
   return RichText(
     text: TextSpan(
@@ -352,7 +255,7 @@ Widget _buildDescriptionWithBoldWords(String description2) {
       children: [
         for (String word in words)
           TextSpan(
-            text: boldWords.contains(word) ? word + ' ' : word + ' ',
+            text: boldWords.contains(word) ? word + '' : word + '',
             style: TextStyle(
               fontWeight: boldWords.contains(word)
                   ? FontWeight.bold
