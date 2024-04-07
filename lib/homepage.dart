@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:happytails/Appointment.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'firebase_options.dart';
 import 'global_variables.dart' as Globalvar;
@@ -229,7 +230,8 @@ class _HomepageState extends State<Homepage> {
                       ),
                       SizedBox(height: 5),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           GestureDetector(
                             onTap: () {
@@ -246,23 +248,37 @@ class _HomepageState extends State<Homepage> {
                               'Add Pet',
                             ),
                           ),
-
                           // Check if the petNames is not empty
                           if (petNames.isNotEmpty)
-                            _coloredBox(
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
+                              child: _coloredBox(
                                 const Color.fromARGB(255, 160, 227, 226),
                                 Icons.pets,
-                                '${petNames[0]}'),
+                                '${petNames[0]}',
+                              ),
+                            ),
                           // Check if there are more than 1 element in petNames
                           if (petNames.length > 1)
-                            _coloredBox(const Color.fromARGB(255, 240, 158, 84),
-                                Icons.pets, '${petNames[1]}'),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: _coloredBox(
+                                const Color.fromARGB(255, 240, 158, 84),
+                                Icons.pets,
+                                '${petNames[1]}',
+                              ),
+                            ),
                           // Check if there are more than 2 elements in petNames
                           if (petNames.length > 2)
-                            _coloredBox(
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: _coloredBox(
                                 const Color.fromARGB(255, 175, 220, 147),
                                 Icons.pets,
-                                '${petNames[2]}'),
+                                '${petNames[2]}',
+                              ),
+                            ),
                         ],
                       ),
                       SizedBox(height: 10),
@@ -324,8 +340,7 @@ class _HomepageState extends State<Homepage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    PetProfilePage(petid: petIDs.first),
+                                builder: (context) => AppointmentAll(),
                               ),
                             );
                           }

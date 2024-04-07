@@ -41,31 +41,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class AuthenticationWrapper extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<User?>(
-//       stream: FirebaseAuth.instance.authStateChanges(),
-//       builder: (context, snapshot) {
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           // Show a loading page while checking authentication
-//           return const HomepageLoading();
-//         } else {
-//           // User is signed in, show the homepage
-//           if (snapshot.hasData) {
-//             isLoggedIn = true;
-//             return const Homepage();
-//           }
-//           // User is not signed in, redirect to sign-in page
-//           else {
-//             isLoggedIn = false;
-//             return const SignInPage();
-//           }
-//         }
-//       },
-//     );
-//   }
-// }
 class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -92,45 +67,12 @@ class AuthenticationWrapper extends StatelessWidget {
 }
 
 
-
-// class HomepageLoading extends StatelessWidget {
-//   const HomepageLoading({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return FutureBuilder(
-//       future: Future.delayed(Duration(seconds: 5)),
-//       builder: (context, snapshot) {
-//         if (snapshot.connectionState == ConnectionState.done) {
-//           return Scaffold(
-//             body: Container(
-//               color: Color(0xff004aad),
-//               child: Center(
-//                 child: Image.asset(
-//                   'assets/logo/full_logo_white.png',
-//                   height: 300,
-//                 ),
-//               ),
-//             ),
-//           );
-//         } else {
-//           // Show loading indicator while waiting for the delay
-//           return Scaffold(
-//             body: Center(
-//               child: CircularProgressIndicator(),
-//             ),
-//           );
-//         }
-//       },
-//     );
-//   }
-// }
-
 class HomepageLoading extends StatelessWidget {
   const HomepageLoading({super.key});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.delayed(Duration(seconds: 2)),
+      future: Future.delayed(Duration(seconds: 1)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           WidgetsBinding.instance?.addPostFrameCallback((_) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:happytails/homepage.dart';
 import 'start_pet_profile.dart';
 import 'global_variables.dart'; 
 
@@ -68,7 +69,7 @@ class Welcome extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => StartPetProfilePage(),
+                          builder: (context) => Homepage(),
                         ),
                       );
                     },
