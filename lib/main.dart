@@ -13,7 +13,6 @@ import 'package:happytails/start_pet_profile.dart';
 import 'package:happytails/tips_and_tricks.dart';
 import 'package:happytails/userprofile.dart';
 import 'global_variables.dart';
-import 'option_pet_select.dart';
 import 'login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path_provider/path_provider.dart';
@@ -54,9 +53,8 @@ class AuthenticationWrapper extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const HomepageLoading();
         } else {
-          if (snapshot.hasData && isLoggedIn == false) {
+          if (snapshot.hasData && isLoggedIn == true) {
             // User is signed in
-            // return const Homepage();
             return const Homepage();
           } else {
             // User is not signed in, redirect to sign-in page

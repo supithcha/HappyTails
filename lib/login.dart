@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'global_variables.dart'; 
 import 'welcome.dart';
 

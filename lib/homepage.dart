@@ -186,12 +186,11 @@ class _HomepageState extends State<Homepage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            //petMedhis ?? 'Loading...', // Text content
-                            petNames.isNotEmpty
-                                ? "Your Pets: ${petNames[0]}"
+                            // Show one of user's pets
+                            petNames.isNotEmpty && petNames.length > 0
+                                ? "Your Pet: ${petNames[0]}"
                                 : 'Loading...',
                             style: TextStyle(
-                              // TextStyle for the text
                               color: Colors.black,
                               fontSize: 17,
                               fontWeight: FontWeight.bold,
@@ -288,7 +287,6 @@ class _HomepageState extends State<Homepage> {
                       Text(
                         'Plans',
                         style: TextStyle(
-                          // TextStyle for the text
                           color: Colors.black,
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -356,9 +354,7 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {
-                         
-                        },
+                        onPressed: () {},
                         style: ButtonStyle(
                           side: MaterialStateProperty.all<BorderSide>(
                             BorderSide(color: Colors.grey),
@@ -393,7 +389,6 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ],
                         ),
-            
                         child: Center(
                           child: Text(
                             'chanel',
