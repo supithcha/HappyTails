@@ -112,7 +112,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
       String? petId = await fetchPetIdByPetName(pet);
       print('Fetched Pet_ID: $petId');
       // Check if Pet_ID is fetched
-      if (petId != null) {
+      // if (petId != null) {
         String apptid = Uuid().v4();
         print('Generate Appt_ID = $apptid \n');
 
@@ -146,12 +146,12 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
             SnackBar(content: Text('Failed to save appointment')),
           );
         }
-      } else {
-        // Show error message if Pet_ID is not fetched
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to fetch Pet_ID')),
-        );
-      }
+      // } else {
+      //   // Show error message if Pet_ID is not fetched
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(content: Text('Failed to fetch Pet_ID')),
+      //   );
+      // }
     }
   }
 
@@ -177,91 +177,56 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                   Stack(
                     children: [
                       SizedBox(
-  height: 70,
-  child: TextFormField(
-    decoration: InputDecoration(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(),
-      ),
-    ),
-    readOnly: true, // Make the field read-only
-    controller: TextEditingController(
-      text: _date ?? '', // Display the selected date
-    ),
-    minLines: null, // Set minLines to null for minimum height
-    maxLines: null, // Allow any number of lines
-    keyboardType: TextInputType.multiline, // Enable multiline input
-    onTap: () async {
-      final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(1900), // Allow only future dates
-        lastDate: DateTime(2100), // Example last date, you can adjust as needed
-      );
-      if (pickedDate != null) {
-        setState(() {
-          _date = pickedDate.toString().substring(0, 10);
-        });
-      }
-    },
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return "Please select appointment date";
-      }
-      return null;
-    },
-    onSaved: (value) {
-      _date = value ?? '';
-    },
-  ),
-),
-
-                      // TextFormField(
-                      //   decoration: InputDecoration(
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(10),
-                      //       borderSide: BorderSide(),
-                      //     ),
-                      //   ),
-                      //   readOnly: true, // Make the field read-only
-                      //   controller: TextEditingController(
-                      //     text: _date ?? '', // Display the selected date
-                      //   ),
-                        
-                      //   onTap: () async {
-                      //     final DateTime? pickedDate = await showDatePicker(
-                      //       context: context,
-                      //       initialDate: DateTime.now(),
-                      //       firstDate:
-                      //           DateTime(1900), // Allow only future dates
-                      //       lastDate: DateTime(
-                      //           2100), // Example last date, you can adjust as needed
-                      //     );
-                      //     if (pickedDate != null) {
-                      //       setState(() {
-                      //         _date = pickedDate.toString().substring(0, 10);
-                      //       });
-                      //     }
-                      //   },
-                      //   validator: (value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return "Please select appointment date";
-                      //     }
-                      //     return null;
-                      //   },
-                      //   onSaved: (value) {
-                      //     _date = value ?? '';
-                      //   },
-                      // ),
+                        height: 70,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(),
+                            ),
+                          ),
+                          readOnly: true, // Make the field read-only
+                          controller: TextEditingController(
+                            text: _date ?? '', // Display the selected date
+                          ),
+                          minLines:
+                              null, // Set minLines to null for minimum height
+                          maxLines: null, // Allow any number of lines
+                          keyboardType:
+                              TextInputType.multiline, // Enable multiline input
+                          onTap: () async {
+                            final DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate:
+                                  DateTime(1900), // Allow only future dates
+                              lastDate: DateTime(
+                                  2100), // Example last date, you can adjust as needed
+                            );
+                            if (pickedDate != null) {
+                              setState(() {
+                                _date = pickedDate.toString().substring(0, 10);
+                              });
+                            }
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please select appointment date";
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _date = value ?? '';
+                          },
+                        ),
+                      ),
                       Positioned(
                         top: 0,
                         right: 0,
                         bottom: 0,
                         child: IconButton(
                           icon: Icon(Icons.calendar_month_rounded),
-                          onPressed: () {
-                          },
+                          onPressed: () {},
                         ),
                       ),
                     ],
@@ -368,8 +333,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                           right: 0,
                           child: IconButton(
                             icon: Icon(Icons.arrow_drop_down_circle_rounded),
-                            onPressed: () { 
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ],
