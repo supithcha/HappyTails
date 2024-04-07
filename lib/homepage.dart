@@ -520,8 +520,8 @@ class _HomepageState extends State<Homepage> {
                       _bigcoloredBox(
                           Color.fromARGB(255, 206, 194, 242),
                           formattedDate,
-                          'Medical examination',
-                          'Medical details'),
+                          'Medical Examination',
+                          'Medical Details'),
                     ],
                   ),
                   SizedBox(height: 10),
