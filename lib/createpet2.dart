@@ -16,9 +16,6 @@ import 'package:uuid/uuid.dart';
 import 'global_variables.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 
-
-
-
 class PetInformation {
   final String allergies;
   final String breed;
@@ -91,52 +88,52 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
   ];
 
   Future<void> _savePetInformation() async {
-  if (_formKey.currentState!.validate()) {
-    _formKey.currentState!.save();
-    final petInfo = {
-      'Pet_Allergy': _allergies,
-      'Pet_Breed': _breed,
-      'Pet_DOB': _dob,
-      'Pet_Gender': _gender,
-      'Pet_ID': _petid,
-      'Pet_Image': _Pet_Image,
-      'Pet_Med_History': _medicalHistory,
-      'Pet_Medication': _medication,
-      'Pet_Name': _name,
-      'Pet_Type': widget.selectedPetName,
-      'Pet_Vacc_status': _vaccinationStatus,
-      'Pet_Weight': _weight,
-      'User_ID': current_userID,
-    };
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final petInfo = {
+        'Pet_Allergy': _allergies,
+        'Pet_Breed': _breed,
+        'Pet_DOB': _dob,
+        'Pet_Gender': _gender,
+        'Pet_ID': _petid,
+        'Pet_Image': _Pet_Image,
+        'Pet_Med_History': _medicalHistory,
+        'Pet_Medication': _medication,
+        'Pet_Name': _name,
+        'Pet_Type': widget.selectedPetName,
+        'Pet_Vacc_status': _vaccinationStatus,
+        'Pet_Weight': _weight,
+        'User_ID': current_userID,
+      };
 
-    try {
-      if (_image != null) {
-        String imgURL = await uploadImage(_image);
-        _Pet_Image = imgURL;
-        petInfo['Pet_Image'] = imgURL;
-        print('Image Url = $_Pet_Image');
+      try {
+        if (_image != null) {
+          String imgURL = await uploadImage(_image);
+          _Pet_Image = imgURL;
+          petInfo['Pet_Image'] = imgURL;
+          print('Image Url = $_Pet_Image');
+        }
+
+        String petid = Uuid().v4();
+        _petid = petid;
+        petInfo['User_ID'] = current_userID;
+        petInfo['Pet_ID'] = petid;
+
+        await FirebaseFirestore.instance.collection('Pet').add(petInfo);
+
+        setState(() {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PetProfilePage(petid: petid),
+            ),
+          );
+        });
+      } catch (e) {
+        print('Error saving pet information: $e');
       }
-
-      String petid = Uuid().v4();
-      _petid = petid;
-      petInfo['User_ID'] = current_userID;
-      petInfo['Pet_ID'] = petid;
-
-      await FirebaseFirestore.instance.collection('Pet').add(petInfo);
-
-      setState(() {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => PetProfilePage(petid: petid),
-          ),
-        );
-      });
-    } catch (e) {
-      print('Error saving pet information: $e');
     }
   }
-}
 
   // Future<void> _savePetInformation() async {
   //   if (_formKey.currentState!.validate()) {
@@ -230,20 +227,25 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
                     alignment: Alignment.bottomRight,
                     children: [
                       if (_image != null)
-                        Image.file(
-                          _image!,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                        )
-                      else
-                        Text('No image selected'),
-                      // Image.memory(
-                      //   _image! as Uint8List,
-                      //   width: double.infinity,
-                      //   height: double.infinity,
-                      //   fit: BoxFit.cover,
-                      // ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image.file(
+                            _image!,
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      if (_image == null)
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: Image.network(
+                            'https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg',
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       IconButton(
                         icon: Icon(Icons.camera_alt),
                         // onPressed: _pickAndNavigateToNextPage,
@@ -253,7 +255,8 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
                               source: ImageSource.gallery);
                           if (image != null) {
                             _image = File(image.path);
-                            print('File path: ${image.path}');
+                            print('Image selected');
+                            // print('File path: ${image.path}');
                           }
                         },
                       ),
@@ -818,8 +821,6 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
   }
 }
 
-
-
 Future<String> uploadImage(File? image) async {
   var imageName = DateTime.now().millisecondsSinceEpoch.toString();
   print('imageName = $imageName');
@@ -854,6 +855,3 @@ Future<String> uploadImage(File? image) async {
     return 'Error'; // Return an empty string or handle the error as needed
   }
 }
-
-
-
