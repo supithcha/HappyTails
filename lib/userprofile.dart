@@ -290,14 +290,10 @@ class _Logout extends StatelessWidget {
 // }
 void logoutAndRedirect(BuildContext context) {
   FirebaseAuth.instance.signOut();
-  // Update isLoggedIn
-  isLoggedIn = false;
-  // Navigate to the sign-in page after a delay
-  Future.delayed(Duration(seconds: 2), () {
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (context) => SignInPage()),
-      (route) => false, // Remove all routes from the stack
-    );
-  });
+
+  // Redirect to HomepageLoading
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => HomepageLoading()),
+  );
 }
