@@ -193,6 +193,7 @@ class __FormContentState extends State<_FormContent> {
                     onChanged: (value) {
                       setState(() {
                         _agreedToTerms = true;
+                         _confirmButton = 0;
                       });
                     },
                     shape: CircleBorder(),
@@ -234,9 +235,10 @@ class __FormContentState extends State<_FormContent> {
                       if (email != null && password != null) {
                         // Call loginUser function
                         bool success = await loginUser(email!, password!);
-
+                        // print(_confirmButton);
                         if (success) {
                           isLoggedIn = true;
+                          // print(_confirmButton);
 
                           Navigator.pushReplacement(
                             context,
@@ -267,9 +269,9 @@ class __FormContentState extends State<_FormContent> {
                   style: ButtonStyle(
                     backgroundColor: _confirmButton != -1
                         ? MaterialStateProperty.all(
-                            Color.fromARGB(255, 0, 74, 173)) // Blue
+                            Color.fromARGB(255, 0, 74, 173)) 
                         : MaterialStateProperty.all(
-                            Color.fromARGB(255, 196, 196, 196)), // Gray
+                            Color.fromARGB(255, 196, 196, 196)),
                     minimumSize:
                         MaterialStateProperty.all(Size(double.infinity, 40.0)),
                   ),
