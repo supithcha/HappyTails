@@ -6,7 +6,6 @@ class BottomNavBar extends StatefulWidget {
 
   const BottomNavBar({
     required this.initialIndex,
-    // required this.pages,
     Key? key,
   }) : super(key: key);
 
