@@ -285,6 +285,7 @@ class _Logout extends StatelessWidget {
 
 void logoutAndRedirect(BuildContext context) {
   FirebaseAuth.instance.signOut();
+  print('Sign out, current_user = $current_user');
 
   // Redirect to HomepageLoading
   Navigator.pushReplacement(

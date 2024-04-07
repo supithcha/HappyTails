@@ -36,7 +36,6 @@ class Trick {
         "Make your condo pet-friendly",
         "Just like people, dogs have their own personalities that influence their behaviour. Some dogs may be more outgoing and confident, while others may be more timid and anxious.",
         "Different dog breeds can have certain behaviours due to selective breeding. For example, herding breeds, such as sheepdogs, may like to herd other animals. However, this does not mean all dogs of a breed will show the same behaviour, as environment, learning and individual personality will also affect how they behave. "));
-
     return tipsItem;
   }
 }
@@ -82,7 +81,10 @@ class _TipsPageState extends State<TipsPage> {
                   children: [
                     Text(
                       'Tips and Tricks',
-                      style: TextStyle(color: Colors.white, fontSize: 20, fontStyle: FontStyle.italic),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontStyle: FontStyle.italic),
                     ),
                   ],
                 ),
@@ -112,6 +114,7 @@ class _TipsPageState extends State<TipsPage> {
           return GestureDetector(
             child: ProductBox(item: tips[index]),
             onTap: () {
+              print('Selected tip: ${tips[index]}, index = $index');
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -122,13 +125,28 @@ class _TipsPageState extends State<TipsPage> {
           );
         },
       ),
+      // body: ListView.builder(
+      //   itemCount: tips.length,
+      //   itemBuilder: (context, index) {
+      //     return GestureDetector(
+      //       child: ProductBox(item: tips[index]),
+      //       onTap: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => EachTipsPage(item: tips[index]),
+      //           ),
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 3, // Initial selected index
       ),
     );
   }
 }
-
 
 class EachTipsPage extends StatefulWidget {
   EachTipsPage({Key? key, required this.item}) : super(key: key);
@@ -143,10 +161,13 @@ class _EachTipsPageState extends State<EachTipsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: FlexibleSpaceBar(
-          title: Text(
-            widget.item.name,
-            overflow: TextOverflow.visible,
+        title: Text(
+          widget.item.name,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -169,28 +190,46 @@ class _EachTipsPageState extends State<EachTipsPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 20), // Add spacing between image and text
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      // Description 2
-                      _buildBoldText("", widget.item.description2),
-
-                      // Context
-                      _buildBoldText("Context :", widget.item.context),
-
-                      // Age
-                      _buildBoldText("Age :", widget.item.age),
-
-                      // Personality
-                      _buildBoldText("Personality :", widget.item.personality),
-
-                      // Breed
-                      _buildBoldText("Breed :", widget.item.breed),
-                    ],
-                  ),
+                SizedBox(height: 20),
+                 // Add spacing between image and text
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    // Description 2
+                    _buildBoldText("", widget.item.description2),
+                    SizedBox(height: 20),
+                    // Context
+                    _buildBoldText("Context :", widget.item.context),
+                    SizedBox(height: 20),
+                    // Age
+                    _buildBoldText("Age :", widget.item.age),
+                    SizedBox(height: 20),
+                    // Personality
+                    _buildBoldText("Personality :", widget.item.personality),
+                    SizedBox(height: 20),
+                    // Breed
+                    _buildBoldText("Breed :", widget.item.breed),
+                  ],
                 ),
+                SizedBox(height: 40),
+
+                // SingleChildScrollView(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //     children: <Widget>[
+                //       // Description 2
+                //       _buildBoldText("", widget.item.description2),
+                //       // Context
+                //       _buildBoldText("Context :", widget.item.context),
+                //       // Age
+                //       _buildBoldText("Age :", widget.item.age),
+                //       // Personality
+                //       _buildBoldText("Personality :", widget.item.personality),
+                //       // Breed
+                //       _buildBoldText("Breed :", widget.item.breed),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -202,19 +241,102 @@ class _EachTipsPageState extends State<EachTipsPage> {
     );
   }
 
+// class _EachTipsPageState extends State<EachTipsPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         flexibleSpace: FlexibleSpaceBar(
+//           title: Text(
+//             widget.item.name,
+//             overflow: TextOverflow.visible,
+//           ),
+//         ),
+//       ),
+//       body: SingleChildScrollView(
+//         child: Center(
+//           child: Container(
+//             padding: EdgeInsets.all(15),
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.start,
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: <Widget>[
+//                 Container(
+//                   height: 200, // Reduce the height of the image container
+//                   width: double.infinity,
+//                   decoration: BoxDecoration(
+//                     borderRadius: BorderRadius.circular(25),
+//                     image: DecorationImage(
+//                       image: AssetImage("assets/tt/" + widget.item.image),
+//                       fit: BoxFit.cover,
+//                     ),
+//                   ),
+//                 ),
+
+//                 SizedBox(height: 20), // Add spacing between image and text
+//                 SingleChildScrollView(
+//                   child: Column(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: <Widget>[
+//                       // Description 2
+//                       _buildBoldText("", widget.item.description2),
+//                       // Context
+//                       _buildBoldText("Context :", widget.item.context),
+//                       // Age
+//                       _buildBoldText("Age :", widget.item.age),
+//                       // Personality
+//                       _buildBoldText("Personality :", widget.item.personality),
+//                       // Breed
+//                       _buildBoldText("Breed :", widget.item.breed),
+//                     ],
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//       bottomNavigationBar: BottomNavBar(
+//         initialIndex: 3, // Initial selected index
+//       ),
+//     );
+//   }
+
+  // Widget _buildBoldText(String label, String text) {
+  //   return RichText(
+  //     text: TextSpan(
+  //       children: [
+  //         TextSpan(
+  //           text: label + " ",
+  //           style: TextStyle(fontWeight: FontWeight.bold),
+  //         ),
+  //         TextSpan(text: text), // text is normal
+  //       ],
+  //     ),
+  //   );
+  // }
   Widget _buildBoldText(String label, String text) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: label + " ",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          TextSpan(text: text), // text is normal
-        ],
+  return RichText(
+    text: TextSpan(
+      style: TextStyle(
+        color: Colors.black, // Set the default text color
+        fontSize: 16, // Set the default font size
       ),
-    );
-  }
+      children: [
+        TextSpan(
+          text: label + " ",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        TextSpan(
+          text: text,
+        ),
+      ],
+    ),
+  );
+}
+
 }
 
 Widget _buildDescriptionWithBoldWords(String description2) {
