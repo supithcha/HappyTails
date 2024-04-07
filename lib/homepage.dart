@@ -120,33 +120,36 @@ class _HomepageState extends State<Homepage> {
 
   Widget _PetDeatils(String? petimg, String? petname, String? petbreed,
       String? petgender, String? dob, String? weight) {
-    return Row(
-      children: [
-        Container(
-          width: 150, // Adjust the width of the image container as needed
-          height: 120, // Adjust the height of the image container as needed
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(
-              image: NetworkImage(petimg ?? ''),
-              fit: BoxFit.cover,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0),
+      child: Row(
+        children: [
+          Container(
+            width: 150, // Adjust the width of the image container as needed
+            height: 120, // Adjust the height of the image container as needed
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage(petimg ?? ''),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-        SizedBox(width: 15), // Add spacing between the text and the image
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('$petname', style: TextStyle(fontWeight: FontWeight.bold)),
-              Text('Dog: $petbreed'),
-              Text('Gender: $petgender'),
-              Text('Date of Birth: $dob'),
-              Text('Weight: $weight'),
-            ],
+          SizedBox(width: 15), // Add spacing between the text and the image
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('$petname', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text('Dog: $petbreed'),
+                Text('Gender: $petgender'),
+                Text('Date of Birth: $dob'),
+                Text('Weight: $weight'),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -284,106 +287,6 @@ class _HomepageState extends State<Homepage> {
                         ],
                       ),
                       SizedBox(height: 5),
-                      // Row(
-                      //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     GestureDetector(
-                      //       onTap: () {
-                      //         Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //               builder: (context) =>
-                      //                   StartPetProfilePage()),
-                      //         );
-                      //       },
-                      //       child: _coloredBox(
-                      //         const Color.fromARGB(255, 239, 93, 168),
-                      //         Icons.add,
-                      //         'Add Pet',
-                      //       ),
-                      //     ),
-                      //     // Check if the petNames is not empty
-                      //     if (petNames.isNotEmpty)
-                      //       Padding(
-                      //         padding:
-                      //             const EdgeInsets.only(left: 8.0, right: 8.0),
-                      //         child: _coloredBox(
-                      //           const Color.fromARGB(255, 160, 227, 226),
-                      //           Icons.pets,
-                      //           '${petNames[0]}',
-                      //         ),
-                      //       ),
-                      //     // Check if there are more than 1 element in petNames
-                      //     if (petNames.length > 1)
-                      //       Padding(
-                      //         padding: const EdgeInsets.only(right: 8.0),
-                      //         child: _coloredBox(
-                      //           const Color.fromARGB(255, 240, 158, 84),
-                      //           Icons.pets,
-                      //           '${petNames[1]}',
-                      //         ),
-                      //       ),
-                      //     // Check if there are more than 2 elements in petNames
-                      //     if (petNames.length > 2)
-                      //       Padding(
-                      //         padding: const EdgeInsets.only(right: 8.0),
-                      //         child: _coloredBox(
-                      //           const Color.fromARGB(255, 175, 220, 147),
-                      //           Icons.pets,
-                      //           '${petNames[2]}',
-                      //         ),
-                      //       ),
-                      //   ],
-                      // ),
-                      // SizedBox(height: 10),
-                      // Row(
-                      //   mainAxisAlignment:
-                      //       MainAxisAlignment.start,
-                      //   children: [
-                      //     Text(
-                      //       'Add Pet',
-                      //       style: TextStyle(fontSize: 13),
-                      //     ),
-                      //     SizedBox(width: 30),
-                      //     // Check if the list is not empty
-                      //     if (petNames.isNotEmpty)
-                      //       Padding(
-                      //         padding: EdgeInsets.only(
-                      //             right: 10.0),
-                      //         child: Text(
-                      //           petNames[0] ??
-                      //               '...', // Use null-aware operator to handle null values
-                      //           style: TextStyle(fontSize: 13),
-                      //         ),
-
-                      //       ),
-                      //       SizedBox(width: 30),
-                      //     // Check if there are more than one element
-                      //     if (petNames.length > 1)
-                      //       Padding(
-                      //         padding: EdgeInsets.only(
-                      //             right: 10.0),
-                      //         child: Text(
-                      //           petNames[1] ??
-                      //               '...', // Use null-aware operator to handle null values
-                      //           style: TextStyle(fontSize: 13),
-                      //         ),
-                      //       ),
-                      //       SizedBox(width: 30),
-                      //     // Check if there are more than two elements
-                      //     if (petNames.length > 2)
-                      //       Padding(
-                      //         padding: EdgeInsets.only(
-                      //             right: 10.0), // Add right padding
-                      //         child: Text(
-                      //           petNames[2] ??
-                      //               '...', // Use null-aware operator to handle null values
-                      //           style: TextStyle(fontSize: 13),
-                      //         ),
-                      //       ),
-                      //   ],
-                      // ),
                       Row(
                         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -406,17 +309,17 @@ class _HomepageState extends State<Homepage> {
                           // Check if the petNames is not empty
                           if (petNames.isNotEmpty)
                             Padding(
-  padding: petNames.length == 1
-      ? EdgeInsets.only(left: 12.0, right: 8.0)
-      : EdgeInsets.only(left: 8.0, right: 8.0),
-  child: Center(
-    child: _coloredBox(
-      const Color.fromARGB(255, 160, 227, 226),
-      Icons.pets,
-      '${petNames[0]}',
-    ),
-  ),
-),
+                              padding: petNames.length == 1
+                                  ? EdgeInsets.only(left: 12.0, right: 8.0)
+                                  : EdgeInsets.only(left: 8.0, right: 8.0),
+                              child: Center(
+                                child: _coloredBox(
+                                  const Color.fromARGB(255, 160, 227, 226),
+                                  Icons.pets,
+                                  '${petNames[0]}',
+                                ),
+                              ),
+                            ),
 
                           // Check if there are more than 1 element in petNames
                           if (petNames.length > 1)
@@ -455,26 +358,27 @@ class _HomepageState extends State<Homepage> {
                           SizedBox(width: 30),
                           // Check if the list is not empty
                           Padding(
-    padding: petNames.length == 1
-        ? EdgeInsets.only(left: 0, right: 15.0)
-        : EdgeInsets.only(left: 10, right: 10.0),
-    child: Center(
-      child: Text(
-        petNames[0] ?? '...', // Use null-aware operator to handle null values
-        style: TextStyle(fontSize: 13),
-      ),
-    ),
-  ),
-                            // Padding(
-                            //   padding: EdgeInsets.only(left: 12, right: 10.0),
-                            //   child: Center(
-                            //     child: Text(
-                            //       petNames[0] ??
-                            //           '...', // Use null-aware operator to handle null values
-                            //       style: TextStyle(fontSize: 13),
-                            //     ),
-                            //   ),
-                            // ),
+                            padding: petNames.length == 1
+                                ? EdgeInsets.only(left: 0, right: 15.0)
+                                : EdgeInsets.only(left: 10, right: 10.0),
+                            child: Center(
+                              child: Text(
+                                petNames[0] ??
+                                    '...', // Use null-aware operator to handle null values
+                                style: TextStyle(fontSize: 13),
+                              ),
+                            ),
+                          ),
+                          // Padding(
+                          //   padding: EdgeInsets.only(left: 12, right: 10.0),
+                          //   child: Center(
+                          //     child: Text(
+                          //       petNames[0] ??
+                          //           '...', // Use null-aware operator to handle null values
+                          //       style: TextStyle(fontSize: 13),
+                          //     ),
+                          //   ),
+                          // ),
                           SizedBox(width: 30),
                           // Check if there are more than one element
                           if (petNames.length > 1)
@@ -604,8 +508,6 @@ class _HomepageState extends State<Homepage> {
                     ],
                   ),
                   SizedBox(height: 5),
-                  // if (petNames.length > 0 )
-                  //   _PetDeatils( petImage[0], petNames[0], petBreed[0], petGender[0], petDOB[0], petWeights[0]),
                   if (petNames.isNotEmpty)
                     for (int i = 0; i < petNames.length; i++)
                       _PetDeatils(

@@ -208,7 +208,7 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
                           if (image != null) {
                             _image = File(image.path);
                             print('Image selected');
-                            // print('File path: ${image.path}');
+                            print('File path: ${image.path}');
                           }
                         },
                       ),
