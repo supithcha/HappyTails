@@ -339,17 +339,28 @@ class __FormContentState extends State<_FormContent> {
               ),
             ),
             _gap(),
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  // Navigate to the SignUp page
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignInPage()),
-                  );
-                },
-                child: const Text("Already have an account? Sign In"),
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Already have an account? "),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignInPage()),
+                    );
+                  },
+                  child: Text(
+                    'Sign In',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 0, 74, 173),
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
