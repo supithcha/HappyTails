@@ -174,40 +174,55 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 children: [
                   Text('Date of Appointment'),
                   SizedBox(height: 15),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(),
+                  Stack(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        readOnly: true, // Make the field read-only
+                        controller: TextEditingController(
+                          text: _date ?? '', // Display the selected date
+                        ),
+                        onTap: () async {
+                          final DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate:
+                                DateTime(1900), // Allow only future dates
+                            lastDate: DateTime(
+                                2100), // Example last date, you can adjust as needed
+                          );
+                          if (pickedDate != null) {
+                            setState(() {
+                              _date = pickedDate.toString().substring(0, 10);
+                            });
+                          }
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please select appointment date";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _date = value ?? '';
+                        },
                       ),
-                    ),
-                    readOnly: true, // Make the field read-only
-                    controller: TextEditingController(
-                      text: _date ?? '', // Display the selected date
-                    ),
-                    onTap: () async {
-                      final DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900), // Allow only future dates
-                        lastDate: DateTime(
-                            2100), // Example last date, you can adjust as needed
-                      );
-                      if (pickedDate != null) {
-                        setState(() {
-                          _date = pickedDate.toString().substring(0, 10);
-                        });
-                      }
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please select appointment date";
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _date = value ?? '';
-                    },
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: IconButton(
+                          icon: Icon(Icons.calendar_month_rounded),
+                          onPressed: () {
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -218,37 +233,50 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                 children: [
                   Text('Time of Appointment'),
                   SizedBox(height: 15),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(),
+                  Stack(
+                    children: [
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        readOnly: true,
+                        controller: TextEditingController(
+                          text: _time ?? '',
+                        ),
+                        onTap: () async {
+                          final TimeOfDay? pickedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+                          if (pickedTime != null) {
+                            setState(() {
+                              _time = pickedTime.format(context);
+                            });
+                          }
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please select appointment time";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _time = value ?? '';
+                        },
                       ),
-                    ),
-                    readOnly: true,
-                    controller: TextEditingController(
-                      text: _time ?? '',
-                    ),
-                    onTap: () async {
-                      final TimeOfDay? pickedTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.now(),
-                      );
-                      if (pickedTime != null) {
-                        setState(() {
-                          _time = pickedTime.format(context);
-                        });
-                      }
-                    },
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Please select appointment time";
-                      }
-                      return null;
-                    },
-                    onSaved: (value) {
-                      _time = value ?? '';
-                    },
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: IconButton(
+                          icon: Icon(Icons.access_time_rounded),
+                          onPressed: () {},
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -294,13 +322,12 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                           },
                         ),
                         Positioned(
-                          top: 3, // Adjust the position of the icon as needed
+                          top: 3,
                           right: 0,
                           child: IconButton(
-                            icon:
-                                Icon(Icons.drive_file_rename_outline_outlined),
+                            icon: Icon(Icons.arrow_drop_down_circle_rounded),
                             onPressed: () {
-                              // Add your edit icon onPressed logic here
+                              
                             },
                           ),
                         ),
