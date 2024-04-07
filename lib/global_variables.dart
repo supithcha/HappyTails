@@ -50,6 +50,7 @@ Future<String?> getUsernameByID(int id) async {
       .get();
   if (querySnapshot.docs.isNotEmpty) {
     username = querySnapshot.docs.first.get('User_username');
+    print('Get username: $username');
   }
   return username;
 }
