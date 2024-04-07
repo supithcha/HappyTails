@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:happytails/Appointment.dart';
 import 'package:happytails/login.dart';
 import 'package:happytails/main.dart';
+import 'package:happytails/option_pet_select.dart';
 import 'package:happytails/start_pet_profile.dart';
 import 'firebase_options.dart';
 import 'global_variables.dart' as Globalvar;
@@ -546,7 +547,14 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => OptionPetPage(),
+                              ),
+                            );
+                        },
                         style: ButtonStyle(
                           side: MaterialStateProperty.all<BorderSide>(
                             BorderSide(color: Colors.grey),
