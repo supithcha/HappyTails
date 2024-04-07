@@ -30,11 +30,16 @@ class _HomepageState extends State<Homepage> {
   List<String> petGender = [];
   List<String> petImage = [];
 
+  late DateTime now = DateTime.now();
+  late String formattedDate = '${now.year}-${now.month}-${now.day}';
+
   @override
   void initState() {
     super.initState();
     fetchUsername();
     fetchPetData();
+    now = DateTime.now();
+    formattedDate = '${now.year}-${now.month}-${now.day}';
   }
 
   Future<void> fetchUsername() async {
@@ -64,7 +69,8 @@ class _HomepageState extends State<Homepage> {
           .get();
       if (snapshot.docs.isNotEmpty) {
         setState(() {
-          petNames = snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+          petNames =
+              snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
           print('petNames: $petNames');
           print('pet length = ');
           print(petNames.length);
@@ -83,7 +89,7 @@ class _HomepageState extends State<Homepage> {
       } else {
         // petNames.length = 0;
         print(petNames);
-        print( petNames.length);
+        print(petNames.length);
         print('No pet data found');
       }
     } catch (e) {
@@ -105,20 +111,69 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _bigcoloredBox(Color color, String text) {
+  Widget _bigcoloredBox(Color color, String text0, String text1, String text2) {
     return Container(
+      
       width: 165,
-      height: 100,
+      height: 160, // Increased height to accommodate the button and extra text
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Center(
-        child: Text(
-          text,
-          style: TextStyle(
-              color: const Color.fromARGB(255, 0, 0, 0), fontSize: 14),
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: 15),
+          Text(
+            text0,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+            ),
+          ),
+          // SizedBox(height: 8),
+          Text(
+            text1,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          // SizedBox(height: 8),
+          Text(
+            text2,
+            style: TextStyle(
+              fontSize: 13,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 8),
+          TextButton(
+            onPressed: () {
+              Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AppointmentAll(),
+                              ),
+                            );
+            },
+            style: ButtonStyle(
+              side: MaterialStateProperty.all<BorderSide>(
+                BorderSide(color: Colors.grey),
+              ),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                ),
+              ),
+            ),
+            child: Text(
+              'View more',
+              style: TextStyle(color: Color.fromARGB(255, 62, 62, 62), fontSize: 12),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -146,7 +201,7 @@ class _HomepageState extends State<Homepage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('$petname', style: TextStyle(fontWeight: FontWeight.bold)),
-                Text('Dog: $petbreed'),
+                Text('Type: $petbreed'),
                 Text('Gender: $petgender'),
                 Text('Date of Birth: $dob'),
                 Text('Weight: $weight'),
@@ -292,7 +347,7 @@ class _HomepageState extends State<Homepage> {
                       ),
                       SizedBox(height: 5),
                       Row(
-                      //   // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           GestureDetector(
@@ -363,9 +418,10 @@ class _HomepageState extends State<Homepage> {
                           SizedBox(width: 30),
                           if (petNames.isNotEmpty)
                             Padding(
-                              padding: petNames.length == 1 && petNames.isNotEmpty
-                                  ? EdgeInsets.only(left: 0, right: 15.0)
-                                  : EdgeInsets.only(left: 10, right: 10.0),
+                              padding:
+                                  petNames.length == 1 && petNames.isNotEmpty
+                                      ? EdgeInsets.only(left: 0, right: 15.0)
+                                      : EdgeInsets.only(left: 10, right: 10.0),
                               child: Center(
                                 child: Text(
                                   petNames[0] ??
@@ -389,7 +445,7 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
                           SizedBox(width: 30),
-                      //     // Check if there are more than two elements
+                          //     // Check if there are more than two elements
                           if (petNames.length > 2)
                             Padding(
                               padding: EdgeInsets.only(right: 10.0),
@@ -428,14 +484,14 @@ class _HomepageState extends State<Homepage> {
                       ),
                       TextButton(
                         onPressed: () {
-                          if (petNames.isNotEmpty) {
+                          // if (petNames.isNotEmpty) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => AppointmentAll(),
                               ),
                             );
-                          }
+                          // }
                         },
                         style: ButtonStyle(
                           side: MaterialStateProperty.all<BorderSide>(
@@ -458,10 +514,13 @@ class _HomepageState extends State<Homepage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      _bigcoloredBox(Color.fromARGB(255, 206, 243, 196),
+                          formattedDate, 'Vaccination', 'Vaccination Details'),
                       _bigcoloredBox(
-                          Color.fromARGB(255, 206, 243, 196), 'Vaccination'),
-                      _bigcoloredBox(Color.fromARGB(255, 206, 194, 242),
-                          'Medical examination'),
+                          Color.fromARGB(255, 206, 194, 242),
+                          formattedDate,
+                          'Medical examination',
+                          'Medical details'),
                     ],
                   ),
                   SizedBox(height: 10),
@@ -503,6 +562,9 @@ class _HomepageState extends State<Homepage> {
                     ],
                   ),
                   SizedBox(height: 5),
+                  if (petNames.length == 0)
+                      _PetDeatils('https://i.pinimg.com/474x/a2/87/72/a287720d28f7e8e91bfe6514dd18ad0b.jpg',
+                      'Waiting for your pet','-','-','-','-',),
                   if (petNames.isNotEmpty)
                     for (int i = 0; i < petNames.length; i++)
                       _PetDeatils(
