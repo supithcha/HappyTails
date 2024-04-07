@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:happytails/create_appointment.dart';
-import 'package:happytails/detailPage/details_page.dart';
+import 'package:happytails/details_page.dart';
 import 'package:happytails/bottom_nav_bar.dart';
 import 'package:happytails/start_pet_appt.dart';
 import 'global_variables.dart' as Globalvar;
