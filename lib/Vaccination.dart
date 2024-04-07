@@ -6,101 +6,236 @@ import 'package:happytails/bottom_nav_bar.dart';
 import 'package:happytails/start_pet_appt.dart';
 import 'global_variables.dart' as Globalvar;
 
+// class Vaccination extends StatelessWidget {
+//   const Vaccination({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Column(
+//         children: [
+//           Padding(
+//             padding: const EdgeInsets.only(top: 20, left: 10),
+//             child: Align(
+//               alignment: Alignment.centerLeft,
+//               child: Text(
+//                 'Vaccination list:',
+//                 style: TextStyle(
+//                   fontWeight: FontWeight.bold,
+//                   fontSize: 15,
+//                   color: Colors.indigo.shade900,
+//                 ),
+//               ),
+//             ),
+//           ),
+//           // Use FutureBuilder to fetch data from Firestore
+//           FutureBuilder<QuerySnapshot>(
+//             future: FirebaseFirestore.instance
+//                 .collection('Pet appointment')
+//                 .where('Appt_Type', isEqualTo: 'Vaccination')
+//                 .where('User_ID', isEqualTo: Globalvar.current_userID)
+//                 .get(),
+//             builder: (context, snapshot) {
+//               if (snapshot.connectionState == ConnectionState.waiting) {
+//                 // If the data is still loading
+//                 return CircularProgressIndicator();
+//               } else if (snapshot.hasError) {
+//                 // If there's an error fetching the data
+//                 return Text('Error: ${snapshot.error}');
+//               } else {
+//                 final documents = snapshot.data!.docs;
+//                 int itemCount = documents.length;
+//                 if (itemCount == 0) {
+//                   // If there are no vaccination appointments
+//                   WidgetsBinding.instance!.addPostFrameCallback((_) {
+//                     Navigator.push(
+//                       context,
+//                       MaterialPageRoute(
+//                           builder: (context) => StartPetApptPage()),
+//                     );
+//                   });
+//                   return Container(); // Return an empty container for now
+//                 } else {
+//                   // If the data is successfully fetched
+//                   final documents = snapshot.data!.docs;
+//                   return Expanded(
+//                     child: ListView.builder(
+//                       itemCount: documents.length,
+//                       itemBuilder: (context, index) {
+//                         final document = documents[index];
+//                         return _EachVet(
+//                           Date: document['Appt_Date'],
+//                           description: document['Appt_Location'],
+//                           Petname: document['Appt_Pet'],
+//                           image: "assets/Appointment/vaccine.png",
+//                           Phone: " Tel: 1119",
+//                           onTap: () {
+//                             Navigator.push(
+//                               context,
+//                               MaterialPageRoute(
+//                                 builder: (context) => DetailsPage(
+//                                   date: document['Appt_Date'],
+//                                   description: document['Appt_Location'],
+//                                   petName: document['Appt_Pet'],
+//                                   phone: " Tel: 062-491-9494",
+//                                   appointmentType: "Vaccination",
+//                                   address:
+//                                       "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
+//                                   time: "Open: 10.00-22.00",
+//                                   services: [
+//                                     "Individualized Consultation and counseling vaccination services",
+//                                     "Vaccination and Certification",
+//                                     "Vaccination service prior to Pre-Post travelling abroad"
+//                                   ],
+//                                   image: "Appointment/UVET.jpg",
+//                                 ),
+//                               ),
+//                             );
+//                           },
+//                         );
+//                       },
+//                     ),
+//                   );
+//                 }
+//               }
+//             },
+//           ),
+//         ],
+//       ),
+      
+//       bottomNavigationBar: BottomNavBar(
+//         initialIndex: 0, // Initial selected index
+//       ),
+//     );
+//   }
+// }
 class Vaccination extends StatelessWidget {
   const Vaccination({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 20, left: 10),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Vaccination list:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Colors.indigo.shade900,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 10),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Vaccination list:',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    color: Colors.indigo.shade900,
+                  ),
                 ),
               ),
             ),
-          ),
-          // Use FutureBuilder to fetch data from Firestore
-          FutureBuilder<QuerySnapshot>(
-            future: FirebaseFirestore.instance
-                .collection('Pet appointment')
-                .where('Appt_Type', isEqualTo: 'Vaccination')
-                .where('User_ID', isEqualTo: Globalvar.current_userID)
-                .get(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                // If the data is still loading
-                return CircularProgressIndicator();
-              } else if (snapshot.hasError) {
-                // If there's an error fetching the data
-                return Text('Error: ${snapshot.error}');
-              } else {
-                final documents = snapshot.data!.docs;
-                int itemCount = documents.length;
-                if (itemCount == 0) {
-                  // If there are no vaccination appointments
-                  WidgetsBinding.instance!.addPostFrameCallback((_) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => StartPetApptPage()),
-                    );
-                  });
-                  return Container(); // Return an empty container for now
+            // Use FutureBuilder to fetch data from Firestore
+            FutureBuilder<QuerySnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection('Pet appointment')
+                  .where('Appt_Type', isEqualTo: 'Vaccination')
+                  .where('User_ID', isEqualTo: Globalvar.current_userID)
+                  .get(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  // If the data is still loading
+                  return CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  // If there's an error fetching the data
+                  return Text('Error: ${snapshot.error}');
                 } else {
-                  // If the data is successfully fetched
                   final documents = snapshot.data!.docs;
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: documents.length,
-                      itemBuilder: (context, index) {
-                        final document = documents[index];
-                        return _EachVet(
-                          Date: document['Appt_Date'],
-                          description: document['Appt_Location'],
-                          Petname: document['Appt_Pet'],
-                          image: "assets/Appointment/vaccine.png",
-                          Phone: " Tel: 1119",
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailsPage(
-                                  date: document['Appt_Date'],
-                                  description: document['Appt_Location'],
-                                  petName: document['Appt_Pet'],
-                                  phone: " Tel: 062-491-9494",
-                                  appointmentType: "Vaccination",
-                                  address:
-                                      "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
-                                  time: "Open: 10.00-22.00",
-                                  services: [
-                                    "Individualized Consultation and counseling vaccination services",
-                                    "Vaccination and Certification",
-                                    "Vaccination service prior to Pre-Post travelling abroad"
-                                  ],
-                                  image: "Appointment/UVET.jpg",
-                                ),
-                              ),
+                  int itemCount = documents.length;
+                  if (itemCount == 0) {
+                    // If there are no vaccination appointments
+                    WidgetsBinding.instance!.addPostFrameCallback((_) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StartPetApptPage(),
+                        ),
+                      );
+                    });
+                    return Container(); // Return an empty container for now
+                  } else {
+                    // If the data is successfully fetched
+                    return Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: documents.length,
+                          itemBuilder: (context, index) {
+                            final document = documents[index];
+                            return _EachVet(
+                              Date: document['Appt_Date'],
+                              description: document['Appt_Location'],
+                              Petname: document['Appt_Pet'],
+                              image: "assets/Appointment/vaccine.png",
+                              Phone: " Tel: 1119",
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailsPage(
+                                      date: document['Appt_Date'],
+                                      description: document['Appt_Location'],
+                                      petName: document['Appt_Pet'],
+                                      phone: " Tel: 062-491-9494",
+                                      appointmentType: "Vaccination",
+                                      address:
+                                          "Tritot City Marina, Charoen Nakhon Rd, Bang Lamphu Lang, Khlong San, Bangkok 10600",
+                                      time: "Open: 10.00-22.00",
+                                      services: [
+                                        "Individualized Consultation and counseling vaccination services",
+                                        "Vaccination and Certification",
+                                        "Vaccination service prior to Pre-Post travelling abroad"
+                                      ],
+                                      image: "Appointment/UVET.jpg",
+                                    ),
+                                  ),
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                    ),
-                  );
+                        ),
+                        const SizedBox(height: 20),
+                        const Text(
+                          'add your pet appointment',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: 16,
+                          ),
+                        ),
+                        // Add button
+                        Container(
+                          margin: EdgeInsets.only(top: 20.0),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreatePetApptPage(),
+                                ),
+                              );
+                            },
+                            color: const Color.fromARGB(255, 0, 74, 173),
+                            icon: const Icon(Icons.add_circle_rounded, size: 42.0),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
                 }
-              }
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 0, // Initial selected index
@@ -108,6 +243,7 @@ class Vaccination extends StatelessWidget {
     );
   }
 }
+
 
 class _EachVet extends StatelessWidget {
   _EachVet({
