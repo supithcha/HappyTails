@@ -48,15 +48,17 @@ class AuthenticationWrapper extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // Show a loading indicator while checking authentication state
+          // Show a loading page while checking authentication
           return const HomepageLoading();
         } else {
-          if (snapshot.hasData && isLoggedIn == true) {
+          // Check if the user is signed in
+          if (snapshot.hasData) {
             // User is signed in, show the homepage
+            isLoggedIn = true;
             return const Homepage();
           } else {
-            // User is not signed in, redirect to sign-in page
-            return const SignInPage();
+            // Show the loading page if no user data is available
+            return const HomepageLoading();
           }
         }
       },
@@ -65,15 +67,20 @@ class AuthenticationWrapper extends StatelessWidget {
 }
 
 
-
 class HomepageLoading extends StatelessWidget {
   const HomepageLoading({super.key});
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Future.delayed(Duration(seconds: 5)),
+      future: Future.delayed(Duration(seconds: 1)),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          WidgetsBinding.instance?.addPostFrameCallback((_) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => SignInPage()),
+            );
+          });
           return Scaffold(
             body: Container(
               color: Color(0xff004aad),
@@ -85,11 +92,18 @@ class HomepageLoading extends StatelessWidget {
               ),
             ),
           );
-        } else {
+        } 
+        else {
           // Show loading indicator while waiting for the delay
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
+         return Scaffold(
+            body: Container(
+              color: Color(0xff004aad),
+              child: Center(
+                child: Image.asset(
+                  'assets/logo/full_logo_white.png',
+                  height: 300,
+                ),
+              ),
             ),
           );
         }
