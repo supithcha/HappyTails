@@ -62,7 +62,7 @@ class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProvid
         title: Text(
           'Appointment',
           style: TextStyle(
-            fontSize: 40,
+            fontSize: 30,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
@@ -116,7 +116,7 @@ class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProvid
 
   BoxDecoration _boxDecoration() {
     return BoxDecoration(
-      borderRadius: BorderRadius.vertical(bottom: Radius.circular(20)),
+      borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
       gradient: LinearGradient(
         colors: [
           Colors.white,
@@ -133,12 +133,12 @@ class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProvid
   Widget _topBar() {
   return Container(
     alignment: Alignment.bottomCenter, // Align bottom center
-    padding: EdgeInsets.only(top:50,bottom: 10),
+    padding: EdgeInsets.only(top:70,bottom: 10),
     child: Text(
       'Appointment',
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 40,
+        fontSize: 35,
         color: Colors.white,
         fontWeight: FontWeight.bold,
       ),
@@ -152,6 +152,7 @@ class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProvid
       controller: tabController,
       labelColor: Colors.white,
       unselectedLabelColor: Colors.blueGrey.shade300,
+      labelStyle: TextStyle(fontSize: 16),
       tabs: [
         Tab(
           text: 'Veterinary',

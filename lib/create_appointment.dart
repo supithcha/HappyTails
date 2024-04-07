@@ -317,7 +317,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             contentPadding: EdgeInsets.symmetric(
-                              vertical: 15.0,
+                              vertical: 18.0,
                               horizontal: 16.0,
                             ),
                           ),
@@ -434,7 +434,7 @@ class _CreatePetApptPageState extends State<CreatePetApptPage> {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             contentPadding: EdgeInsets.symmetric(
-                              vertical: 17.0,
+                              vertical: 18.0,
                               horizontal: 16.0,
                             ),
                           ),
