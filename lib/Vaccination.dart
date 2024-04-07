@@ -150,18 +150,18 @@ class Vaccination extends StatelessWidget {
                 } else {
                   final documents = snapshot.data!.docs;
                   int itemCount = documents.length;
-                  if (itemCount == 0) {
-                    // If there are no vaccination appointments
-                    WidgetsBinding.instance!.addPostFrameCallback((_) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => StartPetApptPage(),
-                        ),
-                      );
-                    });
-                    return Container(); // Return an empty container for now
-                  } else {
+                  // if (itemCount == 0) {
+                  //   // If there are no vaccination appointments
+                  //   WidgetsBinding.instance!.addPostFrameCallback((_) {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => StartPetApptPage(),
+                  //       ),
+                  //     );
+                  //   });
+                  //   return Container(); // Return an empty container for now
+                  // } else {
                     // If the data is successfully fetched
                     return Column(
                       children: [
@@ -230,7 +230,7 @@ class Vaccination extends StatelessWidget {
                         ),
                       ],
                     );
-                  }
+                  // }
                 }
               },
             ),
