@@ -100,7 +100,7 @@ class _AppointmentAllState extends State<AppointmentAll> with SingleTickerProvid
   // }
   PreferredSize _appBar({required Widget title}) {
   return PreferredSize(
-    preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.20),
+    preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.23),
     child: Container(
       decoration: _boxDecoration(),
       child: Column(
