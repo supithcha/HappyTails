@@ -229,22 +229,71 @@ class _HomepageState extends State<Homepage> {
                       SizedBox(
                           height:
                               5), // Add some space between the text and the row
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     _coloredBox(const Color.fromARGB(255, 239, 93, 168),
+                      //         Icons.add, 'Add Pet'),
+                      //     _coloredBox(const Color.fromARGB(255, 160, 227, 226),
+                      //         Icons.pets, '${petNames[0]}'),
+                      //     _coloredBox(const Color.fromARGB(255, 240, 158, 84),
+                      //         Icons.pets, '${petNames[1]}'),
+                      //     _coloredBox(const Color.fromARGB(255, 175, 220, 147),
+                      //         Icons.pets, '${petNames[2]}'),
+                      //     // _coloredBox(const Color.fromARGB(255, 175, 220, 147),
+                      //     // Icons.pets, '${petNames[2]}'),
+                      //   ],
+                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           _coloredBox(const Color.fromARGB(255, 239, 93, 168),
                               Icons.add, 'Add Pet'),
-                          _coloredBox(const Color.fromARGB(255, 160, 227, 226),
-                              Icons.pets, '${petNames[0]}'),
-                          _coloredBox(const Color.fromARGB(255, 240, 158, 84),
-                              Icons.pets, '${petNames[1]}'),
-                          _coloredBox(const Color.fromARGB(255, 175, 220, 147),
-                              Icons.pets, '${petNames[2]}'),
-                          // _coloredBox(const Color.fromARGB(255, 175, 220, 147),
-                          // Icons.pets, '${petNames[2]}'),
+                          // Check if the list is not empty
+                          if (petNames.isNotEmpty)
+                            _coloredBox(
+                                const Color.fromARGB(255, 160, 227, 226),
+                                Icons.pets,
+                                '${petNames[0]}'),
+                          // Check if there are more than one element
+                          if (petNames.length > 1)
+                            _coloredBox(const Color.fromARGB(255, 240, 158, 84),
+                                Icons.pets, '${petNames[1]}'),
+                          // Check if there are more than two elements
+                          if (petNames.length > 2)
+                            _coloredBox(
+                                const Color.fromARGB(255, 175, 220, 147),
+                                Icons.pets,
+                                '${petNames[2]}'),
                         ],
                       ),
+
                       SizedBox(height: 10),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Text(
+                      //       'Add Pet',
+                      //       style: TextStyle(fontSize: 13),
+                      //     ),
+                      //     Text(
+                      //       petNames[0] != null ? petNames[0] : '...',
+                      //       style: TextStyle(fontSize: 13),
+                      //     ),
+                      //     Text(
+                      //       petNames[1] != null ? petNames[1] : '...',
+                      //       style: TextStyle(fontSize: 13),
+                      //     ),
+                      //     Text(
+                      //       petNames[1] != null ? petNames[2] : '...',
+                      //       style: TextStyle(fontSize: 13),
+                      //     ),
+                      //     // Text(
+                      //     //   petNames[1] != null ? petNames[3] : '...',
+                      //     //   style: TextStyle(fontSize: 13),
+                      //     // ),
+                      //   ],
+                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -252,22 +301,28 @@ class _HomepageState extends State<Homepage> {
                             'Add Pet',
                             style: TextStyle(fontSize: 13),
                           ),
-                          Text(
-                            petNames[0] != null ? petNames[0] : '...',
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          Text(
-                            petNames[1] != null ? petNames[1] : '...',
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          Text(
-                            petNames[1] != null ? petNames[2] : '...',
-                            style: TextStyle(fontSize: 13),
-                          ),
-                          // Text(
-                          //   petNames[1] != null ? petNames[3] : '...',
-                          //   style: TextStyle(fontSize: 13),
-                          // ),
+                          if (petNames
+                              .isNotEmpty) // Check if the list is not empty
+                            Text(
+                              petNames[0] ??
+                                  '...', // Use null-aware operator to handle null values
+                              style: TextStyle(fontSize: 13),
+                            ),
+                          if (petNames.length >
+                              1) // Check if there are more than one element
+                            Text(
+                              petNames[1] ??
+                                  '...', // Use null-aware operator to handle null values
+                              style: TextStyle(fontSize: 13),
+                            ),
+                          if (petNames.length >
+                              2) // Check if there are more than two elements
+                            Text(
+                              petNames[2] ??
+                                  '...', // Use null-aware operator to handle null values
+                              style: TextStyle(fontSize: 13),
+                            ),
+                          // Repeat similar checks for additional elements if needed
                         ],
                       ),
                     ],
