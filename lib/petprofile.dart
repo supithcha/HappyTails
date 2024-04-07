@@ -98,7 +98,7 @@ class _PetProfilePageState extends State<PetProfilePage> {
 
                 // Notification Icon
                 Positioned(
-                  top: 10,
+                  top: 20,
                   right: 10,
                   child: IconButton(
                     icon: Icon(Icons.notifications_outlined),
@@ -228,6 +228,11 @@ class _PetProfilePageState extends State<PetProfilePage> {
                                 color: Color.fromARGB(255, 189, 188, 188)),
                             borderRadius: BorderRadius.circular(10),
                           ),
+                          constraints: BoxConstraints(
+          minHeight: 150,
+          minWidth: 350, // Set a minimum height for the container
+        ),
+        
                           child: Text(
                             petMedhis ?? 'Loading...',
                             style: TextStyle(fontSize: 16),
@@ -244,13 +249,6 @@ class _PetProfilePageState extends State<PetProfilePage> {
           ],
         ),
       ),
-      // bottomNavigationBar: BottomNavBar(
-      //   selectedIndex: _selectedIndex,
-      //   onItemTapped: (index) {
-      //     Navigator.pushNamed(context, pages[index]);
-      //   },
-      //   pages: pages,
-      // ),
       bottomNavigationBar: BottomNavBar(
         initialIndex: 2, // Initial selected index
         // pages: pages
