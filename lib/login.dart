@@ -137,9 +137,6 @@ class __FormContentState extends State<_FormContent> {
                   if (value == null || value.isEmpty) {
                     return 'Please enter your password';
                   }
-                  // if (value.length < 6) {
-                  //   return 'Password must be at least 6 characters';
-                  // }
                   setState(() {
                     password = value;
                   });
@@ -151,8 +148,8 @@ class __FormContentState extends State<_FormContent> {
                   hintText: 'Enter your password',
                   suffixIcon: IconButton(
                     icon: Icon(_isPasswordVisible
-                        ? Icons.visibility_off
-                        : Icons.visibility),
+                        ? Icons.visibility
+                        : Icons.visibility_off),
                     color: Color.fromARGB(255, 222, 156, 120),
                     onPressed: () {
                       setState(() {

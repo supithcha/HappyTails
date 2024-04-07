@@ -50,37 +50,34 @@ class _HomepageState extends State<Homepage> {
 
   Future<void> fetchPetData() async {
     try {
+      print('Try fetchPetDataach');
       QuerySnapshot snapshot = await FirebaseFirestore.instance
           .collection('Pet')
           .where('User_ID', isEqualTo: Globalvar.current_userID)
           .get();
-      setState(() {
-        petNames =
-            snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
-        print(petNames);
-        print('petNames.length');
-        print(petNames.length);
-        petIDs = snapshot.docs.map((doc) => doc['Pet_ID'] as String).toList();
-        // print(petIDs);
-        petWeights =
-            snapshot.docs.map((doc) => doc['Pet_Weight'] as String).toList();
-        print('petWeights');
-        // print(petWeights);
-        petBreed =
-            snapshot.docs.map((doc) => doc['Pet_Breed'] as String).toList();
-        // print('petBreed');
-        // print(petBreed);
-        petDOB = snapshot.docs.map((doc) => doc['Pet_DOB'] as String).toList();
-        //  print('petDOB');
-        // print(petDOB);
-        petGender =
-            snapshot.docs.map((doc) => doc['Pet_Gender'] as String).toList();
-        // print('petGender');
-        // print(petGender);
-        petImage =
-            snapshot.docs.map((doc) => doc['Pet_Image'] as String).toList();
-        //  print(petImage);
-      });
+      
+        if (snapshot.docs.isNotEmpty) {
+          setState(() {
+              petNames =
+                  snapshot.docs.map((doc) => doc['Pet_Name'] as String).toList();
+              print('petNames: $petNames');
+              print('pet length = ');
+              print(petNames.length);
+              petIDs = snapshot.docs.map((doc) => doc['Pet_ID'] as String).toList();
+              petWeights =
+                  snapshot.docs.map((doc) => doc['Pet_Weight'] as String).toList();
+              petBreed =
+                  snapshot.docs.map((doc) => doc['Pet_Breed'] as String).toList();
+              petDOB = snapshot.docs.map((doc) => doc['Pet_DOB'] as String).toList();
+              petGender =
+                  snapshot.docs.map((doc) => doc['Pet_Gender'] as String).toList();
+              petImage =
+                  snapshot.docs.map((doc) => doc['Pet_Image'] as String).toList();
+          });
+        } else {
+          print('No pet data found');
+        }
+      
     } catch (e) {
       print('Failed to fetch pet data: $e');
     }
@@ -309,12 +306,12 @@ class _HomepageState extends State<Homepage> {
                           // Check if the petNames is not empty
                           if (petNames.isNotEmpty)
                             Padding(
-                              padding: petNames.length == 1
+                              padding: petNames.length == 1 && petNames.length > 0
                                   ? EdgeInsets.only(left: 12.0, right: 8.0)
                                   : EdgeInsets.only(left: 8.0, right: 8.0),
                               child: Center(
                                 child: _coloredBox(
-                                  const Color.fromARGB(255, 160, 227, 226),
+                                  Color.fromARGB(255, 150, 221, 220),
                                   Icons.pets,
                                   '${petNames[0]}',
                                 ),
@@ -322,7 +319,7 @@ class _HomepageState extends State<Homepage> {
                             ),
 
                           // Check if there are more than 1 element in petNames
-                          if (petNames.length > 1)
+                          if (petNames.length > 1 )
                             Padding(
                               padding: const EdgeInsets.only(right: 8.0),
                               child: Center(
@@ -356,9 +353,8 @@ class _HomepageState extends State<Homepage> {
                             style: TextStyle(fontSize: 13),
                           ),
                           SizedBox(width: 30),
-                          // Check if the list is not empty
                           Padding(
-                            padding: petNames.length == 1
+                            padding: petNames.length == 1 && petNames.length > 0
                                 ? EdgeInsets.only(left: 0, right: 15.0)
                                 : EdgeInsets.only(left: 10, right: 10.0),
                             child: Center(
@@ -369,18 +365,8 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
                           ),
-                          // Padding(
-                          //   padding: EdgeInsets.only(left: 12, right: 10.0),
-                          //   child: Center(
-                          //     child: Text(
-                          //       petNames[0] ??
-                          //           '...', // Use null-aware operator to handle null values
-                          //       style: TextStyle(fontSize: 13),
-                          //     ),
-                          //   ),
-                          // ),
+                          
                           SizedBox(width: 30),
-                          // Check if there are more than one element
                           if (petNames.length > 1)
                             Padding(
                               padding: EdgeInsets.only(left: 2, right: 10.0),
@@ -508,7 +494,7 @@ class _HomepageState extends State<Homepage> {
                     ],
                   ),
                   SizedBox(height: 5),
-                  if (petNames.isNotEmpty)
+                  if (petNames.isNotEmpty && petNames.length > 0)
                     for (int i = 0; i < petNames.length; i++)
                       _PetDeatils(
                         petImage.length > i ? petImage[i] ?? 'null' : 'null',
