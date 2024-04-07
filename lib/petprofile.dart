@@ -281,15 +281,15 @@ class _PetProfilePageState extends State<PetProfilePage> {
   }
 }
 
-String _padBase64String(String input) {
-  int remainder = input.length % 4;
-  if (remainder == 0) {
-    return input;
-  } else {
-    // Add '=' padding characters to make length a multiple of four
-    return input.padRight(input.length + (4 - remainder), '=');
-  }
-}
+// String _padBase64String(String input) {
+//   int remainder = input.length % 4;
+//   if (remainder == 0) {
+//     return input;
+//   } else {
+//     // Add '=' padding characters to make length a multiple of four
+//     return input.padRight(input.length + (4 - remainder), '=');
+//   }
+// }
 
 void _shownotitext(BuildContext context) {
   showDialog(

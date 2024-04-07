@@ -416,13 +416,13 @@ class _HomepageState extends State<Homepage> {
                             'Add Pet',
                             style: TextStyle(fontSize: 13),
                           ),
-                          SizedBox(width: 30),
+                          SizedBox(width: 25),
                           if (petNames.isNotEmpty)
                             Padding(
                               padding:
-                                  petNames.length == 1 && petNames.isNotEmpty
+                                  petNames.length == 1
                                       ? EdgeInsets.only(left: 0, right: 15.0)
-                                      : EdgeInsets.only(left: 10, right: 10.0),
+                                      : EdgeInsets.only(left: 0, right: 0),
                               child: Center(
                                 child: Text(
                                   petNames[0] ??
@@ -432,10 +432,10 @@ class _HomepageState extends State<Homepage> {
                               ),
                             ),
 
-                          SizedBox(width: 30),
+                          SizedBox(width: 20),
                           if (petNames.length > 1)
                             Padding(
-                              padding: EdgeInsets.only(left: 2, right: 10.0),
+                              padding: EdgeInsets.only(left: 0, right: 5.0),
                               child: Center(
                                 child: Text(
                                   petNames.length > 1

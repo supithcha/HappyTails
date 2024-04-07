@@ -51,7 +51,7 @@ class DetailsPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight + 20),
         child: Padding(
-          padding: EdgeInsets.only(top: 40),
+          padding: EdgeInsets.only(top: 35),
           child: AppBar(
             title: Text(
               'Detail Page',
@@ -82,13 +82,13 @@ class DetailsPage extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(50),
-              bottomRight: Radius.circular(50),
+              bottomLeft: Radius.circular(25),
+              bottomRight: Radius.circular(25),
             ),
             child: Container(
               height: 200,
               child: Image.asset(
-                image, // Use the provided image path
+                'assets/$image', 
                 fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width,
               ),
@@ -103,18 +103,18 @@ class DetailsPage extends StatelessWidget {
                   '$description',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 22,
                       color: Colors.indigo.shade900),
                 ),
                 Text('Date: $date',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: 17,
                         color: Colors.indigo.shade900)),
                 SizedBox(height: 2),
                 Text('Type of appointments: $appointmentType',
                     style: TextStyle(fontSize: 15, color: Colors.black)),
-                SizedBox(height: 5), // Add some space
+                SizedBox(height: 10), 
                 Container(
                   padding: EdgeInsets.fromLTRB(8, 1, 8, 1),
                   decoration: BoxDecoration(
@@ -122,7 +122,8 @@ class DetailsPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                   ),
                   child: Container(
-                    width: 85, // Adjust the width as needed
+                    width: 100, 
+                    height: 30,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -136,18 +137,19 @@ class DetailsPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 10),
                 Text('Pet Name: $petName'),
                 Text('Phone: $phone'),
                 Text('$time'),
                 Text('$address'),
+                SizedBox(height: 10),
                 Divider(), //Line
                 Text('Services',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
                         color: Colors.indigo.shade900)),
-                SizedBox(height: 5),
+                SizedBox(height: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:

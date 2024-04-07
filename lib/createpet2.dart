@@ -125,7 +125,9 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
         petInfo['Pet_ID'] = petid;
 
         await FirebaseFirestore.instance.collection('Pet').add(petInfo);
-
+        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Add new pet successfully.')),
+        );
         setState(() {
           Navigator.push(
             context,
@@ -273,9 +275,6 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
                             children: [
                               Text(
                                 'Gender',
-                                // style: TextStyle(
-                                //   fontWeight: FontWeight.bold,
-                                // ),
                               ),
                               SizedBox(height: 10),
                               DropdownButtonFormField(
@@ -285,7 +284,7 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
                                     borderSide: BorderSide(),
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
-                                    vertical: 17,
+                                    vertical: 19,
                                     horizontal: 15,
                                   ),
                                 ),
@@ -304,6 +303,12 @@ class _CreatePetProfilePagetwoState extends State<CreatePetProfilePagetwo> {
                                     child: Text(value),
                                   );
                                 }).toList(),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please enter your pet's gender";
+                                  }
+                                  return null;
+                                },
                               ),
                             ],
                           ),
