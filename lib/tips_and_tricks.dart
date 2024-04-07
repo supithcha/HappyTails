@@ -175,9 +175,9 @@ class _EachTipsPageState extends State<EachTipsPage> {
                   ),
                 ),
                 SizedBox(height: 20),
-                 // Add spacing between image and text
+                // Add spacing between image and text
                 Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     // Description 2
                     _buildBoldText("", widget.item.description2),
@@ -206,6 +206,7 @@ class _EachTipsPageState extends State<EachTipsPage> {
       ),
     );
   }
+
   // Widget _buildBoldText(String label, String text) {
   //   return RichText(
   //     text: TextSpan(
@@ -220,34 +221,33 @@ class _EachTipsPageState extends State<EachTipsPage> {
   //   );
   // }
   Widget _buildBoldText(String label, String text) {
-  return RichText(
-    text: TextSpan(
-      style: TextStyle(
-        color: Colors.black, // Set the default text color
-        fontSize: 16, // Set the default font size
-      ),
-      children: [
-        TextSpan(
-          text: label + '',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+    return RichText(
+      text: TextSpan(
+        style: TextStyle(
+          color: Colors.black, // Set the default text color
+          fontSize: 16, // Set the default font size
+        ),
+        children: [
+          TextSpan(
+            text: label + '',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        TextSpan(
-          text: text,
-        ),
-      ],
-    ),
-  );
-}
-
+          TextSpan(
+            text: text,
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 Widget _buildDescriptionWithBoldWords(String description2) {
   // List of words to be bolded
   List<String> boldWords = ["Context", "Age", "Personality", "Breed"];
   // Splitting the description into words
-  List<String> words = description2.split('');
+  List<String> words = description2.split(' ');
 
   return RichText(
     text: TextSpan(
@@ -255,13 +255,21 @@ Widget _buildDescriptionWithBoldWords(String description2) {
       children: [
         for (String word in words)
           TextSpan(
-            text: boldWords.contains(word) ? word + '' : word + '',
+            text: boldWords.contains(word.trim()) ? '$word ' : '$word ',
             style: TextStyle(
-              fontWeight: boldWords.contains(word)
+              fontWeight: boldWords.contains(word.trim())
                   ? FontWeight.bold
                   : FontWeight.normal,
             ),
           ),
+        // TextSpan(
+        //   text: boldWords.contains(word) ? '$word ' : '$word ',
+        //   style: TextStyle(
+        //     fontWeight: boldWords.contains(word)
+        //         ? FontWeight.bold
+        //         : FontWeight.normal,
+        //   ),
+        // ),
       ],
     ),
   );
