@@ -1,4 +1,8 @@
-## Members
+# HappyTails 
+
+HappyTails is a Flutter-based mobile application developed as part of a course project. The app allows users to create and manage pet profiles, providing a platform for pet owners to store and access information about their pets conveniently.
+
+## Contributors
 
 | Name                               | Student ID |
 |------------------------------------|------------|
